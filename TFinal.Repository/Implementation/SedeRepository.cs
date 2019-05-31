@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TFinal.Domain;
 using TFinal.Repository.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace TFinal.Repository.Implementation
 {
@@ -37,7 +38,7 @@ namespace TFinal.Repository.Implementation
 
         public void Update(Sede entity)
         {
-            context.Sedes.Update(entity);
+             context.Entry(entity).State=EntityState.Modified;
             context.SaveChanges();
         }
     }
