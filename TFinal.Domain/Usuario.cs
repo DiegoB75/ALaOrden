@@ -12,7 +12,8 @@ namespace TFinal.Domain
         public int IdUsuario { get; set; }
         public string Apodo { get; set; }
         public string HashContrasena { get; set; }
-        public string Saldo { get; set; }
+        public string Sal { get; set; }
+        //criptografia
         public string Email { get; set; }
         public bool EmailValidado { get; set; }
         public List<Direccion> Direcciones { get; set; }
