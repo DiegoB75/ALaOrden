@@ -82,6 +82,7 @@ namespace TFinal.Api.Controllers
 
              return Ok(currentDireccion);
          }
+            [HttpDelete("{id}")]
 
           public async Task<IActionResult> DeleteDireccion ([FromRoute] int id){
              if(!ModelState.IsValid){
