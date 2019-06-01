@@ -30,7 +30,7 @@ namespace TFinal.Api.Controllers
 
 
        [HttpGet ("{id}")]
-        public async Task<IActionResult> GetDireccion([FromRoute] int id)
+        public async Task<IActionResult> GetCupon([FromRoute] int id)
         {
             if(!ModelState.IsValid)
             {
@@ -51,7 +51,7 @@ namespace TFinal.Api.Controllers
 
 
         [HttpPost]
-         public async Task<IActionResult> PostDireccion([FromBody] Cupon cupon){
+         public async Task<IActionResult> PostCupon([FromBody] Cupon cupon){
 
              if(!ModelState.IsValid)
             {
@@ -82,8 +82,8 @@ namespace TFinal.Api.Controllers
 
              return Ok(currentCupon);
          }
-
-          public async Task<IActionResult> DeleteDireccion ([FromRoute] int id){
+        [HttpDelete("{id}")]
+          public async Task<IActionResult> DeleteCupon ([FromRoute] int id){
              if(!ModelState.IsValid){
                  return BadRequest(ModelState);
              }

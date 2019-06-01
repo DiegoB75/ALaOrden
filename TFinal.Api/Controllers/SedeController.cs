@@ -9,85 +9,90 @@ using TFinal.Repository.Context;
 namespace TFinal.Api.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Marca")]
-    public class MarcaController:ControllerBase
+    [Route("api/Sede")]
+    public class SedeController:ControllerBase
     {
          private readonly ApplicationDbContext _context;
-        public MarcaController (ApplicationDbContext context){
+        public SedeController (ApplicationDbContext context){
             _context=context;
         }
-       [HttpGet]
-        public IEnumerable<Marca> GetMarca() {
-            return _context.Marcas;
+
+
+        [HttpGet]
+        public IEnumerable<Sede> GetSede() {
+            return _context.Sedes;
         }
 
 
        [HttpGet ("{id}")]
-        public async Task<IActionResult> GetMarca([FromRoute] int id)
+        public async Task<IActionResult> GetSede([FromRoute] int id)
         {
             if(!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var currentMarca = await _context.Marcas.SingleOrDefaultAsync(p => p.IdMarca == id);
+            var currentSede = await _context.Sedes.SingleOrDefaultAsync(p => p.IdSede == id);
 
-            if(currentMarca == null)
+            if(currentSede == null)
             {
                 return NotFound();
             }
 
-            return Ok(currentMarca);
+            return Ok(currentSede);
 
         }     
+      
+
+
 
         [HttpPost]
-         public async Task<IActionResult> PostMarca([FromBody] Marca marca){
+         public async Task<IActionResult> PostSede([FromBody] Sede sede){
 
              if(!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.Marcas.Add(marca);
+            _context.Sedes.Add(sede);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction ("GetMarca", new {id = marca.IdMarca},marca);
+            return CreatedAtAction ("GetSede", new {id = sede.IdSede},sede);
          }
 
          
          [HttpPut("{id}")]
-         public async Task<IActionResult> PutMarca ([FromRoute] int id){
+         public async Task<IActionResult> PutSede ([FromRoute] int id){
              if(!ModelState.IsValid){
                  return BadRequest(ModelState);
              }
 
-             var currentMarca = await _context.Marcas.SingleOrDefaultAsync(p => p.IdMarca == id);
+             var currentSede = await _context.Sedes.SingleOrDefaultAsync(p => p.IdSede == id);
 
-             if(currentMarca == null){
+             if(currentSede == null){
                  return NotFound();
              }
 
-             _context.Marcas.Update(currentMarca);
+             _context.Sedes.Update(currentSede);
              await _context.SaveChangesAsync();
 
-             return Ok(currentMarca);
+             return Ok(currentSede);
          }
         [HttpDelete("{id}")]
-          public async Task<IActionResult> DeleteMarca ([FromRoute] int id){
+          public async Task<IActionResult> DeleteSede ([FromRoute] int id){
              if(!ModelState.IsValid){
                  return BadRequest(ModelState);
              }
 
-             var currentMarca = await _context.Marcas.SingleOrDefaultAsync(p => p.IdMarca == id);
+             var currentSede = await _context.Sedes.SingleOrDefaultAsync(p => p.IdSede == id);
 
-             if(currentMarca == null){
+             if(currentSede == null){
                  return NotFound();
              }
 
-             _context.Marcas.Remove(currentMarca);
+             _context.Sedes.Remove(currentSede);
              await _context.SaveChangesAsync();
 
-             return Ok(currentMarca);
+             return Ok(currentSede);
          }
 
     }

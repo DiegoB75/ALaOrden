@@ -1,42 +1,104 @@
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using TFinal.Domain;
-using TFinal.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using TFinal.Repository.Context;
 
 namespace TFinal.Api.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ProductoController : ControllerBase
+    [Produces("application/json")]
+    [Route("api/Producto")]
+    public class ProductoController:ControllerBase
     {
-        private IProductoRepository productoRepository;
-        public ProductoController(IProductoRepository productoRepository)
-        {
-            this.productoRepository=productoRepository;
+         private readonly ApplicationDbContext _context;
+        public ProductoController (ApplicationDbContext context){
+            _context=context;
+        }
+       [HttpGet]
+        public IEnumerable<Producto> GetProducto() {
+            return _context.Productos;
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Producto>>Get(){
-            return productoRepository.ListAll();
+        public IEnumerable<Categoria> GetCategoria() {
+            return _context.Categorias;
         }
 
-        [HttpGet("{id}", Name="GetProducto")]
-        public ActionResult<Producto> Get(Producto producto){
-            var autor = productoRepository.FindById(producto);
-            if(autor == null)
-            {
-                 return NotFound();
-            }
-            return autor;
+        [HttpGet]
+        public IEnumerable<Marca> GetMarca() {
+            return _context.Marcas;
         }
+
+
+       [HttpGet ("{id}")]
+        public async Task<IActionResult> GetProducto([FromRoute] int id)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var currentProducto = await _context.Productos.SingleOrDefaultAsync(p => p.IdProducto == id);
+
+            if(currentProducto == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(currentProducto);
+
+        }     
 
         [HttpPost]
-        public ActionResult Post([FromBody] Producto producto) {
-            productoRepository.Save(producto);
-            return new CreatedAtRouteResult("GetProducto",new {id=producto.IdProducto}, producto);
-           
-        }
+         public async Task<IActionResult> PostProducto([FromBody] Producto producto){
 
+             if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _context.Productos.Add(producto);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction ("GetProducto", new {id = producto.IdProducto},producto);
+         }
+
+         
+         [HttpPut("{id}")]
+         public async Task<IActionResult> PutProducto ([FromRoute] int id){
+             if(!ModelState.IsValid){
+                 return BadRequest(ModelState);
+             }
+
+             var currentProducto = await _context.Productos.SingleOrDefaultAsync(p => p.IdProducto == id);
+
+             if(currentProducto == null){
+                 return NotFound();
+             }
+
+             _context.Productos.Update(currentProducto);
+             await _context.SaveChangesAsync();
+
+             return Ok(currentProducto);
+         }
+        [HttpDelete("{id}")]
+          public async Task<IActionResult> DeleteProducto ([FromRoute] int id){
+             if(!ModelState.IsValid){
+                 return BadRequest(ModelState);
+             }
+
+             var currentProducto = await _context.Productos.SingleOrDefaultAsync(p => p.IdProducto == id);
+
+             if(currentProducto == null){
+                 return NotFound();
+             }
+
+             _context.Productos.Remove(currentProducto);
+             await _context.SaveChangesAsync();
+
+             return Ok(currentProducto);
+         }
 
     }
 }
