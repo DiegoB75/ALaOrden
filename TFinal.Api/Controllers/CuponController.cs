@@ -47,9 +47,6 @@ namespace TFinal.Api.Controllers
 
         }     
       
-
-
-
         [HttpPost]
          public async Task<IActionResult> PostCupon([FromBody] Cupon cupon){
 
