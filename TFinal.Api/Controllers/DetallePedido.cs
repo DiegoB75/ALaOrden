@@ -2,108 +2,116 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TFinal.Domain;
+using TFinal.Repository.Context;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using TFinal.Repository.Context;
 
 
 namespace TFinal.Api.Controllers
 {
     [Produces("application/json")]
     [Route("api/DetallePedido")]
-    public class DetallePedidoController:ControllerBase
+    public class DetallePedidoController : ControllerBase
     {
-         private readonly ProyectoDBContext _context;
-        public DetallePedidoController (ProyectoDBContext context){
-            _context=context;
+        private readonly ApplicationDbContext _context;
+        public DetallePedidoController(ApplicationDbContext context)
+        {
+            _context = context;
         }
 
 
         [HttpGet]
-        public IEnumerable<DetallePedido> GetDetallePedido() {
-            return _context.DetallePedidos;
+        public IEnumerable<DetallePedido> GetDetallesPedido()
+        {
+            return _context.DetallesPedido;
         }
 
-         [HttpGet]
+        /*[HttpGet]
         public IEnumerable<Pedido> GetPedido() {
-            return _context.Pedido;
+            return _context.Pedidos;
         }
 
          [HttpGet]
         public IEnumerable<Producto> GetProducto() {
-            return _context.Producto;
-        }
+            return _context.Productos;
+        }*/
 
-       [HttpGet ("{id}")]
-        public async Task<IActionResult> GetDetallePedido([FromRoute] int id)
+        [HttpGet("{IdPedido}/{IdProducto}")]
+        public async Task<IActionResult> GetDetallePedido([FromRoute] int IdPedido, [FromRoute] int IdProducto)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var currentDetallePedido = await _context.DetallePedidos.SingleOrDefaultAsync(p => p.IdDetallePedido == id);
+            var currentDetallePedido = await _context.DetallesPedido.SingleOrDefaultAsync(p => p.Pedido.IdPedido == IdPedido && p.Producto.IdProducto == IdProducto);
 
-            if(currentDetallePedido == null)
+            if (currentDetallePedido == null)
             {
                 return NotFound();
             }
 
             return Ok(currentDetallePedido);
 
-        }     
-      
-
+        }
 
 
         [HttpPost]
-         public async Task<IActionResult> PostDetallePedido([FromBody] DetallePedido DetallePedido){
+        public async Task<IActionResult> PostDetallePedido([FromBody] DetallePedido DetallePedido)
+        {
 
-             if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.DetallePedidos.Add(DetallePedido);
+            _context.DetallesPedido.Add(DetallePedido);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction ("GetDetallePedido", new {id = DetallePedido.IdDetallePedido},DetallePedido);
-         }
+            return CreatedAtAction("GetDetallePedido", new { IdPedido = DetallePedido.Pedido.IdPedido, IdProducto = DetallePedido.Producto.IdProducto }, DetallePedido);
+        }
 
-         
-         [HttpPut("{id}")]
-         public async Task<IActionResult> PutDetallePedido ([FromRoute] int id){
-             if(!ModelState.IsValid){
-                 return BadRequest(ModelState);
-             }
 
-             var currentDetallePedido = await _context.DetallePedidos.SingleOrDefaultAsync(p => p.IdDetallePedido == id);
+        [HttpPut("{IdPedido}/{IdProducto}")]
+        public async Task<IActionResult> PutDetallePedido([FromBody] int IdPedido, [FromBody] int IdProducto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-             if(currentDetallePedido == null){
-                 return NotFound();
-             }
+            var currentDetallePedido = await _context.DetallesPedido.SingleOrDefaultAsync(p => p.Pedido.IdPedido == IdPedido && p.Producto.IdProducto == IdProducto);
 
-             _context.DetallePedidos.Update(currentDetallePedido);
-             await _context.SaveChangesAsync();
+            if (currentDetallePedido == null)
+            {
+                return NotFound();
+            }
 
-             return Ok(currentDetallePedido);
-         }
+            _context.DetallesPedido.Update(currentDetallePedido);
+            await _context.SaveChangesAsync();
 
-          public async Task<IActionResult> DeleteDetallePedido ([FromRoute] int id){
-             if(!ModelState.IsValid){
-                 return BadRequest(ModelState);
-             }
+            return Ok(currentDetallePedido);
+        }
 
-             var currentDetallePedido = await _context.DetallePedidos.SingleOrDefaultAsync(p => p.IdDetallePedido == id);
+        [HttpDelete("{IdPedido}/{IdProducto}")]
+        public async Task<IActionResult> DeleteDetallePedido([FromBody] int IdPedido, [FromBody] int IdProducto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-             if(currentDetallePedido == null){
-                 return NotFound();
-             }
+            var currentDetallePedido = await _context.DetallesPedido.SingleOrDefaultAsync(p => p.Pedido.IdPedido == IdPedido && p.Producto.IdProducto == IdProducto);
 
-             _context.DetallePedidos.Remove(currentDetallePedido);
-             await _context.SaveChangesAsync();
+            if (currentDetallePedido == null)
+            {
+                return NotFound();
+            }
 
-             return Ok(currentDetallePedido);
-         }
+            _context.DetallesPedido.Remove(currentDetallePedido);
+            await _context.SaveChangesAsync();
+
+            return Ok(currentDetallePedido);
+        }
 
     }
 }

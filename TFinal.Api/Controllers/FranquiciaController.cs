@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AlaOrden.TFinal.Domain;
+using TFinal.Domain;
+using TFinal.Repository.Context;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,8 +13,8 @@ namespace TFinal.Api.Controllers
     [Route("api/franquicia")]
     public class FranquiciaController:ControllerBase
     {
-         private readonly ProyectoDBContext _context;
-        public FranquiciaController (ProyectoDBContext context){
+         private readonly ApplicationDbContext _context;
+        public FranquiciaController (ApplicationDbContext context){
             _context=context;
         }
 
@@ -53,7 +54,7 @@ namespace TFinal.Api.Controllers
             _context.Franquicias.Add(Franquicia);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction ("GetFranquicia", new {id = Franquicia.IdFranquicia},Franquicia);
+            return CreatedAtAction ("GetFranquicia", new {id = Franquicia.IdFranquicia },Franquicia);
          }
 
          

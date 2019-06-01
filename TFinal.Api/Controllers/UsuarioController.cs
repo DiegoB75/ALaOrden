@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AlaOrden.TFinal.Domain;
+using TFinal.Domain;
+using TFinal.Repository.Context;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,14 +13,14 @@ namespace TFinal.Api.Controllers
     [Route("api/Usuario")]
     public class UsuarioController:ControllerBase
     {
-         private readonly ProyectoDBContext _context;
-        public UsuarioController (ProyectoDBContext context){
+        private readonly ApplicationDbContext _context;
+        public UsuarioController (ApplicationDbContext context){
             _context=context;
         }
 
 
         [HttpGet]
-        public IEnumerable<Usuario> GetUsuario() {
+        public IEnumerable<Usuario> GetUsuarios() {
             return _context.Usuarios;
         }
 
@@ -41,14 +42,14 @@ namespace TFinal.Api.Controllers
 
         }
 
-         [HttpGet ("{apodo}")]
+        /*[HttpGet ("{apodo}")]
         public async Task<IActionResult> GetUsuario([FromRoute] string apodo)
         {
             if(!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var currentUsuario = await _context.Usuarios.SingleOrDefaultAsync(p =>p.apodo == apodo);
+            var currentUsuario = await _context.Usuarios.SingleOrDefaultAsync(p =>p.Apodo == apodo);
 
             if(currentUsuario == null)
             {
@@ -75,7 +76,7 @@ namespace TFinal.Api.Controllers
 
             return Ok(currentUsuario);
 
-        }
+        }*/
 
 
 
@@ -93,9 +94,9 @@ namespace TFinal.Api.Controllers
             return CreatedAtAction ("GetUsuario", new {id = Usuario.IdUsuario},Usuario);
          }
 
-         
+         /* 
          [HttpPut("{id}")]
-         public async Task<IActionResult> PutUsuario ([FromRoute] int id){
+         public async Task<IActionResult> PutUsuario ([FromBody] int id){
              if(!ModelState.IsValid){
                  return BadRequest(ModelState);
              }
@@ -110,7 +111,7 @@ namespace TFinal.Api.Controllers
              await _context.SaveChangesAsync();
 
              return Ok(currentUsuario);
-         }
+         }*/
 
     }
 }
