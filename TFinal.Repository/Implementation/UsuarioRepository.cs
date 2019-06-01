@@ -38,9 +38,8 @@ namespace TFinal.Repository.Implementation
 
         public void Update(Usuario entity)
         {
-                         context.Entry(entity).State=EntityState.Modified;
-
-            context .SaveChanges();
+            context.Entry(entity).State = EntityState.Modified;
+            context.SaveChanges();
         }
     }
 }

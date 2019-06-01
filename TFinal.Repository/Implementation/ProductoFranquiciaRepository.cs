@@ -40,7 +40,7 @@ namespace TFinal.Repository.Implementation
 
         public void Update(ProductoFranquicia entity)
         {
-             context.Entry(entity).State=EntityState.Modified;
+            context.Entry(entity).State=EntityState.Modified;
             context.SaveChanges();
         }
     }
