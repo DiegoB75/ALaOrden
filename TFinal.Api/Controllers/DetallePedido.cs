@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AlaOrden.TFinal.Domain;
+using TFinal.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TFinal.Repository.Context;
 
 
 namespace TFinal.Api.Controllers
