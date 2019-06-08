@@ -5,6 +5,7 @@ using TFinal.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TFinal.Repository.Context;
+using TFinal.Services.ProductoService;
 
 namespace TFinal.Api.Controllers
 {
@@ -12,23 +13,23 @@ namespace TFinal.Api.Controllers
     [Route("api/Producto")]
     public class ProductoController:ControllerBase
     {
-         private readonly ApplicationDbContext _context;
-        public ProductoController (ApplicationDbContext context){
-            _context=context;
+         private readonly ProductoService productoservice;
+        public ProductoController (ProductoService context){
+            productoservice=context;
         }
        [HttpGet]
         public IEnumerable<Producto> GetProducto() {
-            return _context.Productos;
+            return productoservice.Productos;
         }
 
         [HttpGet]
         public IEnumerable<Categoria> GetCategoria() {
-            return _context.Categorias;
+            return productoservice.Categorias;
         }
 
         [HttpGet]
         public IEnumerable<Marca> GetMarca() {
-            return _context.Marcas;
+            return productoservice.Marcas;
         }
 
 
@@ -39,7 +40,7 @@ namespace TFinal.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var currentProducto = await _context.Productos.SingleOrDefaultAsync(p => p.IdProducto == id);
+            var currentProducto = await productoservice.Productos.SingleOrDefaultAsync(p => p.IdProducto == id);
 
             if(currentProducto == null)
             {
@@ -58,8 +59,8 @@ namespace TFinal.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            _context.Productos.Add(producto);
-            await _context.SaveChangesAsync();
+            productoservice.Productos.Add(producto);
+            await productoservice.SaveChangesAsync();
 
             return CreatedAtAction ("GetProducto", new {id = producto.IdProducto},producto);
          }
@@ -71,14 +72,14 @@ namespace TFinal.Api.Controllers
                  return BadRequest(ModelState);
              }
 
-             var currentProducto = await _context.Productos.SingleOrDefaultAsync(p => p.IdProducto == id);
+             var currentProducto = await productoservice.Productos.SingleOrDefaultAsync(p => p.IdProducto == id);
 
              if(currentProducto == null){
                  return NotFound();
              }
 
-             _context.Productos.Update(currentProducto);
-             await _context.SaveChangesAsync();
+             productoservice.Productos.Update(currentProducto);
+             await productoservice.SaveChangesAsync();
 
              return Ok(currentProducto);
          }
@@ -88,14 +89,14 @@ namespace TFinal.Api.Controllers
                  return BadRequest(ModelState);
              }
 
-             var currentProducto = await _context.Productos.SingleOrDefaultAsync(p => p.IdProducto == id);
+             var currentProducto = await productoservice.Productos.SingleOrDefaultAsync(p => p.IdProducto == id);
 
              if(currentProducto == null){
                  return NotFound();
              }
 
-             _context.Productos.Remove(currentProducto);
-             await _context.SaveChangesAsync();
+             productoservice.Productos.Remove(currentProducto);
+             await productoservice.SaveChangesAsync();
 
              return Ok(currentProducto);
          }

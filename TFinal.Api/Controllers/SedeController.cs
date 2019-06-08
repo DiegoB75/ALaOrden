@@ -5,6 +5,7 @@ using TFinal.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TFinal.Repository.Context;
+using TFinal.Services.SedeService;
 
 namespace TFinal.Api.Controllers
 {
@@ -12,15 +13,15 @@ namespace TFinal.Api.Controllers
     [Route("api/Sede")]
     public class SedeController:ControllerBase
     {
-         private readonly ApplicationDbContext _context;
-        public SedeController (ApplicationDbContext context){
-            _context=context;
+         private readonly SedeService sedeservice;
+        public SedeController (SedeService context){
+            sedeservice=context;
         }
 
 
         [HttpGet]
         public IEnumerable<Sede> GetSede() {
-            return _context.Sedes;
+            return sedeservice.Sedes;
         }
 
 
@@ -31,7 +32,7 @@ namespace TFinal.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var currentSede = await _context.Sedes.SingleOrDefaultAsync(p => p.IdSede == id);
+            var currentSede = await sedeservice.Sedes.SingleOrDefaultAsync(p => p.IdSede == id);
 
             if(currentSede == null)
             {
@@ -53,8 +54,8 @@ namespace TFinal.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            _context.Sedes.Add(sede);
-            await _context.SaveChangesAsync();
+            sedeservice.Sedes.Add(sede);
+            await sedeservice.SaveChangesAsync();
 
             return CreatedAtAction ("GetSede", new {id = sede.IdSede},sede);
          }
@@ -66,14 +67,14 @@ namespace TFinal.Api.Controllers
                  return BadRequest(ModelState);
              }
 
-             var currentSede = await _context.Sedes.SingleOrDefaultAsync(p => p.IdSede == id);
+             var currentSede = await sedeservice.Sedes.SingleOrDefaultAsync(p => p.IdSede == id);
 
              if(currentSede == null){
                  return NotFound();
              }
 
-             _context.Sedes.Update(currentSede);
-             await _context.SaveChangesAsync();
+             sedeservice.Sedes.Update(currentSede);
+             await sedeservice.SaveChangesAsync();
 
              return Ok(currentSede);
          }
@@ -83,14 +84,14 @@ namespace TFinal.Api.Controllers
                  return BadRequest(ModelState);
              }
 
-             var currentSede = await _context.Sedes.SingleOrDefaultAsync(p => p.IdSede == id);
+             var currentSede = await sedeservice.Sedes.SingleOrDefaultAsync(p => p.IdSede == id);
 
              if(currentSede == null){
                  return NotFound();
              }
 
-             _context.Sedes.Remove(currentSede);
-             await _context.SaveChangesAsync();
+             sedeservice.Sedes.Remove(currentSede);
+             await sedeservice.SaveChangesAsync();
 
              return Ok(currentSede);
          }

@@ -8,16 +8,17 @@ using Microsoft.EntityFrameworkCore;
 using TFinal.Repository.Context;
 using TFinal.Service;
 
+
 namespace TFinal.Api.Controllers
 {
     [Produces("application/json")]
     [Route("api/carrito")]
     public class CarritoItemController : ControllerBase
     {
-        private  ApplicationDbContext carritoItemService;
-        public CarritoItemController(ApplicationDbContext carritoItemService)
+        private  ICarritoItemService carritoItemService;
+        public CarritoItemController(ICarritoItemService carritoItemService)
         {
-            this.carritoItemService = carritoItemService;
+           this.carritoItemService= carritoItemService;
         }
 
         [HttpGet("{idUsuario}")]
@@ -34,6 +35,7 @@ namespace TFinal.Api.Controllers
                 return BadRequest(ModelState);
             }
             var currentCarrito = await carritoItemService.CarritoItems.FirstOrDefaultAsync(x => x.Usuario.IdUsuario == idUsuario && x.Producto.IdProducto == idProducto);
+
 
             if (currentCarrito == null)
             {
@@ -58,7 +60,9 @@ namespace TFinal.Api.Controllers
             if (!ModelState.IsValid){
                 return BadRequest(ModelState);
             }
+
             var currentCarrito = await carritoItemService.CarritoItems.FirstOrDefaultAsync(x => x.Usuario.IdUsuario == idUsuario && x.Producto.IdProducto == idProducto);
+
             if (currentCarrito == null)
             {
                 return NotFound();
@@ -66,6 +70,7 @@ namespace TFinal.Api.Controllers
 
             carritoItemService.CarritoItems.Remove(currentCarrito);
             await carritoItemService.SaveChangesAsync();
+
 
             return Ok(currentCarrito);
         }

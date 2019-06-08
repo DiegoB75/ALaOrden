@@ -5,6 +5,7 @@ using TFinal.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TFinal.Repository.Context;
+using TFinal.Services.PedidoService;
 
 namespace TFinal.Api.Controllers
 {
@@ -12,15 +13,15 @@ namespace TFinal.Api.Controllers
     [Route("api/pedido")]
     public class PedidoController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
-        public PedidoController (ApplicationDbContext context){
-            _context=context;
+        private readonly PedidoService pedidoservice;
+        public PedidoController (PedidoService context){
+            pedidoservice=context;
         }
 
 
         [HttpGet]
         public IEnumerable<Pedido> GetPedido() {
-            return _context.Pedidos;
+            return pedidoservice.Pedidos;
         }
 
 
@@ -31,7 +32,7 @@ namespace TFinal.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var currentPedido = await _context.Pedidos.SingleOrDefaultAsync(p => p.IdPedido == id);
+            var currentPedido = await pedidoservice.Pedidos.SingleOrDefaultAsync(p => p.IdPedido == id);
 
             if(currentPedido == null)
             {
@@ -53,8 +54,8 @@ namespace TFinal.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            _context.Pedidos.Add(pedido);
-            await _context.SaveChangesAsync();
+            pedidoservice.Pedidos.Add(pedido);
+            await pedidoservice.SaveChangesAsync();
 
             return CreatedAtAction ("GetSede", new {id = pedido.IdPedido},pedido);
          }
@@ -66,14 +67,14 @@ namespace TFinal.Api.Controllers
                  return BadRequest(ModelState);
              }
 
-             var currentPedido = await _context.Pedidos.SingleOrDefaultAsync(p => p.IdPedido == id);
+             var currentPedido = await pedidoservice.Pedidos.SingleOrDefaultAsync(p => p.IdPedido == id);
 
              if(currentPedido == null){
                  return NotFound();
              }
 
-             _context.Pedidos.Update(currentPedido);
-             await _context.SaveChangesAsync();
+             pedidoservice.Pedidos.Update(currentPedido);
+             await pedidoservice.SaveChangesAsync();
 
              return Ok(currentPedido);
          }
@@ -83,14 +84,14 @@ namespace TFinal.Api.Controllers
                  return BadRequest(ModelState);
              }
 
-             var currentPedido = await _context.Pedidos.SingleOrDefaultAsync(p => p.IdPedido == id);
+             var currentPedido = await pedidoservice.Pedidos.SingleOrDefaultAsync(p => p.IdPedido == id);
 
              if(currentPedido == null){
                  return NotFound();
              }
 
-             _context.Pedidos.Remove(currentPedido);
-             await _context.SaveChangesAsync();
+             pedidoservice.Pedidos.Remove(currentPedido);
+             await pedidoservice.SaveChangesAsync();
 
              return Ok(currentPedido);
          }
