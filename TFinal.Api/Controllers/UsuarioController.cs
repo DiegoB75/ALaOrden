@@ -5,6 +5,7 @@ using TFinal.Domain;
 using TFinal.Repository.Context;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TFinal.Services.UsuarioService;
 
 
 namespace TFinal.Api.Controllers
@@ -13,15 +14,15 @@ namespace TFinal.Api.Controllers
     [Route("api/Usuario")]
     public class UsuarioController:ControllerBase
     {
-        private readonly ApplicationDbContext _context;
-        public UsuarioController (ApplicationDbContext context){
-            _context=context;
+        private readonly UsuarioService usuarioservice;
+        public UsuarioController (UsuarioService context){
+            usuarioservice=context;
         }
 
 
         [HttpGet]
         public IEnumerable<Usuario> GetUsuarios() {
-            return _context.Usuarios;
+            return usuarioservice.Usuarios;
         }
 
        [HttpGet ("{id}")]
@@ -31,7 +32,7 @@ namespace TFinal.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var currentUsuario = await _context.Usuarios.SingleOrDefaultAsync(p => p.IdUsuario == id);
+            var currentUsuario = await usuarioservice.Usuarios.SingleOrDefaultAsync(p => p.IdUsuario == id);
 
             if(currentUsuario == null)
             {
@@ -49,7 +50,7 @@ namespace TFinal.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var currentUsuario = await _context.Usuarios.SingleOrDefaultAsync(p =>p.Apodo == apodo);
+            var currentUsuario = await usuarioservice.Usuarios.SingleOrDefaultAsync(p =>p.Apodo == apodo);
 
             if(currentUsuario == null)
             {
@@ -67,7 +68,7 @@ namespace TFinal.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var currentUsuario = await _context.Usuarios.SingleOrDefaultAsync(p =>p.email == email);
+            var currentUsuario = await usuarioservice.Usuarios.SingleOrDefaultAsync(p =>p.email == email);
 
             if(currentUsuario == null)
             {
@@ -88,8 +89,8 @@ namespace TFinal.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            _context.Usuarios.Add(Usuario);
-            await _context.SaveChangesAsync();
+            usuarioservice.Usuarios.Add(Usuario);
+            await usuarioservice.SaveChangesAsync();
 
             return CreatedAtAction ("GetUsuario", new {id = Usuario.IdUsuario},Usuario);
          }
@@ -101,14 +102,14 @@ namespace TFinal.Api.Controllers
                  return BadRequest(ModelState);
              }
 
-             var currentUsuario = await _context.Usuarios.SingleOrDefaultAsync(p => p.IdUsuario == id);
+             var currentUsuario = await usuarioservice.Usuarios.SingleOrDefaultAsync(p => p.IdUsuario == id);
 
              if(currentUsuario == null){
                  return NotFound();
              }
 
-             _context.Usuarios.Update(currentUsuario);
-             await _context.SaveChangesAsync();
+             usuarioservice.Usuarios.Update(currentUsuario);
+             await usuarioservice.SaveChangesAsync();
 
              return Ok(currentUsuario);
          }*/
