@@ -16,6 +16,6 @@ namespace TFinal.Domain
         public string Unidad { get; set; }
         public string Descripcion { get; set; }
         public string Imagen { get; set; }
-        public List<ProductoFranquicia> ProductoFranquicias { get; set; }
+        public ICollection<ProductoFranquicia> ProductoFranquicias { get; set; }
     }
 }

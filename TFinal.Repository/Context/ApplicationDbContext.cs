@@ -34,15 +34,80 @@ namespace TFinal.Repository.Context
                 .WithMany(x => x.Cupones);
 
             //DetallePedido
-            modelBuilder.Entity<CarritoItem>()
-                .HasKey(x => new { x.IdUsuario, x.IdProducto });
-            modelBuilder.Entity<CarritoItem>()
-                .HasOne(x => x.Usuario)
-                .WithMany(x => x.Carrito)
-                .HasForeignKey(x => x.IdUsuario);
+            modelBuilder.Entity<DetallePedido>()
+                .HasKey(x => new { x.IdPedido, x.IdProducto });
+            modelBuilder.Entity<DetallePedido>()
+                .HasOne(x => x.Pedido)
+                .WithMany(x => x.DetallesPedidos)
+                .HasForeignKey(x => x.IdPedido);
             modelBuilder.Entity<DetallePedido>()
                 .HasOne(x => x.Producto)
                 .WithMany().HasForeignKey(x=>x.IdProducto);
+            
+            //Direccion
+            modelBuilder.Entity<Direccion>()
+                .HasKey(x => x.IdDireccion);
+            modelBuilder.Entity<Direccion>()
+                .HasOne(x => x.Usuario)
+                .WithMany(x => x.Direcciones);
+
+            //Franquicia
+            modelBuilder.Entity<Franquicia>()
+                .HasKey(x => x.IdFranquicia);
+
+            //Marca
+            modelBuilder.Entity<Marca>()
+                .HasKey(x => x.IdMarca);
+
+            //Pedido
+            modelBuilder.Entity<Pedido>()
+                .HasKey(x => x.IdPedido);
+            modelBuilder.Entity<Pedido>()
+                .HasOne(x => x.Usuario)
+                .WithMany(x => x.Pedidos);
+            modelBuilder.Entity<Pedido>()
+                .HasOne(x => x.Transaccion)
+                .WithOne();
+            modelBuilder.Entity<Pedido>()
+                .HasOne(x => x.Sede)
+                .WithMany();
+
+            //Producto
+            modelBuilder.Entity<Producto>()
+                .HasKey(x => x.IdProducto);
+            modelBuilder.Entity<Producto>()
+                .HasOne(x => x.Categoria)
+                .WithMany(x => x.Productos);
+            modelBuilder.Entity<Producto>()
+                .HasOne(x => x.Marca)
+                .WithMany(x => x.Productos);
+            
+            //ProductoFranquicia
+            modelBuilder.Entity<ProductoFranquicia>()
+                .HasKey(x => new { x.IdProducto, x.IdFranquicia});
+            modelBuilder.Entity<ProductoFranquicia>()
+                .HasOne(x => x.Producto)
+                .WithMany(x => ProductosFranquicias)
+                .HasForeignKey(x => x.IdProducto);
+            modelBuilder.Entity<ProductoFranquicia>()
+                .HasOne(x => x.Franquicia)
+                .WithMany(x => ProductosFranquicias)
+                .HasForeignKey(x => x.IdFranquicia);
+
+            //Sede
+            modelBuilder.Entity<Sede>()
+                .HasKey(x => x.IdSede);
+            modelBuilder.Entity<Sede>()
+                .HasOne(x => x.Franquicia)
+                .WithMany(x => x.Sedes);
+
+            //Transaccion
+            modelBuilder.Entity<Transaccion>()
+                .HasKey(x => x.idTransaccion);
+
+            //Usuario
+            modelBuilder.Entity<Usuario>()
+                .HasKey(x => x.IdUsuario);
         }
 
         public DbSet<CarritoItem> Carritos { get; set; }
