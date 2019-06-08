@@ -34,8 +34,43 @@ namespace TFinal.Api
             services.AddDbContext<ApplicationDbContext>(options => 
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            //
+            services.AddTransient<ICarritoItemRepository, CarritoItemRepository>();
+            services.AddTransient<ICarritoItemService, CarritoItemService>();
+
+            services.AddTransient<ICategoriaRepository, CategoriaRepository>();
+            services.AddTransient<ICategoriaService, CategoriaService>();
+
+            services.AddTransient<ICuponRepository, CuponRepository>();
+            services.AddTransient<ICuponService, CuponService>();
+
+            services.AddTransient<IDetallePedidoRepository, DetallePedidoRepository>();
+            services.AddTransient<IDetallePedidoService, DetallePedidoService>();
+
+            services.AddTransient<IDireccionRepository, DireccionRepository>();
+            services.AddTransient<IDireccionService, DireccionService>();
+
+            services.AddTransient<IFranquiciaRepository, FranquiciaRepository>();
+            services.AddTransient<IFranquiciaService, FranquiciaService>();
+
             services.AddTransient<IMarcaRepository, MarcaRepository>();
             services.AddTransient<IMarcaService, MarcaService>();
+
+            services.AddTransient<IPedidoRepository, PedidoRepository>();
+            services.AddTransient<IPedidoService, PedidoService>();
+
+            services.AddTransient<IProductoRepository, ProductoRepository>();
+            services.AddTransient<IProductoService, ProductoService>();
+
+            services.AddTransient<IProductoFranquiciaRepository, ProductoFranquiciaRepository>();
+            services.AddTransient<IProductoFranquiciaService, ProductoFranquiciaService>();
+
+            services.AddTransient<ISedeRepository, SedeRepository>();
+            services.AddTransient<ISedeService, SedeService>();
+
+            services.AddTransient<IUsuarioRepository, UsuarioRepository>();
+            services.AddTransient<IUsuarioService, UsuarioService>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
