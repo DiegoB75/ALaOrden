@@ -12,6 +12,10 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using TFinal.Repository.Context;
+using TFinal.Repository;
+using TFinal.Repository.Implementation;
+using TFinal.Service;
+using TFinal.Service.Implementation;
 
 namespace TFinal.Api
 {
@@ -30,6 +34,8 @@ namespace TFinal.Api
             services.AddDbContext<ApplicationDbContext>(options => 
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddTransient<IMarcaRepository, MarcaRepository>();
+            services.AddTransient<IMarcaService, MarcaService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 

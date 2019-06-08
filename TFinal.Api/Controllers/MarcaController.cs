@@ -9,7 +9,7 @@ using TFinal.Service;
 
 namespace TFinal.Api.Controllers
 {
-    //[Produces("application/json")]
+    [Produces("application/json")]
     [Route("api/Marca")]
     [ApiController]
     public class MarcaController:ControllerBase

@@ -55,7 +55,7 @@ namespace TFinal.Api.Controllers
         }
 
         [HttpDelete("{idUsuario}/{idProducto}")]
-        public async Task<ActionResult> DeleteCarrito([FromBody] int idUsuario,[FromBody] int idProducto){
+        public async Task<ActionResult> DeleteCarrito([FromRoute] int idUsuario,[FromRoute] int idProducto){
             if (!ModelState.IsValid){
                 return BadRequest(ModelState);
             }
