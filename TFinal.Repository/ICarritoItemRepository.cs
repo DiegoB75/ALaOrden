@@ -2,7 +2,7 @@ using TFinal.Domain;
 
 namespace TFinal.Repository
 {
-    public interface ICarritoRepository: ICrudRepository<CarritoItem>
+    public interface ICarritoItemRepository: ICrudRepository<CarritoItem>
     {
 
     }

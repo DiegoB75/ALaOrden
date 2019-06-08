@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TFinal.Repository.Implementation
 {
-    public class CarritoRepository : ICarritoRepository
+    public class CarritoItemRepository : ICarritoItemRepository
     {
         private ApplicationDbContext context;
 
-        public CarritoRepository(ApplicationDbContext context)
+        public CarritoItemRepository(ApplicationDbContext context)
         {
             this.context = context;
         }
