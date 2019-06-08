@@ -5,7 +5,7 @@ using TFinal.Domain;
 using TFinal.Repository.Context;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+using TFinal.Services.FranquiciaService;
 
 namespace TFinal.Api.Controllers
 {
@@ -13,15 +13,15 @@ namespace TFinal.Api.Controllers
     [Route("api/franquicia")]
     public class FranquiciaController:ControllerBase
     {
-         private readonly ApplicationDbContext _context;
-        public FranquiciaController (ApplicationDbContext context){
-            _context=context;
+         private readonly FranquiciaService franquiciaservice;
+        public FranquiciaController (FranquiciaService context){
+            franquiciaservice=context;
         }
 
 
         [HttpGet]
         public IEnumerable<Franquicia> GetFranquicia() {
-            return _context.Franquicias;
+            return franquiciaservice.Franquicias;
         }
 
        [HttpGet ("{id}")]
@@ -31,7 +31,7 @@ namespace TFinal.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var currentFranquicia = await _context.Franquicias.SingleOrDefaultAsync(p => p.IdFranquicia == id);
+            var currentFranquicia = await franquiciaservice.Franquicias.SingleOrDefaultAsync(p => p.IdFranquicia == id);
 
             if(currentFranquicia == null)
             {
@@ -51,8 +51,8 @@ namespace TFinal.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            _context.Franquicias.Add(Franquicia);
-            await _context.SaveChangesAsync();
+            franquiciaservice.Franquicias.Add(Franquicia);
+            await franquiciaservice.SaveChangesAsync();
 
             return CreatedAtAction ("GetFranquicia", new {id = Franquicia.IdFranquicia },Franquicia);
          }
@@ -64,14 +64,14 @@ namespace TFinal.Api.Controllers
                  return BadRequest(ModelState);
              }
 
-             var currentFranquicia = await _context.Franquicias.SingleOrDefaultAsync(p => p.IdFranquicia == id);
+             var currentFranquicia = await franquiciaservice.Franquicias.SingleOrDefaultAsync(p => p.IdFranquicia == id);
 
              if(currentFranquicia == null){
                  return NotFound();
              }
 
-             _context.Franquicias.Update(currentFranquicia);
-             await _context.SaveChangesAsync();
+             franquiciaservice.Franquicias.Update(currentFranquicia);
+             await franquiciaservice.SaveChangesAsync();
 
              return Ok(currentFranquicia);
          }
@@ -82,14 +82,14 @@ namespace TFinal.Api.Controllers
                  return BadRequest(ModelState);
              }
 
-             var currentFranquicia = await _context.Franquicias.SingleOrDefaultAsync(p => p.IdFranquicia == id);
+             var currentFranquicia = await franquiciaservice.Franquicias.SingleOrDefaultAsync(p => p.IdFranquicia == id);
 
              if(currentFranquicia == null){
                  return NotFound();
              }
 
-             _context.Franquicias.Remove(currentFranquicia);
-             await _context.SaveChangesAsync();
+             franquiciaservice.Franquicias.Remove(currentFranquicia);
+             await franquiciaservice.SaveChangesAsync();
 
              return Ok(currentFranquicia);
          }
