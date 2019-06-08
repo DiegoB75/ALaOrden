@@ -7,6 +7,6 @@ namespace TFinal.Domain
     {
         public int IdMarca { get; set; }
         public string Nombre { get; set; }
-        public List<Producto> Productos { get; set; }
+        public ICollection<Producto> Productos { get; set; }
     }
 }
