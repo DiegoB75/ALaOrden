@@ -13,15 +13,15 @@ namespace TFinal.Api.Controllers
     [Route("api/categoria")]
     public class CategoriaController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
-        public CategoriaController (ApplicationDbContext context){
-            _context=context;
+        private readonly ServiceCategoria servicecategoria;
+        public CategoriaController (ServiceCategoriaItem context){
+            servicecategoria=context;
         }
 
 
         [HttpGet]
         public IEnumerable<Categoria> GetCategoria() {
-            return _context.Categorias;
+            return servicecategoria.Categorias;
         }
 
 
@@ -32,7 +32,7 @@ namespace TFinal.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var currentCategoria = await _context.Categorias.SingleOrDefaultAsync(p => p.IdCategoria == id);
+            var currentCategoria = await servicecategoria.Categorias.SingleOrDefaultAsync(p => p.IdCategoria == id);
 
             if(currentCategoria == null)
             {
@@ -54,8 +54,8 @@ namespace TFinal.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            _context.Categorias.Add(categoria);
-            await _context.SaveChangesAsync();
+            servicecategoria.Categorias.Add(categoria);
+            await servicecategoria.SaveChangesAsync();
 
             return CreatedAtAction ("GetSede", new {id = categoria.IdCategoria},categoria);
          }
@@ -67,7 +67,7 @@ namespace TFinal.Api.Controllers
                  return BadRequest(ModelState);
              }
 
-             var currentCategoria = await _context.Categorias.SingleOrDefaultAsync(p => p.IdCategoria == id);
+             var currentCategoria = await servicecategoria.Categorias.SingleOrDefaultAsync(p => p.IdCategoria == id);
 
              if(currentCategoria == null){
                  return NotFound();
@@ -75,8 +75,8 @@ namespace TFinal.Api.Controllers
 
              //pasar contenido de Body a currentCategoria
 
-             _context.Categorias.Update(currentCategoria);
-             await _context.SaveChangesAsync();
+             servicecategoria.Categorias.Update(currentCategoria);
+             await servicecategoria.SaveChangesAsync();
 
              return Ok(currentCategoria);
          }
@@ -88,14 +88,14 @@ namespace TFinal.Api.Controllers
                  return BadRequest(ModelState);
              }
 
-             var currentCategoria = await _context.Categorias.SingleOrDefaultAsync(p => p.IdCategoria == id);
+             var currentCategoria = await servicecategoria.Categorias.SingleOrDefaultAsync(p => p.IdCategoria == id);
 
              if(currentCategoria == null){
                  return NotFound();
              }
 
-             _context.Categorias.Update(currentCategoria);
-             await _context.SaveChangesAsync();
+             servicecategoria.Categorias.Update(currentCategoria);
+             await servicecategoria.SaveChangesAsync();
 
              return Ok(currentCategoria);
          }
@@ -108,14 +108,14 @@ namespace TFinal.Api.Controllers
                  return BadRequest(ModelState);
              }
 
-             var currentCategoria = await _context.Categorias.SingleOrDefaultAsync(p => p.IdCategoria == id);
+             var currentCategoria = await servicecategoria.Categorias.SingleOrDefaultAsync(p => p.IdCategoria == id);
 
              if(currentCategoria == null){
                  return NotFound();
              }
 
-             _context.Categorias.Remove(currentCategoria);
-             await _context.SaveChangesAsync();
+             servicecategoria.Categorias.Remove(currentCategoria);
+             await servicecategoria.SaveChangesAsync();
 
              return Ok(currentCategoria);
          }
