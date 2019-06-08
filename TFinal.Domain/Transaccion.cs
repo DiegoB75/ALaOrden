@@ -4,7 +4,7 @@ namespace TFinal.Domain
 {
     public class Transaccion
     {
-        public int idTransaccion { get; set; }
+        public int IdTransaccion { get; set; }
         //TODO: averiguar más campos
     }
 }

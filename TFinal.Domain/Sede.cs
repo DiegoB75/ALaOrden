@@ -6,6 +6,7 @@ namespace TFinal.Domain
     {
         public int IdSede { get; set; }
         public string Direccion { get; set; }
+        public int IdFranquicia { get; set; }
         public Franquicia Franquicia { get; set; }
         public double Longitud { get; set; }
         public double Latitud { get; set; }

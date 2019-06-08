@@ -22,7 +22,7 @@ namespace TFinal.Repository.Implementation
 
         public Transaccion FindById(Transaccion entity)
         {
-            return context.Transacciones.FirstOrDefault(x => x.idTransaccion == entity.idTransaccion);
+            return context.Transacciones.FirstOrDefault(x => x.IdTransaccion == entity.IdTransaccion);
         }
 
         public List<Transaccion> ListAll()

@@ -16,25 +16,25 @@ namespace TFinal.Repository.Implementation
         }
         public void Delete(CarritoItem entity)
         {
-            context.Carritos.Remove(entity);
+            context.CarritoItems.Remove(entity);
             context.SaveChanges();
         }
 
         public CarritoItem FindById(CarritoItem entity)
         {
-            return context.Carritos.FirstOrDefault(x =>
+            return context.CarritoItems.FirstOrDefault(x =>
                 x.Producto.IdProducto == entity.Producto.IdProducto &&
                 x.Usuario.IdUsuario == entity.Usuario.IdUsuario);
         }
 
         public List<CarritoItem> ListAll()
         {
-            return context.Carritos.ToList();
+            return context.CarritoItems.ToList();
         }
 
         public void Save(CarritoItem entity)
         {
-            context.Carritos.Add(entity);
+            context.CarritoItems.Add(entity);
             context.SaveChanges();
         }
 

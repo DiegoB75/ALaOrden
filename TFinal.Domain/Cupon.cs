@@ -10,6 +10,7 @@ namespace TFinal.Domain
         public DateTime FechaExpiracion { get; set; }
         public bool Vigente { get; set; }
         public decimal Descuento { get; set; }
-        public Pedido UsadoEnPedido { get; set; }
+        public int? IdPedido { get; set;}
+        public Pedido Pedido { get; set; }
     }
 }

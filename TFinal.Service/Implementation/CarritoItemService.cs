@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TFinal.Service.Implementation
 {
-    public class CarritoService : ICarritoItemService
+    public class CarritoItemService : ICarritoItemService
     {
         private ICarritoItemRepository carritoRepository;
 
-        public CarritoService(ICarritoItemRepository carritoRepository)
+        public CarritoItemService(ICarritoItemRepository carritoRepository)
         {
             this.carritoRepository = carritoRepository;
         }

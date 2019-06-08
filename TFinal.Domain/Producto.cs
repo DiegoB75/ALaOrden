@@ -6,7 +6,9 @@ namespace TFinal.Domain
     public class Producto
     {
         public int IdProducto { get; set; }
+        public int IdCategoria { get; set; }
         public Categoria Categoria { get; set; }
+        public int IdMarca { get; set; }
         public Marca Marca { get; set; }
         public string Nombre { get; set; }
         public string Presentacion { get; set; }
