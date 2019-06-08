@@ -5,29 +5,31 @@ using TFinal.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TFinal.Repository.Context;
-using TFinal.Services.DireccionService;
+using TFinal.Service;
 
 namespace TFinal.Api.Controllers
 {
-    [Produces("application/json")]
+    //[Produces("application/json")]
     [Route("api/Direccion")]
+    [ApiController]
     public class DireccionController:ControllerBase
     {
-         private readonly DireccionService direccionservice;
-        public DireccionController (DireccionService context){
-            direccionservice=context;
+         private readonly IDireccionService direccionService;
+        public DireccionController (IDireccionService direccionService){
+            this.direccionService= direccionService;
         }
 
 
         [HttpGet]
         public IEnumerable<Direccion> GetDireccion() {
-            return direccionservice.Direcciones;
+            return direccionService.ListAll();
         }
 
-         [HttpGet]
+        /*
+        [HttpGet]
         public IEnumerable<Usuario> GetUsuario() {
-            return direccionservice.Usuarios;
-        }
+            return direccionService.Usuarios;
+        } */
 
 
        [HttpGet ("{id}")]
@@ -37,7 +39,7 @@ namespace TFinal.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var currenDireccion = await direccionservice.Direcciones.SingleOrDefaultAsync(p => p.IdDireccion == id);
+            var currenDireccion = direccionService.FindById(new Direccion{ IdDireccion = id});
 
             if(currenDireccion == null)
             {
@@ -59,27 +61,25 @@ namespace TFinal.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            direccionservice.Direcciones.Add(direccion);
-            await direccionservice.SaveChangesAsync();
+            direccionService.Save(direccion);
 
             return CreatedAtAction ("GetDireccion", new {id = direccion.IdDireccion},direccion);
          }
 
          
          [HttpPut("{id}")]
-         public async Task<IActionResult> PutDireccion ([FromRoute] int id){
+         public async Task<IActionResult> PutDireccion ([FromRoute] int id, [FromBody] Direccion direccion){
              if(!ModelState.IsValid){
                  return BadRequest(ModelState);
              }
 
-             var currentDireccion = await direccionservice.Direcciones.SingleOrDefaultAsync(p => p.IdDireccion == id);
+             var currentDireccion = direccionService.FindById(new Direccion{ IdDireccion = id});
 
              if(currentDireccion == null){
                  return NotFound();
              }
 
-             direccionservice.Direcciones.Update(currentDireccion);
-             await direccionservice.SaveChangesAsync();
+             direccionService.Update(currentDireccion);
 
              return Ok(currentDireccion);
          }
@@ -90,14 +90,13 @@ namespace TFinal.Api.Controllers
                  return BadRequest(ModelState);
              }
 
-             var currentDireccion = await direccionservice.Direcciones.SingleOrDefaultAsync(p => p.IdDireccion == id);
+             var currentDireccion = direccionService.FindById(new Direccion{ IdDireccion = id});
 
              if(currentDireccion == null){
                  return NotFound();
              }
 
-             direccionservice.Direcciones.Remove(currentDireccion);
-             await direccionservice.SaveChangesAsync();
+             direccionService.Delete(currentDireccion);
 
              return Ok(currentDireccion);
          }

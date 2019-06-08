@@ -5,23 +5,24 @@ using TFinal.Domain;
 using TFinal.Repository.Context;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using TFinal.Services.FranquiciaService;
+using TFinal.Service;
 
 namespace TFinal.Api.Controllers
 {
-    [Produces("application/json")]
+    //[Produces("application/json")]
     [Route("api/franquicia")]
+    [ApiController]
     public class FranquiciaController:ControllerBase
     {
-         private readonly FranquiciaService franquiciaservice;
-        public FranquiciaController (FranquiciaService context){
-            franquiciaservice=context;
+         private readonly IFranquiciaService franquiciaService;
+        public FranquiciaController (IFranquiciaService franquiciaService){
+            this.franquiciaService= franquiciaService;
         }
 
 
         [HttpGet]
         public IEnumerable<Franquicia> GetFranquicia() {
-            return franquiciaservice.Franquicias;
+            return franquiciaService.ListAll();
         }
 
        [HttpGet ("{id}")]
@@ -31,7 +32,7 @@ namespace TFinal.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var currentFranquicia = await franquiciaservice.Franquicias.SingleOrDefaultAsync(p => p.IdFranquicia == id);
+            var currentFranquicia = franquiciaService.FindById(new Franquicia{ IdFranquicia = id});
 
             if(currentFranquicia == null)
             {
@@ -44,34 +45,32 @@ namespace TFinal.Api.Controllers
 
 
         [HttpPost]
-         public async Task<IActionResult> PostFranquicia([FromBody] Franquicia Franquicia){
+         public async Task<IActionResult> PostFranquicia([FromBody] Franquicia franquicia){
 
              if(!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            franquiciaservice.Franquicias.Add(Franquicia);
-            await franquiciaservice.SaveChangesAsync();
+            franquiciaService.Save(franquicia);
 
-            return CreatedAtAction ("GetFranquicia", new {id = Franquicia.IdFranquicia },Franquicia);
+            return CreatedAtAction ("GetFranquicia", new {id = franquicia.IdFranquicia },franquicia);
          }
 
          
          [HttpPut("{id}")]
-         public async Task<IActionResult> PutFranquicia ([FromRoute] int id){
+         public async Task<IActionResult> PutFranquicia ([FromRoute] int id, [FromBody] Franquicia franquicia){
              if(!ModelState.IsValid){
                  return BadRequest(ModelState);
              }
 
-             var currentFranquicia = await franquiciaservice.Franquicias.SingleOrDefaultAsync(p => p.IdFranquicia == id);
+             var currentFranquicia = franquiciaService.FindById(new Franquicia{IdFranquicia = id});
 
              if(currentFranquicia == null){
                  return NotFound();
              }
 
-             franquiciaservice.Franquicias.Update(currentFranquicia);
-             await franquiciaservice.SaveChangesAsync();
+             franquiciaService.Update(currentFranquicia);
 
              return Ok(currentFranquicia);
          }
@@ -82,14 +81,13 @@ namespace TFinal.Api.Controllers
                  return BadRequest(ModelState);
              }
 
-             var currentFranquicia = await franquiciaservice.Franquicias.SingleOrDefaultAsync(p => p.IdFranquicia == id);
+             var currentFranquicia = franquiciaService.FindById(new Franquicia{IdFranquicia = id});
 
              if(currentFranquicia == null){
                  return NotFound();
              }
 
-             franquiciaservice.Franquicias.Remove(currentFranquicia);
-             await franquiciaservice.SaveChangesAsync();
+             franquiciaService.Delete(currentFranquicia);
 
              return Ok(currentFranquicia);
          }
