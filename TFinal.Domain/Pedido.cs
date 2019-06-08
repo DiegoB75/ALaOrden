@@ -15,6 +15,7 @@ namespace TFinal.Domain
         public double SubTotal { get; set; }
         public double PrecioEnvio { get; set; }
         public double Descuento { get; set; }
-        public List<DetallePedido> DetallesPedidos { get; set; }
+        public ICollection<Cupon> Cupones { get; set; }
+        public ICollection<DetallePedido> DetallesPedidos { get; set; }
     }
 }

@@ -14,32 +14,31 @@ namespace TFinal.Repository.Implementation
         {
             this.context = context;
         }
-
-        public void Delete(Carrito entity)
+        public void Delete(CarritoItem entity)
         {
             context.Carritos.Remove(entity);
             context.SaveChanges();
         }
 
-        public Carrito FindById(Carrito entity)
+        public CarritoItem FindById(CarritoItem entity)
         {
             return context.Carritos.FirstOrDefault(x =>
                 x.Producto.IdProducto == entity.Producto.IdProducto &&
                 x.Usuario.IdUsuario == entity.Usuario.IdUsuario);
         }
 
-        public List<Carrito> ListAll()
+        public List<CarritoItem> ListAll()
         {
             return context.Carritos.ToList();
         }
 
-        public void Save(Carrito entity)
+        public void Save(CarritoItem entity)
         {
             context.Carritos.Add(entity);
             context.SaveChanges();
         }
 
-        public void Update(Carrito entity)
+        public void Update(CarritoItem entity)
         {
             context.Entry(entity).State=EntityState.Modified;
             context.SaveChanges();

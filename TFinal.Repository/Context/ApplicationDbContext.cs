@@ -5,7 +5,47 @@ namespace TFinal.Repository.Context
 {
     public class ApplicationDbContext : DbContext
     {
-        public DbSet<Carrito> Carritos { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //CarritoItem
+            modelBuilder.Entity<CarritoItem>()
+                .HasKey(x => new { x.IdUsuario, x.IdProducto });
+            modelBuilder.Entity<CarritoItem>()
+                .HasOne(x => x.Usuario)
+                .WithMany(x => x.Carrito)
+                .HasForeignKey(x => x.IdUsuario);
+            modelBuilder.Entity<CarritoItem>()
+                .HasOne(x => x.Producto)
+                .WithMany().HasForeignKey(x=>x.IdProducto);
+            
+            //Categoria
+            modelBuilder.Entity<Categoria>()
+                .HasKey(x => x.IdCategoria);
+            modelBuilder.Entity<Categoria>()
+                .HasOne(x => x.CategoriaPadre)
+                .WithMany().HasForeignKey(x => x.IdCategoria);
+            
+            //Cupon
+            modelBuilder.Entity<Cupon>()
+                .HasKey(x => x.IdCupon);
+            modelBuilder.Entity<Cupon>()
+                .HasOne(x => x.UsadoEnPedido)
+                .WithMany(x => x.Cupones);
+
+            //DetallePedido
+            modelBuilder.Entity<CarritoItem>()
+                .HasKey(x => new { x.IdUsuario, x.IdProducto });
+            modelBuilder.Entity<CarritoItem>()
+                .HasOne(x => x.Usuario)
+                .WithMany(x => x.Carrito)
+                .HasForeignKey(x => x.IdUsuario);
+            modelBuilder.Entity<DetallePedido>()
+                .HasOne(x => x.Producto)
+                .WithMany().HasForeignKey(x=>x.IdProducto);
+        }
+
+        public DbSet<CarritoItem> Carritos { get; set; }
         public DbSet<Categoria> Categorias { get; set; }
         public DbSet<Cupon> Cupones { get; set; }
         public DbSet<DetallePedido> DetallesPedido { get; set; }
@@ -23,7 +63,7 @@ namespace TFinal.Repository.Context
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
-            
+
         }
     }
 }

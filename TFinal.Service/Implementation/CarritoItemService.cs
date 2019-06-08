@@ -6,36 +6,36 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TFinal.Service.Implementation
 {
-    public class CarritoService : ICarritoService
+    public class CarritoService : ICarritoItemService
     {
-        private ICarritoRepository carritoRepository;
+        private ICarritoItemRepository carritoRepository;
 
-        public CarritoService(ICarritoRepository carritoRepository)
+        public CarritoService(ICarritoItemRepository carritoRepository)
         {
             this.carritoRepository = carritoRepository;
         }
 
-        public void Delete(Carrito entity)
+        public void Delete(CarritoItem entity)
         {
             carritoRepository.Delete(entity);
         }
 
-        public Carrito FindById(Carrito entity)
+        public CarritoItem FindById(CarritoItem entity)
         {
             return carritoRepository.FindById(entity);
         }
 
-        public List<Carrito> ListAll()
+        public List<CarritoItem> ListAll()
         {
             return carritoRepository.ListAll();
         }
 
-        public void Save(Carrito entity)
+        public void Save(CarritoItem entity)
         {
             carritoRepository.Save(entity);
         }
 
-        public void Update(Carrito entity)
+        public void Update(CarritoItem entity)
         {
             carritoRepository.Update(entity);
         }

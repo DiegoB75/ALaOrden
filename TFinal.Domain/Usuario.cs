@@ -17,6 +17,6 @@ namespace TFinal.Domain
         public string Email { get; set; }
         public bool EmailValidado { get; set; }
         public List<Direccion> Direcciones { get; set; }
-        public List<Carrito> Carrito { get; set; }
+        public List<CarritoItem> Carrito { get; set; }
     }
 }

@@ -11,16 +11,16 @@ namespace TFinal.Api.Controllers
 {
     [Produces("application/json")]
     [Route("api/carrito")]
-    public class CarritoController : ControllerBase
+    public class CarritoItemController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        public CarritoController(ApplicationDbContext context)
+        public CarritoItemController(ApplicationDbContext context)
         {
             _context = context;
         }
 
         [HttpGet("{idUsuario}")]
-        public IEnumerable<Carrito> GetCarrito([FromRoute] int idUsuario)
+        public IEnumerable<CarritoItem> GetCarrito([FromRoute] int idUsuario)
         {
             return _context.Carritos.Where(x => x.Usuario.IdUsuario == idUsuario).ToList();
         }
@@ -42,7 +42,7 @@ namespace TFinal.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> PostCarrito([FromBody] Carrito carrito){
+        public async Task<ActionResult> PostCarrito([FromBody] CarritoItem carrito){
             if (!ModelState.IsValid){
                 return BadRequest(ModelState);
             }

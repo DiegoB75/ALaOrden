@@ -11,12 +11,11 @@ namespace TFinal.Domain
         public string Nombre { get; set; }
         public string Presentacion { get; set; }
         public int Cantidad { get; set; }
-        //TODO: corregir MAgnitud
+        //TODO: corregir Magnitud
         public double Magnitud { get; set; }
         public string Unidad { get; set; }
         public string Descripcion { get; set; }
         public string Imagen { get; set; }
         public List<ProductoFranquicia> ProductoFranquicias { get; set; }
-
     }
 }
