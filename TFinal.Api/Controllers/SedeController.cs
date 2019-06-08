@@ -5,7 +5,7 @@ using TFinal.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TFinal.Repository.Context;
-using TFinal.Services.SedeService;
+using TFinal.Service;
 
 namespace TFinal.Api.Controllers
 {
@@ -13,33 +13,26 @@ namespace TFinal.Api.Controllers
     [Route("api/Sede")]
     public class SedeController:ControllerBase
     {
-         private readonly SedeService sedeservice;
-        public SedeController (SedeService context){
-            sedeservice=context;
+         private readonly ISedeService sedeService;
+        public SedeController (ISedeService sedeService){
+            this.sedeService=sedeService;
         }
 
 
         [HttpGet]
         public IEnumerable<Sede> GetSede() {
-            return sedeservice.Sedes;
+            return sedeService.ListAll();
         }
 
 
        [HttpGet ("{id}")]
         public async Task<IActionResult> GetSede([FromRoute] int id)
         {
-            if(!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            var currentSede = await sedeservice.Sedes.SingleOrDefaultAsync(p => p.IdSede == id);
+            Sede sede = new Sede();
+            sede.IdSede = id;
 
-            if(currentSede == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(currentSede);
+            var sedeGet = sedeService.FindById(sede);
+            return Ok(sedeGet);
 
         }     
       
@@ -49,13 +42,7 @@ namespace TFinal.Api.Controllers
         [HttpPost]
          public async Task<IActionResult> PostSede([FromBody] Sede sede){
 
-             if(!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            sedeservice.Sedes.Add(sede);
-            await sedeservice.SaveChangesAsync();
+            sedeService.Save(sede);
 
             return CreatedAtAction ("GetSede", new {id = sede.IdSede},sede);
          }
@@ -63,37 +50,19 @@ namespace TFinal.Api.Controllers
          
          [HttpPut("{id}")]
          public async Task<IActionResult> PutSede ([FromRoute] int id){
-             if(!ModelState.IsValid){
-                 return BadRequest(ModelState);
-             }
+             
+             Sede sede =new Sede();
+             sede.IdSede = id;
+             sedeService.Update(sede);
 
-             var currentSede = await sedeservice.Sedes.SingleOrDefaultAsync(p => p.IdSede == id);
-
-             if(currentSede == null){
-                 return NotFound();
-             }
-
-             sedeservice.Sedes.Update(currentSede);
-             await sedeservice.SaveChangesAsync();
-
-             return Ok(currentSede);
+             return Ok();
          }
         [HttpDelete("{id}")]
           public async Task<IActionResult> DeleteSede ([FromRoute] int id){
-             if(!ModelState.IsValid){
-                 return BadRequest(ModelState);
-             }
-
-             var currentSede = await sedeservice.Sedes.SingleOrDefaultAsync(p => p.IdSede == id);
-
-             if(currentSede == null){
-                 return NotFound();
-             }
-
-             sedeservice.Sedes.Remove(currentSede);
-             await sedeservice.SaveChangesAsync();
-
-             return Ok(currentSede);
+             Sede sede = new Sede();
+             sede.IdSede = id;
+             sedeService.Delete(sede);
+             return Ok();
          }
 
     }

@@ -5,7 +5,7 @@ using TFinal.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TFinal.Repository.Context;
-using TFinal.Services.ProductoService;
+using TFinal.Service;
 
 namespace TFinal.Api.Controllers
 {
@@ -13,54 +13,42 @@ namespace TFinal.Api.Controllers
     [Route("api/Producto")]
     public class ProductoController:ControllerBase
     {
-         private readonly ProductoService productoservice;
-        public ProductoController (ProductoService context){
-            productoservice=context;
+         private readonly IProductoService productoService;
+        public ProductoController (IProductoService productoService){
+            this.productoService=productoService;
         }
        [HttpGet]
         public IEnumerable<Producto> GetProducto() {
-            return productoservice.Productos;
+            return productoService.ListAll();
         }
 
         [HttpGet]
         public IEnumerable<Categoria> GetCategoria() {
-            return productoservice.Categorias;
+            return null;
         }
 
         [HttpGet]
         public IEnumerable<Marca> GetMarca() {
-            return productoservice.Marcas;
+            return null;
         }
 
 
        [HttpGet ("{id}")]
         public async Task<IActionResult> GetProducto([FromRoute] int id)
         {
-            if(!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            var currentProducto = await productoservice.Productos.SingleOrDefaultAsync(p => p.IdProducto == id);
+            Producto producto = new Producto();
+            producto.IdProducto = id;
 
-            if(currentProducto == null)
-            {
-                return NotFound();
-            }
+            var productoGet = productoService.FindById(producto);
 
-            return Ok(currentProducto);
+            return Ok(productoGet);
 
         }     
 
         [HttpPost]
          public async Task<IActionResult> PostProducto([FromBody] Producto producto){
 
-             if(!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            productoservice.Productos.Add(producto);
-            await productoservice.SaveChangesAsync();
+           productoService.Save(producto);
 
             return CreatedAtAction ("GetProducto", new {id = producto.IdProducto},producto);
          }
@@ -68,37 +56,19 @@ namespace TFinal.Api.Controllers
          
          [HttpPut("{id}")]
          public async Task<IActionResult> PutProducto ([FromRoute] int id){
-             if(!ModelState.IsValid){
-                 return BadRequest(ModelState);
-             }
+             
+             var producto = new Producto();
+             producto.IdProducto = id;
+             productoService.Update(producto);
 
-             var currentProducto = await productoservice.Productos.SingleOrDefaultAsync(p => p.IdProducto == id);
-
-             if(currentProducto == null){
-                 return NotFound();
-             }
-
-             productoservice.Productos.Update(currentProducto);
-             await productoservice.SaveChangesAsync();
-
-             return Ok(currentProducto);
+             return Ok();
          }
         [HttpDelete("{id}")]
           public async Task<IActionResult> DeleteProducto ([FromRoute] int id){
-             if(!ModelState.IsValid){
-                 return BadRequest(ModelState);
-             }
-
-             var currentProducto = await productoservice.Productos.SingleOrDefaultAsync(p => p.IdProducto == id);
-
-             if(currentProducto == null){
-                 return NotFound();
-             }
-
-             productoservice.Productos.Remove(currentProducto);
-             await productoservice.SaveChangesAsync();
-
-             return Ok(currentProducto);
+             var producto = new Producto();
+             producto.IdProducto = id;
+             productoService.Delete(producto);
+             return Ok();
          }
 
     }

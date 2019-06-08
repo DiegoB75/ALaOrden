@@ -2,10 +2,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TFinal.Domain;
-using TFinal.Repository.Context;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using TFinal.Services.UsuarioService;
+using TFinal.Service;
 
 
 namespace TFinal.Api.Controllers
@@ -14,32 +14,25 @@ namespace TFinal.Api.Controllers
     [Route("api/Usuario")]
     public class UsuarioController:ControllerBase
     {
-        private readonly UsuarioService usuarioservice;
-        public UsuarioController (UsuarioService context){
-            usuarioservice=context;
+        private readonly IUsuarioService usuarioService;
+        public UsuarioController (IUsuarioService usuarioService){
+            this.usuarioService=usuarioService;
         }
 
 
         [HttpGet]
         public IEnumerable<Usuario> GetUsuarios() {
-            return usuarioservice.Usuarios;
+            return usuarioService.ListAll();
         }
 
        [HttpGet ("{id}")]
         public async Task<IActionResult> GetUsuario([FromRoute] int id)
         {
-            if(!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            var currentUsuario = await usuarioservice.Usuarios.SingleOrDefaultAsync(p => p.IdUsuario == id);
+            Usuario usuario = new Usuario();
+            usuario.IdUsuario = id;
+            var usuarioGet = usuarioService.FindById(usuario);
 
-            if(currentUsuario == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(currentUsuario);
+            return Ok(usuarioGet);
 
         }
 
@@ -84,13 +77,7 @@ namespace TFinal.Api.Controllers
         [HttpPost]
          public async Task<IActionResult> PostUsuario([FromBody] Usuario Usuario){
 
-             if(!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            usuarioservice.Usuarios.Add(Usuario);
-            await usuarioservice.SaveChangesAsync();
+            usuarioService.Save(Usuario);
 
             return CreatedAtAction ("GetUsuario", new {id = Usuario.IdUsuario},Usuario);
          }

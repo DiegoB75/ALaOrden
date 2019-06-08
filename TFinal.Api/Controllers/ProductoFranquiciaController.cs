@@ -6,67 +6,57 @@ using Microsoft.AspNetCore.Mvc;
 using TFinal.Domain;
 using Microsoft.EntityFrameworkCore;
 using TFinal.Repository.Context;
-using TFinal.Services.ProductoFranquiciaService;
+using TFinal.Service;
 
 namespace TFinal.Api.Controllers
 {
     public class ProductoFranquiciaController : ControllerBase
     {
         
-        private readonly ProductoFranquiciaService productofranquiciaservice;
-        public ProductoFranquiciaController(ProductoFranquiciaService context)
+        private readonly IProductoFranquiciaService productoFranquiciaService;
+        public ProductoFranquiciaController(IProductoFranquiciaService productoFranquiciaService)
         {
-            productofranquiciaservice = context;
+            this.productoFranquiciaService = productoFranquiciaService;
         }
 
         [HttpGet("{IdFranquicia}")]
         public IEnumerable<ProductoFranquicia> GetProductoFranquicia([FromRoute] int IdFranquicia)
         {
-            return productofranquiciaservice.ProductosFranquicias.Where(x => x.Franquicia.IdFranquicia == IdFranquicia).ToList();
+            var productoFranquicia = new ProductoFranquicia();
+            productoFranquicia.IdFranquicia = IdFranquicia;
+            productoFranquiciaService.FindById(productoFranquicia);
+
+            List<ProductoFranquicia> productoFranquicias = new List<ProductoFranquicia>();
+            productoFranquicias.Add(productoFranquicia);
+            
+            return productoFranquicias;
         }
 
         [HttpGet("{IdFranquicia}/{IdProducto}")]
         public async Task<ActionResult> GetProductoFranquicia([FromRoute] int IdFranquicia,[FromRoute] int IdProducto)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            var currentProductoFranquicia = await productofranquiciaservice.ProductosFranquicias.FirstOrDefaultAsync(x => x.Franquicia.IdFranquicia == IdFranquicia && x.Producto.IdProducto == IdProducto);
+            var productoFranquicia = new ProductoFranquicia();
+            productoFranquicia.IdFranquicia = IdFranquicia;
+            productoFranquicia.IdProducto = IdProducto;
+            var productoFranquiciaGet = productoFranquiciaService.FindById(productoFranquicia);
 
-            if (currentProductoFranquicia == null)
-            {
-                return NotFound();
-            }
-            return Ok(currentProductoFranquicia);
+            return Ok(productoFranquiciaGet);
         }
 
         [HttpPost]
         public async Task<ActionResult> PostProductoFranquicia([FromBody] ProductoFranquicia productoFranquicia){
-            if (!ModelState.IsValid){
-                return BadRequest(ModelState);
-            }
-            productofranquiciaservice.ProductosFranquicias.Add(productoFranquicia);
-            await productofranquiciaservice.SaveChangesAsync();
+            productoFranquiciaService.Save(productoFranquicia);
 
             return CreatedAtAction("GetCarrito", new { IdFranquicia = productoFranquicia.Franquicia.IdFranquicia, idProducto = productoFranquicia.Producto.IdProducto}, productoFranquicia);
         }
 
         [HttpDelete("{IdFranquicia}/{IdProducto}")]
         public async Task<ActionResult> DeleteProductoFranquicia([FromBody] int IdFranquicia,[FromBody] int IdProducto){
-            if (!ModelState.IsValid){
-                return BadRequest(ModelState);
-            }
-            var currentProductoFranquicia = await productofranquiciaservice.ProductosFranquicias.FirstOrDefaultAsync(x => x.Franquicia.IdFranquicia == IdFranquicia && x.Producto.IdProducto == IdProducto);
-            if (currentProductoFranquicia == null)
-            {
-                return NotFound();
-            }
-
-            productofranquiciaservice.ProductosFranquicias.Remove(currentProductoFranquicia);
-            await productofranquiciaservice.SaveChangesAsync();
-
-            return Ok(currentProductoFranquicia);
+            var productoFranquicia = new ProductoFranquicia();
+            productoFranquicia.IdFranquicia = IdFranquicia;
+            productoFranquicia.IdProducto = IdProducto;
+            productoFranquiciaService.Delete(productoFranquicia);
+            return Ok();
         }
     }
 }
