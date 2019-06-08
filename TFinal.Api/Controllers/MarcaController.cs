@@ -5,6 +5,7 @@ using TFinal.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TFinal.Repository.Context;
+using TFinal.Services.MarcaService;
 
 namespace TFinal.Api.Controllers
 {
@@ -12,13 +13,13 @@ namespace TFinal.Api.Controllers
     [Route("api/Marca")]
     public class MarcaController:ControllerBase
     {
-         private readonly ApplicationDbContext _context;
-        public MarcaController (ApplicationDbContext context){
-            _context=context;
+         private readonly MarcaService marcaservice;
+        public MarcaController (MarcaService context){
+            marcaservice=context;
         }
        [HttpGet]
         public IEnumerable<Marca> GetMarca() {
-            return _context.Marcas;
+            return marcaservice.Marcas;
         }
 
 
@@ -29,7 +30,7 @@ namespace TFinal.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var currentMarca = await _context.Marcas.SingleOrDefaultAsync(p => p.IdMarca == id);
+            var currentMarca = await marcaservice.Marcas.SingleOrDefaultAsync(p => p.IdMarca == id);
 
             if(currentMarca == null)
             {
@@ -48,8 +49,8 @@ namespace TFinal.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            _context.Marcas.Add(marca);
-            await _context.SaveChangesAsync();
+            marcaservice.Marcas.Add(marca);
+            await marcaservice.SaveChangesAsync();
 
             return CreatedAtAction ("GetMarca", new {id = marca.IdMarca},marca);
          }
@@ -61,14 +62,14 @@ namespace TFinal.Api.Controllers
                  return BadRequest(ModelState);
              }
 
-             var currentMarca = await _context.Marcas.SingleOrDefaultAsync(p => p.IdMarca == id);
+             var currentMarca = await marcaservice.Marcas.SingleOrDefaultAsync(p => p.IdMarca == id);
 
              if(currentMarca == null){
                  return NotFound();
              }
 
-             _context.Marcas.Update(currentMarca);
-             await _context.SaveChangesAsync();
+             marcaservice.Marcas.Update(currentMarca);
+             await marcaservice.SaveChangesAsync();
 
              return Ok(currentMarca);
          }
@@ -78,14 +79,14 @@ namespace TFinal.Api.Controllers
                  return BadRequest(ModelState);
              }
 
-             var currentMarca = await _context.Marcas.SingleOrDefaultAsync(p => p.IdMarca == id);
+             var currentMarca = await marcaservice.Marcas.SingleOrDefaultAsync(p => p.IdMarca == id);
 
              if(currentMarca == null){
                  return NotFound();
              }
 
-             _context.Marcas.Remove(currentMarca);
-             await _context.SaveChangesAsync();
+             marcaservice.Marcas.Remove(currentMarca);
+             await marcaservice.SaveChangesAsync();
 
              return Ok(currentMarca);
          }
