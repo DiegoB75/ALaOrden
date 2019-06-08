@@ -5,6 +5,7 @@ using TFinal.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TFinal.Repository.Context;
+using TFinal.Services.DireccionService;
 
 namespace TFinal.Api.Controllers
 {
@@ -12,20 +13,20 @@ namespace TFinal.Api.Controllers
     [Route("api/Direccion")]
     public class DireccionController:ControllerBase
     {
-         private readonly ApplicationDbContext _context;
-        public DireccionController (ApplicationDbContext context){
-            _context=context;
+         private readonly DireccionService direccionservice;
+        public DireccionController (DireccionService context){
+            direccionservice=context;
         }
 
 
         [HttpGet]
         public IEnumerable<Direccion> GetDireccion() {
-            return _context.Direcciones;
+            return direccionservice.Direcciones;
         }
 
          [HttpGet]
         public IEnumerable<Usuario> GetUsuario() {
-            return _context.Usuarios;
+            return direccionservice.Usuarios;
         }
 
 
@@ -36,7 +37,7 @@ namespace TFinal.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var currenDireccion = await _context.Direcciones.SingleOrDefaultAsync(p => p.IdDireccion == id);
+            var currenDireccion = await direccionservice.Direcciones.SingleOrDefaultAsync(p => p.IdDireccion == id);
 
             if(currenDireccion == null)
             {
@@ -58,8 +59,8 @@ namespace TFinal.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            _context.Direcciones.Add(direccion);
-            await _context.SaveChangesAsync();
+            direccionservice.Direcciones.Add(direccion);
+            await direccionservice.SaveChangesAsync();
 
             return CreatedAtAction ("GetDireccion", new {id = direccion.IdDireccion},direccion);
          }
@@ -71,14 +72,14 @@ namespace TFinal.Api.Controllers
                  return BadRequest(ModelState);
              }
 
-             var currentDireccion = await _context.Direcciones.SingleOrDefaultAsync(p => p.IdDireccion == id);
+             var currentDireccion = await direccionservice.Direcciones.SingleOrDefaultAsync(p => p.IdDireccion == id);
 
              if(currentDireccion == null){
                  return NotFound();
              }
 
-             _context.Direcciones.Update(currentDireccion);
-             await _context.SaveChangesAsync();
+             direccionservice.Direcciones.Update(currentDireccion);
+             await direccionservice.SaveChangesAsync();
 
              return Ok(currentDireccion);
          }
@@ -89,14 +90,14 @@ namespace TFinal.Api.Controllers
                  return BadRequest(ModelState);
              }
 
-             var currentDireccion = await _context.Direcciones.SingleOrDefaultAsync(p => p.IdDireccion == id);
+             var currentDireccion = await direccionservice.Direcciones.SingleOrDefaultAsync(p => p.IdDireccion == id);
 
              if(currentDireccion == null){
                  return NotFound();
              }
 
-             _context.Direcciones.Remove(currentDireccion);
-             await _context.SaveChangesAsync();
+             direccionservice.Direcciones.Remove(currentDireccion);
+             await direccionservice.SaveChangesAsync();
 
              return Ok(currentDireccion);
          }
