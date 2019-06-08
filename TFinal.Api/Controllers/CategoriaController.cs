@@ -6,23 +6,24 @@ using Microsoft.AspNetCore.Mvc;
 using TFinal.Domain;
 using Microsoft.EntityFrameworkCore;
 using TFinal.Repository.Context;
-using TFinal.Services.CategoriaService;
+using TFinal.Service;
 
 namespace TFinal.Api.Controllers
 {
-    [Produces("application/json")]
+    //[Produces("application/json")]
     [Route("api/categoria")]
+    [ApiController]
     public class CategoriaController : ControllerBase
     {
-        private CategoriaService categoriaservice;
-        public CategoriaController (CategoriaService context){
+        private ICategoriaService categoriaservice;
+        public CategoriaController (ICategoriaService context){
             categoriaservice=context;
         }
 
 
         [HttpGet]
         public IEnumerable<Categoria> GetCategoria() {
-            return categoriaservice.Categorias;
+            return categoriaservice.ListAll();
         }
 
 
@@ -33,7 +34,7 @@ namespace TFinal.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var currentCategoria = await categoriaservice.Categorias.SingleOrDefaultAsync(p => p.IdCategoria == id);
+            var currentCategoria = categoriaservice.FindById(new Categoria{ IdCategoria = id});
 
             if(currentCategoria == null)
             {
@@ -45,8 +46,6 @@ namespace TFinal.Api.Controllers
         }     
       
 
-
-
         [HttpPost]
          public async Task<IActionResult> PostCategoria([FromBody] Categoria categoria){
 
@@ -55,29 +54,25 @@ namespace TFinal.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            categoriaservice.Categorias.Add(categoria);
-            await categoriaservice.SaveChangesAsync();
+            categoriaservice.Save(categoria);
 
             return CreatedAtAction ("GetSede", new {id = categoria.IdCategoria},categoria);
          }
 
          
          [HttpPut("{id}")]
-         public async Task<IActionResult> PutCategoria ([FromRoute] int id){
+         public async Task<IActionResult> PutCategoria ([FromRoute] int id, [FromBody] Categoria categoria){
              if(!ModelState.IsValid){
                  return BadRequest(ModelState);
              }
 
-             var currentCategoria = await categoriaservice.Categorias.SingleOrDefaultAsync(p => p.IdCategoria == id);
+             var currentCategoria = categoriaservice.FindById(new Categoria{ IdCategoria = id});
 
              if(currentCategoria == null){
                  return NotFound();
              }
 
-             //pasar contenido de Body a currentCategoria
-
-             categoriaservice.Categorias.Update(currentCategoria);
-             await categoriaservice.SaveChangesAsync();
+             categoriaservice.Update(currentCategoria);
 
              return Ok(currentCategoria);
          }
@@ -109,14 +104,13 @@ namespace TFinal.Api.Controllers
                  return BadRequest(ModelState);
              }
 
-             var currentCategoria = await categoriaservice.Categorias.SingleOrDefaultAsync(p => p.IdCategoria == id);
+             var currentCategoria = categoriaservice.FindById(new Categoria{ IdCategoria = id});
 
              if(currentCategoria == null){
                  return NotFound();
              }
 
-             categoriaservice.Categorias.Remove(currentCategoria);
-             await categoriaservice.SaveChangesAsync();
+             categoriaservice.Delete(currentCategoria);
 
              return Ok(currentCategoria);
          }

@@ -10,21 +10,22 @@ using TFinal.Service;
 
 namespace TFinal.Api.Controllers
 {
-    [Produces("application/json")]
+    //[Produces("application/json")]
     [Route("api/DetallePedido")]
+    [ApiController]
     public class DetallePedidoController : ControllerBase
     {
-        private readonly DetallePedidoService detallepedidoservice;
-        public DetallePedidoController(DetallePedidoService context)
+        private readonly IDetallePedidoService detallePedidoService;
+        public DetallePedidoController(IDetallePedidoService detallePedidoService)
         {
-            detallepedidoservice = context;
+            this.detallePedidoService = detallePedidoService;
         }
 
 
         [HttpGet]
         public IEnumerable<DetallePedido> GetDetallesPedido()
         {
-            return detallepedidoservice.DetallesPedido;
+            return detallePedidoService.ListAll();
         }
 
         /*[HttpGet]
@@ -44,20 +45,18 @@ namespace TFinal.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var currentDetallePedido = await detallepedidoservice.DetallesPedido.SingleOrDefaultAsync(p => p.Pedido.IdPedido == IdPedido && p.Producto.IdProducto == IdProducto);
-
+            var currentDetallePedido = detallePedidoService.FindById(new DetallePedido{IdPedido = IdPedido, IdProducto = IdProducto});
             if (currentDetallePedido == null)
             {
                 return NotFound();
             }
-
             return Ok(currentDetallePedido);
 
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> PostDetallePedido([FromBody] DetallePedido DetallePedido)
+        public async Task<IActionResult> PostDetallePedido([FromBody] DetallePedido detallePedido)
         {
 
             if (!ModelState.IsValid)
@@ -65,51 +64,48 @@ namespace TFinal.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            detallepedidoservice.DetallesPedido.Add(DetallePedido);
-            await detallepedidoservice.SaveChangesAsync();
+            detallePedidoService.Save(detallePedido);
 
-            return CreatedAtAction("GetDetallePedido", new { IdPedido = DetallePedido.Pedido.IdPedido, IdProducto = DetallePedido.Producto.IdProducto }, DetallePedido);
+            return CreatedAtAction("GetDetallePedido", new { IdPedido = detallePedido.Pedido.IdPedido, IdProducto = detallePedido.Producto.IdProducto }, detallePedido);
         }
 
 
         [HttpPut("{IdPedido}/{IdProducto}")]
-        public async Task<IActionResult> PutDetallePedido([FromBody] int IdPedido, [FromBody] int IdProducto)
+        public async Task<IActionResult> PutDetallePedido([FromRoute] int IdPedido, [FromRoute] int IdProducto, [FromBody] DetallePedido detallePedido)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var currentDetallePedido = await detallepedidoservice.DetallesPedido.SingleOrDefaultAsync(p => p.Pedido.IdPedido == IdPedido && p.Producto.IdProducto == IdProducto);
-
+            var currentDetallePedido = detallePedidoService.FindById(new DetallePedido{IdPedido = IdPedido, IdProducto = IdProducto});
+            
             if (currentDetallePedido == null)
             {
                 return NotFound();
             }
 
-            detallepedidoservice.DetallesPedido.Update(currentDetallePedido);
-            await detallepedidoservice.SaveChangesAsync();
+            detallePedidoService.Update(currentDetallePedido);
 
             return Ok(currentDetallePedido);
         }
 
         [HttpDelete("{IdPedido}/{IdProducto}")]
-        public async Task<IActionResult> DeleteDetallePedido([FromBody] int IdPedido, [FromBody] int IdProducto)
+        public async Task<IActionResult> DeleteDetallePedido([FromRoute] int IdPedido, [FromRoute] int IdProducto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var currentDetallePedido = await detallepedidoservice.DetallesPedido.SingleOrDefaultAsync(p => p.Pedido.IdPedido == IdPedido && p.Producto.IdProducto == IdProducto);
+            var currentDetallePedido = detallePedidoService.FindById(new DetallePedido{IdPedido = IdPedido, IdProducto = IdProducto});
 
             if (currentDetallePedido == null)
             {
                 return NotFound();
             }
 
-            detallepedidoservice.DetallesPedido.Remove(currentDetallePedido);
-            await detallepedidoservice.SaveChangesAsync();
+            detallePedidoService.Delete(currentDetallePedido);
 
             return Ok(currentDetallePedido);
         }

@@ -5,14 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TFinal.Domain;
 using Microsoft.EntityFrameworkCore;
-using TFinal.Repository.Context;
 using TFinal.Service;
-
 
 namespace TFinal.Api.Controllers
 {
-    [Produces("application/json")]
+    //[Produces("application/json")]
     [Route("api/carrito")]
+    [ApiController]
     public class CarritoItemController : ControllerBase
     {
         private  ICarritoItemService carritoItemService;
@@ -24,7 +23,8 @@ namespace TFinal.Api.Controllers
         [HttpGet("{idUsuario}")]
         public IEnumerable<CarritoItem> GetCarrito([FromRoute] int idUsuario)
         {
-            return carritoItemService.CarritoItems.Where(x => x.Usuario.IdUsuario == idUsuario).ToList();
+            //TODO: implmentar filtro en service
+            return carritoItemService.ListAll();
         }
 
         [HttpGet("{idUsuario}/{idProducto}")]
@@ -34,7 +34,7 @@ namespace TFinal.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var currentCarrito = await carritoItemService.CarritoItems.FirstOrDefaultAsync(x => x.Usuario.IdUsuario == idUsuario && x.Producto.IdProducto == idProducto);
+            var currentCarrito = carritoItemService.FindById(new CarritoItem{ IdUsuario = idUsuario, IdProducto = idProducto});
 
 
             if (currentCarrito == null)
@@ -49,10 +49,9 @@ namespace TFinal.Api.Controllers
             if (!ModelState.IsValid){
                 return BadRequest(ModelState);
             }
-            carritoItemService.CarritoItems.Add(carrito);
-            await carritoItemService.SaveChangesAsync();
+            carritoItemService.Save(carrito);
 
-            return CreatedAtAction("GetCarrito", new { idUsuario = carrito.Usuario.IdUsuario, idProducto = carrito.Producto.IdProducto}, carrito);
+            return CreatedAtAction("GetCarrito", new { idUsuario = carrito.IdUsuario, idProducto = carrito.IdProducto}, carrito);
         }
 
         [HttpDelete("{idUsuario}/{idProducto}")]
@@ -61,15 +60,14 @@ namespace TFinal.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var currentCarrito = await carritoItemService.CarritoItems.FirstOrDefaultAsync(x => x.Usuario.IdUsuario == idUsuario && x.Producto.IdProducto == idProducto);
+            var currentCarrito = carritoItemService.FindById(new CarritoItem{ IdUsuario = idUsuario, IdProducto = idProducto});
 
             if (currentCarrito == null)
             {
                 return NotFound();
             }
 
-            carritoItemService.CarritoItems.Remove(currentCarrito);
-            await carritoItemService.SaveChangesAsync();
+            carritoItemService.Delete(currentCarrito);
 
 
             return Ok(currentCarrito);

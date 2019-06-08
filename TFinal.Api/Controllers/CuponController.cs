@@ -5,30 +5,32 @@ using TFinal.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TFinal.Repository.Context;
-using TFinal.Services.ServiceCupon;
-using TFinal.Services.CuponService;
+using TFinal.Service;
 
 namespace TFinal.Api.Controllers
 {
-    [Produces("application/json")]
+    //[Produces("application/json")]
     [Route("api/Cupon")]
+    [ApiController]
     public class CuponController:ControllerBase
     {
-         private readonly CuponService cuponservice;
-        public CuponController (CuponService context){
-            cuponservice=context;
+        private readonly ICuponService cuponService;
+        public CuponController (ICuponService cuponService){
+            this.cuponService=cuponService;
         }
 
 
         [HttpGet]
         public IEnumerable<Cupon> GetCupon() {
-            return cuponservice.Cupones;
+            return cuponService.ListAll();
         }
 
-         [HttpGet]
+        /* 
+        [HttpGet]
         public IEnumerable<Pedido> GetPedido() {
-            return cuponservice.Pedidos;
+            return cuponService.Pedidos;
         }
+        */
 
 
        [HttpGet ("{id}")]
@@ -38,7 +40,7 @@ namespace TFinal.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var currentCupon = await cuponservice.Cupones.SingleOrDefaultAsync(p => p.IdCupon == id);
+            var currentCupon = cuponService.FindById(new Cupon{IdCupon = id});
 
             if(currentCupon == null)
             {
@@ -57,8 +59,7 @@ namespace TFinal.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            cuponservice.Cupones.Add(cupon);
-            await cuponservice.SaveChangesAsync();
+            cuponService.Save(cupon);
 
             return CreatedAtAction ("GetCupon", new {id = cupon.IdCupon},cupon);
          }
@@ -70,14 +71,13 @@ namespace TFinal.Api.Controllers
                  return BadRequest(ModelState);
              }
 
-             var currentCupon = await cuponservice.Cupones.SingleOrDefaultAsync(p => p.IdCupon == id);
+             var currentCupon = cuponService.FindById(new Cupon{IdCupon = id});
 
              if(currentCupon == null){
                  return NotFound();
              }
 
-             cuponservice.Cupones.Update(currentCupon);
-             await cuponservice.SaveChangesAsync();
+             cuponService.Update(currentCupon);
 
              return Ok(currentCupon);
          }
@@ -87,14 +87,13 @@ namespace TFinal.Api.Controllers
                  return BadRequest(ModelState);
              }
 
-             var currentCupon = await cuponservice.Cupones.SingleOrDefaultAsync(p => p.IdCupon == id);
+             var currentCupon = cuponService.FindById(new Cupon{IdCupon = id});
 
              if(currentCupon == null){
                  return NotFound();
              }
 
-             cuponservice.Cupones.Remove(currentCupon);
-             await cuponservice.SaveChangesAsync();
+             cuponService.Delete(currentCupon);
 
              return Ok(currentCupon);
          }
