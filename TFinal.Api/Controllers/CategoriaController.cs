@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using TFinal.Domain;
 using Microsoft.EntityFrameworkCore;
 using TFinal.Repository.Context;
+using TFinal.Services.CategoriaService;
 
 namespace TFinal.Api.Controllers
 {
@@ -13,15 +14,15 @@ namespace TFinal.Api.Controllers
     [Route("api/categoria")]
     public class CategoriaController : ControllerBase
     {
-        private readonly ServiceCategoria servicecategoria;
-        public CategoriaController (ServiceCategoriaItem context){
-            servicecategoria=context;
+        private CategoriaService categoriaservice;
+        public CategoriaController (CategoriaService context){
+            categoriaservice=context;
         }
 
 
         [HttpGet]
         public IEnumerable<Categoria> GetCategoria() {
-            return servicecategoria.Categorias;
+            return categoriaservice.Categorias;
         }
 
 
@@ -32,7 +33,7 @@ namespace TFinal.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var currentCategoria = await servicecategoria.Categorias.SingleOrDefaultAsync(p => p.IdCategoria == id);
+            var currentCategoria = await categoriaservice.Categorias.SingleOrDefaultAsync(p => p.IdCategoria == id);
 
             if(currentCategoria == null)
             {
@@ -54,8 +55,8 @@ namespace TFinal.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            servicecategoria.Categorias.Add(categoria);
-            await servicecategoria.SaveChangesAsync();
+            categoriaservice.Categorias.Add(categoria);
+            await categoriaservice.SaveChangesAsync();
 
             return CreatedAtAction ("GetSede", new {id = categoria.IdCategoria},categoria);
          }
@@ -67,7 +68,7 @@ namespace TFinal.Api.Controllers
                  return BadRequest(ModelState);
              }
 
-             var currentCategoria = await servicecategoria.Categorias.SingleOrDefaultAsync(p => p.IdCategoria == id);
+             var currentCategoria = await categoriaservice.Categorias.SingleOrDefaultAsync(p => p.IdCategoria == id);
 
              if(currentCategoria == null){
                  return NotFound();
@@ -75,8 +76,8 @@ namespace TFinal.Api.Controllers
 
              //pasar contenido de Body a currentCategoria
 
-             servicecategoria.Categorias.Update(currentCategoria);
-             await servicecategoria.SaveChangesAsync();
+             categoriaservice.Categorias.Update(currentCategoria);
+             await categoriaservice.SaveChangesAsync();
 
              return Ok(currentCategoria);
          }
@@ -88,14 +89,14 @@ namespace TFinal.Api.Controllers
                  return BadRequest(ModelState);
              }
 
-             var currentCategoria = await servicecategoria.Categorias.SingleOrDefaultAsync(p => p.IdCategoria == id);
+             var currentCategoria = await categoriaservice.Categorias.SingleOrDefaultAsync(p => p.IdCategoria == id);
 
              if(currentCategoria == null){
                  return NotFound();
              }
 
-             servicecategoria.Categorias.Update(currentCategoria);
-             await servicecategoria.SaveChangesAsync();
+             categoriaservice.Categorias.Update(currentCategoria);
+             await categoriaservice.SaveChangesAsync();
 
              return Ok(currentCategoria);
          }
@@ -108,14 +109,14 @@ namespace TFinal.Api.Controllers
                  return BadRequest(ModelState);
              }
 
-             var currentCategoria = await servicecategoria.Categorias.SingleOrDefaultAsync(p => p.IdCategoria == id);
+             var currentCategoria = await categoriaservice.Categorias.SingleOrDefaultAsync(p => p.IdCategoria == id);
 
              if(currentCategoria == null){
                  return NotFound();
              }
 
-             servicecategoria.Categorias.Remove(currentCategoria);
-             await servicecategoria.SaveChangesAsync();
+             categoriaservice.Categorias.Remove(currentCategoria);
+             await categoriaservice.SaveChangesAsync();
 
              return Ok(currentCategoria);
          }
