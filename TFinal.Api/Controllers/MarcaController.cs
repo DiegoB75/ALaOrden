@@ -5,21 +5,22 @@ using TFinal.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TFinal.Repository.Context;
-using TFinal.Services.MarcaService;
+using TFinal.Service;
 
 namespace TFinal.Api.Controllers
 {
-    [Produces("application/json")]
+    //[Produces("application/json")]
     [Route("api/Marca")]
+    [ApiController]
     public class MarcaController:ControllerBase
     {
-         private readonly MarcaService marcaservice;
-        public MarcaController (MarcaService context){
-            marcaservice=context;
+         private readonly IMarcaService marcaService;
+        public MarcaController (IMarcaService marcaService){
+            this.marcaService= marcaService;
         }
        [HttpGet]
         public IEnumerable<Marca> GetMarca() {
-            return marcaservice.Marcas;
+            return marcaService.ListAll();
         }
 
 
@@ -30,7 +31,7 @@ namespace TFinal.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var currentMarca = await marcaservice.Marcas.SingleOrDefaultAsync(p => p.IdMarca == id);
+            var currentMarca = marcaService.FindById(new Marca{ IdMarca = id});
 
             if(currentMarca == null)
             {
@@ -49,27 +50,25 @@ namespace TFinal.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            marcaservice.Marcas.Add(marca);
-            await marcaservice.SaveChangesAsync();
+            marcaService.Save(marca);
 
             return CreatedAtAction ("GetMarca", new {id = marca.IdMarca},marca);
          }
 
          
          [HttpPut("{id}")]
-         public async Task<IActionResult> PutMarca ([FromRoute] int id){
+         public async Task<IActionResult> PutMarca ([FromRoute] int id, [FromBody] Marca marca){
              if(!ModelState.IsValid){
                  return BadRequest(ModelState);
              }
 
-             var currentMarca = await marcaservice.Marcas.SingleOrDefaultAsync(p => p.IdMarca == id);
+             var currentMarca = marcaService.FindById(new Marca{IdMarca = id});
 
              if(currentMarca == null){
                  return NotFound();
              }
 
-             marcaservice.Marcas.Update(currentMarca);
-             await marcaservice.SaveChangesAsync();
+             marcaService.Update(currentMarca);
 
              return Ok(currentMarca);
          }
@@ -79,14 +78,13 @@ namespace TFinal.Api.Controllers
                  return BadRequest(ModelState);
              }
 
-             var currentMarca = await marcaservice.Marcas.SingleOrDefaultAsync(p => p.IdMarca == id);
+             var currentMarca = marcaService.FindById(new Marca{IdMarca = id});
 
              if(currentMarca == null){
                  return NotFound();
              }
 
-             marcaservice.Marcas.Remove(currentMarca);
-             await marcaservice.SaveChangesAsync();
+             marcaService.Delete(currentMarca);
 
              return Ok(currentMarca);
          }
