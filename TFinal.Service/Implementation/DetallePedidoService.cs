@@ -30,6 +30,11 @@ namespace TFinal.Service.Implementation
             return detallePedidoRepository.ListAll();
         }
 
+        public List<DetallePedido> ListByPedido(int idPedido)
+        {
+            return detallePedidoRepository.ListByPedido(idPedido);
+        }
+
         public void Save(DetallePedido entity)
         {
             detallePedidoRepository.Save(entity);

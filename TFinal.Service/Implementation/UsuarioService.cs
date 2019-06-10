@@ -20,6 +20,13 @@ namespace TFinal.Service.Implementation
             usuarioRepository.Delete(entity);
         }
 
+        public Usuario FindByApodoOrEmail(string search)
+        {
+            //Apodo no puede contener '@', Email debe contener '@' para ser válido
+            Usuario usuario = new Usuario{ Apodo = search, Email = search };
+            return usuarioRepository.FindByApodoOrEmail(usuario);
+        }
+
         public Usuario FindById(Usuario entity)
         {
             return usuarioRepository.FindById(entity);

@@ -30,6 +30,11 @@ namespace TFinal.Service.Implementation
             return productoFranquiciaRepository.ListAll();
         }
 
+        public List<ProductoFranquicia> ListByProducto(int idProducto)
+        {
+            return productoFranquiciaRepository.ListByProducto(idProducto);
+        }
+
         public void Save(ProductoFranquicia entity)
         {
             productoFranquiciaRepository.Save(entity);

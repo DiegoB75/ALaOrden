@@ -32,7 +32,7 @@ namespace TFinal.Service.Implementation
 
         public List<CarritoItem> ListByUsuario(int idUsuario)
         {
-            throw new System.NotImplementedException();
+            return carritoRepository.ListByUsuario(idUsuario);
         }
 
         public void Save(CarritoItem entity)
