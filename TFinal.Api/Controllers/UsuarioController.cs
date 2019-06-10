@@ -10,23 +10,24 @@ using TFinal.Service;
 
 namespace TFinal.Api.Controllers
 {
-    [Produces("application/json")]
-    [Route("api/Usuario")]
-    public class UsuarioController:ControllerBase
+    [Route("api/usuario")]
+    [ApiController]
+    public class UsuarioController : ControllerBase
     {
-        private readonly IUsuarioService usuarioService;
-        public UsuarioController (IUsuarioService usuarioService){
-            this.usuarioService=usuarioService;
+        private IUsuarioService usuarioService;
+        public UsuarioController(IUsuarioService usuarioService)
+        {
+            this.usuarioService = usuarioService;
         }
 
-
         [HttpGet]
-        public IEnumerable<Usuario> GetUsuarios() {
+        public IEnumerable<Usuario> GetUsuarios()
+        {
             return usuarioService.ListAll();
         }
 
-       [HttpGet ("{id}")]
-        public async Task<IActionResult> GetUsuario([FromRoute] int id)
+        [HttpGet("{id}")]
+        public IActionResult GetUsuario([FromRoute] int id)
         {
             Usuario usuario = new Usuario();
             usuario.IdUsuario = id;
@@ -37,7 +38,7 @@ namespace TFinal.Api.Controllers
         }
 
         /*[HttpGet ("{apodo}")]
-        public async Task<IActionResult> GetUsuario([FromRoute] string apodo)
+        public IActionResult GetUsuario([FromRoute] string apodo)
         {
             if(!ModelState.IsValid)
             {
@@ -55,7 +56,7 @@ namespace TFinal.Api.Controllers
         }
 
           [HttpGet ("{email}")]
-        public async Task<IActionResult> GetUsuario([FromRoute] string email)
+        public IActionResult GetUsuario([FromRoute] string email)
         {
             if(!ModelState.IsValid)
             {
@@ -75,31 +76,32 @@ namespace TFinal.Api.Controllers
 
 
         [HttpPost]
-         public async Task<IActionResult> PostUsuario([FromBody] Usuario Usuario){
+        public IActionResult PostUsuario([FromBody] Usuario Usuario)
+        {
 
             usuarioService.Save(Usuario);
 
-            return CreatedAtAction ("GetUsuario", new {id = Usuario.IdUsuario},Usuario);
-         }
+            return CreatedAtAction("GetUsuario", new { id = Usuario.IdUsuario }, Usuario);
+        }
 
-         /* 
-         [HttpPut("{id}")]
-         public async Task<IActionResult> PutUsuario ([FromBody] int id){
-             if(!ModelState.IsValid){
-                 return BadRequest(ModelState);
-             }
+        /* 
+        [HttpPut("{id}")]
+        public IActionResult PutUsuario ([FromBody] int id){
+            if(!ModelState.IsValid){
+                return BadRequest(ModelState);
+            }
 
-             var currentUsuario = await usuarioservice.Usuarios.SingleOrDefaultAsync(p => p.IdUsuario == id);
+            var currentUsuario = await usuarioservice.Usuarios.SingleOrDefaultAsync(p => p.IdUsuario == id);
 
-             if(currentUsuario == null){
-                 return NotFound();
-             }
+            if(currentUsuario == null){
+                return NotFound();
+            }
 
-             usuarioservice.Usuarios.Update(currentUsuario);
-             await usuarioservice.SaveChangesAsync();
+            usuarioservice.Usuarios.Update(currentUsuario);
+            await usuarioservice.SaveChangesAsync();
 
-             return Ok(currentUsuario);
-         }*/
+            return Ok(currentUsuario);
+        }*/
 
     }
 }

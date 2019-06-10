@@ -10,12 +10,11 @@ using TFinal.Service;
 
 namespace TFinal.Api.Controllers
 {
-    //[Produces("application/json")]
-    [Route("api/DetallePedido")]
+    [Route("api/detallepedido")]
     [ApiController]
     public class DetallePedidoController : ControllerBase
     {
-        private readonly IDetallePedidoService detallePedidoService;
+        private IDetallePedidoService detallePedidoService;
         public DetallePedidoController(IDetallePedidoService detallePedidoService)
         {
             this.detallePedidoService = detallePedidoService;
@@ -28,24 +27,14 @@ namespace TFinal.Api.Controllers
             return detallePedidoService.ListAll();
         }
 
-        /*[HttpGet]
-        public IEnumerable<Pedido> GetPedido() {
-            return detallepedidoservice.Pedidos;
-        }
-
-         [HttpGet]
-        public IEnumerable<Producto> GetProducto() {
-            return detallepedidoservice.Productos;
-        }*/
-
         [HttpGet("{IdPedido}/{IdProducto}")]
-        public async Task<IActionResult> GetDetallePedido([FromRoute] int IdPedido, [FromRoute] int IdProducto)
+        public IActionResult GetDetallePedido([FromRoute] int IdPedido, [FromRoute] int IdProducto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var currentDetallePedido = detallePedidoService.FindById(new DetallePedido{IdPedido = IdPedido, IdProducto = IdProducto});
+            var currentDetallePedido = detallePedidoService.FindById(new DetallePedido { IdPedido = IdPedido, IdProducto = IdProducto });
             if (currentDetallePedido == null)
             {
                 return NotFound();
@@ -56,7 +45,7 @@ namespace TFinal.Api.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> PostDetallePedido([FromBody] DetallePedido detallePedido)
+        public IActionResult PostDetallePedido([FromBody] DetallePedido detallePedido)
         {
 
             if (!ModelState.IsValid)
@@ -71,15 +60,15 @@ namespace TFinal.Api.Controllers
 
 
         [HttpPut("{IdPedido}/{IdProducto}")]
-        public async Task<IActionResult> PutDetallePedido([FromRoute] int IdPedido, [FromRoute] int IdProducto, [FromBody] DetallePedido detallePedido)
+        public IActionResult PutDetallePedido([FromRoute] int IdPedido, [FromRoute] int IdProducto, [FromBody] DetallePedido detallePedido)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var currentDetallePedido = detallePedidoService.FindById(new DetallePedido{IdPedido = IdPedido, IdProducto = IdProducto});
-            
+            var currentDetallePedido = detallePedidoService.FindById(new DetallePedido { IdPedido = IdPedido, IdProducto = IdProducto });
+
             if (currentDetallePedido == null)
             {
                 return NotFound();
@@ -91,14 +80,14 @@ namespace TFinal.Api.Controllers
         }
 
         [HttpDelete("{IdPedido}/{IdProducto}")]
-        public async Task<IActionResult> DeleteDetallePedido([FromRoute] int IdPedido, [FromRoute] int IdProducto)
+        public IActionResult DeleteDetallePedido([FromRoute] int IdPedido, [FromRoute] int IdProducto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var currentDetallePedido = detallePedidoService.FindById(new DetallePedido{IdPedido = IdPedido, IdProducto = IdProducto});
+            var currentDetallePedido = detallePedidoService.FindById(new DetallePedido { IdPedido = IdPedido, IdProducto = IdProducto });
 
             if (currentDetallePedido == null)
             {

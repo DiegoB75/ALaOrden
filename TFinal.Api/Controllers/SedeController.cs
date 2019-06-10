@@ -9,24 +9,26 @@ using TFinal.Service;
 
 namespace TFinal.Api.Controllers
 {
-    [Produces("application/json")]
-    [Route("api/Sede")]
-    public class SedeController:ControllerBase
+    [Route("api/sede")]
+    [ApiController]
+    public class SedeController : ControllerBase
     {
-         private readonly ISedeService sedeService;
-        public SedeController (ISedeService sedeService){
-            this.sedeService=sedeService;
+        private ISedeService sedeService;
+        public SedeController(ISedeService sedeService)
+        {
+            this.sedeService = sedeService;
         }
 
 
         [HttpGet]
-        public IEnumerable<Sede> GetSede() {
+        public IEnumerable<Sede> GetSede()
+        {
             return sedeService.ListAll();
         }
 
 
-       [HttpGet ("{id}")]
-        public async Task<IActionResult> GetSede([FromRoute] int id)
+        [HttpGet("{id}")]
+        public IActionResult GetSede([FromRoute] int id)
         {
             Sede sede = new Sede();
             sede.IdSede = id;
@@ -34,36 +36,35 @@ namespace TFinal.Api.Controllers
             var sedeGet = sedeService.FindById(sede);
             return Ok(sedeGet);
 
-        }     
-      
-
-
+        }
 
         [HttpPost]
-         public async Task<IActionResult> PostSede([FromBody] Sede sede){
+        public IActionResult PostSede([FromBody] Sede sede)
+        {
 
             sedeService.Save(sede);
 
-            return CreatedAtAction ("GetSede", new {id = sede.IdSede},sede);
-         }
+            return CreatedAtAction("GetSede", new { id = sede.IdSede }, sede);
+        }
 
-         
-         [HttpPut("{id}")]
-         public async Task<IActionResult> PutSede ([FromRoute] int id){
-             
-             Sede sede =new Sede();
-             sede.IdSede = id;
-             sedeService.Update(sede);
+        [HttpPut("{id}")]
+        public IActionResult PutSede([FromRoute] int id)
+        {
+            Sede sede = new Sede();
+            sede.IdSede = id;
+            sedeService.Update(sede);
 
-             return Ok();
-         }
+            return Ok();
+        }
+
         [HttpDelete("{id}")]
-          public async Task<IActionResult> DeleteSede ([FromRoute] int id){
-             Sede sede = new Sede();
-             sede.IdSede = id;
-             sedeService.Delete(sede);
-             return Ok();
-         }
+        public IActionResult DeleteSede([FromRoute] int id)
+        {
+            Sede sede = new Sede();
+            sede.IdSede = id;
+            sedeService.Delete(sede);
+            return Ok();
+        }
 
     }
 }

@@ -9,32 +9,23 @@ using TFinal.Service;
 
 namespace TFinal.Api.Controllers
 {
-    [Produces("application/json")]
-    [Route("api/Producto")]
-    public class ProductoController:ControllerBase
+    [Route("api/producto")]
+    [ApiController]
+    public class ProductoController : ControllerBase
     {
-         private readonly IProductoService productoService;
-        public ProductoController (IProductoService productoService){
-            this.productoService=productoService;
+        private IProductoService productoService;
+        public ProductoController(IProductoService productoService)
+        {
+            this.productoService = productoService;
         }
-       [HttpGet]
-        public IEnumerable<Producto> GetProducto() {
+        [HttpGet]
+        public IEnumerable<Producto> GetProducto()
+        {
             return productoService.ListAll();
         }
 
-        [HttpGet]
-        public IEnumerable<Categoria> GetCategoria() {
-            return null;
-        }
-
-        [HttpGet]
-        public IEnumerable<Marca> GetMarca() {
-            return null;
-        }
-
-
-       [HttpGet ("{id}")]
-        public async Task<IActionResult> GetProducto([FromRoute] int id)
+        [HttpGet("{id}")]
+        public IActionResult GetProducto([FromRoute] int id)
         {
             Producto producto = new Producto();
             producto.IdProducto = id;
@@ -43,33 +34,41 @@ namespace TFinal.Api.Controllers
 
             return Ok(productoGet);
 
-        }     
+        }
 
         [HttpPost]
-         public async Task<IActionResult> PostProducto([FromBody] Producto producto){
+        public IActionResult PostProducto([FromBody] Producto producto)
+        {
 
-           productoService.Save(producto);
+            productoService.Save(producto);
 
-            return CreatedAtAction ("GetProducto", new {id = producto.IdProducto},producto);
-         }
+            return CreatedAtAction("GetProducto", new { id = producto.IdProducto }, producto);
+        }
 
-         
-         [HttpPut("{id}")]
-         public async Task<IActionResult> PutProducto ([FromRoute] int id){
-             
-             var producto = new Producto();
-             producto.IdProducto = id;
-             productoService.Update(producto);
 
-             return Ok();
-         }
+        [HttpPut("{id}")]
+        public IActionResult PutProducto([FromRoute] int id, [FromBody] Producto producto)
+        {
+            if (!ModelState.IsValid){
+                return BadRequest(ModelState);
+            }
+
+            if (id != producto.IdProducto){
+                return BadRequest();
+            }
+
+            productoService.Update(producto);
+
+            return NoContent();
+        }
         [HttpDelete("{id}")]
-          public async Task<IActionResult> DeleteProducto ([FromRoute] int id){
-             var producto = new Producto();
-             producto.IdProducto = id;
-             productoService.Delete(producto);
-             return Ok();
-         }
+        public IActionResult DeleteProducto([FromRoute] int id)
+        {
+            var producto = new Producto();
+            producto.IdProducto = id;
+            productoService.Delete(producto);
+            return Ok();
+        }
 
     }
 }

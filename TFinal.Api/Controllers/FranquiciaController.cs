@@ -9,32 +9,34 @@ using TFinal.Service;
 
 namespace TFinal.Api.Controllers
 {
-    //[Produces("application/json")]
+    [Produces("application/json")]
     [Route("api/franquicia")]
     [ApiController]
-    public class FranquiciaController:ControllerBase
+    public class FranquiciaController : ControllerBase
     {
-         private readonly IFranquiciaService franquiciaService;
-        public FranquiciaController (IFranquiciaService franquiciaService){
-            this.franquiciaService= franquiciaService;
+        private IFranquiciaService franquiciaService;
+        public FranquiciaController(IFranquiciaService franquiciaService)
+        {
+            this.franquiciaService = franquiciaService;
         }
 
 
         [HttpGet]
-        public IEnumerable<Franquicia> GetFranquicia() {
+        public IEnumerable<Franquicia> GetFranquicia()
+        {
             return franquiciaService.ListAll();
         }
 
-       [HttpGet ("{id}")]
-        public async Task<IActionResult> GetFranquicia([FromRoute] int id)
+        [HttpGet("id={id}")]
+        public IActionResult GetFranquicia([FromRoute] int id)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var currentFranquicia = franquiciaService.FindById(new Franquicia{ IdFranquicia = id});
+            var currentFranquicia = franquiciaService.FindById(new Franquicia { IdFranquicia = id });
 
-            if(currentFranquicia == null)
+            if (currentFranquicia == null)
             {
                 return NotFound();
             }
@@ -45,51 +47,58 @@ namespace TFinal.Api.Controllers
 
 
         [HttpPost]
-         public async Task<IActionResult> PostFranquicia([FromBody] Franquicia franquicia){
+        public IActionResult PostFranquicia([FromBody] Franquicia franquicia)
+        {
 
-             if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
             franquiciaService.Save(franquicia);
 
-            return CreatedAtAction ("GetFranquicia", new {id = franquicia.IdFranquicia },franquicia);
-         }
+            return CreatedAtAction("GetFranquicia", new { id = franquicia.IdFranquicia }, franquicia);
+        }
 
-         
-         [HttpPut("{id}")]
-         public async Task<IActionResult> PutFranquicia ([FromRoute] int id, [FromBody] Franquicia franquicia){
-             if(!ModelState.IsValid){
-                 return BadRequest(ModelState);
-             }
 
-             var currentFranquicia = franquiciaService.FindById(new Franquicia{IdFranquicia = id});
+        [HttpPut("{id}")]
+        public IActionResult PutFranquicia([FromRoute] int id, [FromBody] Franquicia franquicia)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-             if(currentFranquicia == null){
-                 return NotFound();
-             }
+            var currentFranquicia = franquiciaService.FindById(new Franquicia { IdFranquicia = id });
 
-             franquiciaService.Update(currentFranquicia);
+            if (currentFranquicia == null)
+            {
+                return NotFound();
+            }
 
-             return Ok(currentFranquicia);
-         }
+            franquiciaService.Update(currentFranquicia);
 
-         [HttpDelete("{id}")]
-         public async Task<IActionResult> DeleteFranquicia ([FromRoute] int id){
-             if(!ModelState.IsValid){
-                 return BadRequest(ModelState);
-             }
+            return Ok(currentFranquicia);
+        }
 
-             var currentFranquicia = franquiciaService.FindById(new Franquicia{IdFranquicia = id});
+        [HttpDelete("{id}")]
+        public IActionResult DeleteFranquicia([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-             if(currentFranquicia == null){
-                 return NotFound();
-             }
+            var currentFranquicia = franquiciaService.FindById(new Franquicia { IdFranquicia = id });
 
-             franquiciaService.Delete(currentFranquicia);
+            if (currentFranquicia == null)
+            {
+                return NotFound();
+            }
 
-             return Ok(currentFranquicia);
-         }
+            franquiciaService.Delete(currentFranquicia);
+
+            return Ok(currentFranquicia);
+        }
     }
 }

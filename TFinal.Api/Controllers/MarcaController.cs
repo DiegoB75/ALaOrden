@@ -9,12 +9,11 @@ using TFinal.Service;
 
 namespace TFinal.Api.Controllers
 {
-    [Produces("application/json")]
-    [Route("api/Marca")]
+    [Route("api/marca")]
     [ApiController]
     public class MarcaController:ControllerBase
     {
-         private readonly IMarcaService marcaService;
+         private IMarcaService marcaService;
         public MarcaController (IMarcaService marcaService){
             this.marcaService= marcaService;
         }
@@ -25,7 +24,7 @@ namespace TFinal.Api.Controllers
 
 
        [HttpGet ("{id}")]
-        public async Task<IActionResult> GetMarca([FromRoute] int id)
+        public IActionResult GetMarca([FromRoute] int id)
         {
             if(!ModelState.IsValid)
             {
@@ -43,7 +42,7 @@ namespace TFinal.Api.Controllers
         }     
 
         [HttpPost]
-         public async Task<IActionResult> PostMarca([FromBody] Marca marca){
+         public IActionResult PostMarca([FromBody] Marca marca){
 
              if(!ModelState.IsValid)
             {
@@ -57,7 +56,7 @@ namespace TFinal.Api.Controllers
 
          
          [HttpPut("{id}")]
-         public async Task<IActionResult> PutMarca ([FromRoute] int id, [FromBody] Marca marca){
+         public IActionResult PutMarca ([FromRoute] int id, [FromBody] Marca marca){
              if(!ModelState.IsValid){
                  return BadRequest(ModelState);
              }
@@ -73,7 +72,7 @@ namespace TFinal.Api.Controllers
              return Ok(currentMarca);
          }
         [HttpDelete("{id}")]
-          public async Task<IActionResult> DeleteMarca ([FromRoute] int id){
+          public IActionResult DeleteMarca ([FromRoute] int id){
              if(!ModelState.IsValid){
                  return BadRequest(ModelState);
              }

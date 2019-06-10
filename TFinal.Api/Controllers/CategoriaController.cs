@@ -10,109 +10,93 @@ using TFinal.Service;
 
 namespace TFinal.Api.Controllers
 {
-    //[Produces("application/json")]
     [Route("api/categoria")]
     [ApiController]
     public class CategoriaController : ControllerBase
     {
-        private ICategoriaService categoriaservice;
-        public CategoriaController (ICategoriaService context){
-            categoriaservice=context;
+        private ICategoriaService categoriaService;
+        public CategoriaController(ICategoriaService context)
+        {
+            categoriaService = context;
         }
 
 
         [HttpGet]
-        public IEnumerable<Categoria> GetCategoria() {
-            return categoriaservice.ListAll();
+        public IEnumerable<Categoria> GetCategoria()
+        {
+            return categoriaService.ListAll();
         }
 
 
-       [HttpGet ("{id}")]
-        public async Task<IActionResult> GetCategoria([FromRoute] int id)
+        [HttpGet("{id}")]
+        public IActionResult GetCategoria([FromRoute] int id)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var currentCategoria = categoriaservice.FindById(new Categoria{ IdCategoria = id});
+            var currentCategoria = categoriaService.FindById(new Categoria { IdCategoria = id });
 
-            if(currentCategoria == null)
+            if (currentCategoria == null)
             {
                 return NotFound();
             }
 
             return Ok(currentCategoria);
 
-        }     
-      
+        }
+
 
         [HttpPost]
-         public async Task<IActionResult> PostCategoria([FromBody] Categoria categoria){
+        public IActionResult PostCategoria([FromBody] Categoria categoria)
+        {
 
-             if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            categoriaservice.Save(categoria);
+            categoriaService.Save(categoria);
 
-            return CreatedAtAction ("GetSede", new {id = categoria.IdCategoria},categoria);
-         }
+            return CreatedAtAction("GetSede", new { id = categoria.IdCategoria }, categoria);
+        }
 
-         
-         [HttpPut("{id}")]
-         public async Task<IActionResult> PutCategoria ([FromRoute] int id, [FromBody] Categoria categoria){
-             if(!ModelState.IsValid){
-                 return BadRequest(ModelState);
-             }
+        [HttpPut("{id}")]
+        public IActionResult PutCategoria([FromRoute] int id, [FromBody] Categoria categoria)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-             var currentCategoria = categoriaservice.FindById(new Categoria{ IdCategoria = id});
+            if (id != categoria.IdCategoria)
+            {
+                return BadRequest();
+            }
 
-             if(currentCategoria == null){
-                 return NotFound();
-             }
+            categoriaService.Update(categoria);
 
-             categoriaservice.Update(currentCategoria);
+            return NoContent();
+        }
 
-             return Ok(currentCategoria);
-         }
-
-         /*
-                  [HttpPut("{id}")]
-         public async Task<IActionResult> PutCategoria ([FromRoute] int id, [FromBody] Categoria categoria){
-             if(!ModelState.IsValid){
-                 return BadRequest(ModelState);
-             }
-
-             var currentCategoria = await categoriaservice.Categorias.SingleOrDefaultAsync(p => p.IdCategoria == id);
-
-             if(currentCategoria == null){
-                 return NotFound();
-             }
-
-             categoriaservice.Categorias.Update(currentCategoria);
-             await categoriaservice.SaveChangesAsync();
-
-             return Ok(currentCategoria);
-         }
-         
-          */
-         
         [HttpDelete("{id}")]
-          public async Task<IActionResult> DeleteCategoria ([FromRoute] int id){
-             if(!ModelState.IsValid){
-                 return BadRequest(ModelState);
-             }
+        public IActionResult DeleteCategoria([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-             var currentCategoria = categoriaservice.FindById(new Categoria{ IdCategoria = id});
+            var currentCategoria = categoriaService.FindById(new Categoria { IdCategoria = id });
 
-             if(currentCategoria == null){
-                 return NotFound();
-             }
+            if (currentCategoria == null)
+            {
+                return NotFound();
+            }
 
-             categoriaservice.Delete(currentCategoria);
+            categoriaService.Delete(currentCategoria);
 
-             return Ok(currentCategoria);
-         }
+            return Ok(currentCategoria);
+        }
     }
 }

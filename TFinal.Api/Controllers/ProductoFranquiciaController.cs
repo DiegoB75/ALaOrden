@@ -10,10 +10,12 @@ using TFinal.Service;
 
 namespace TFinal.Api.Controllers
 {
+    [Route("api/productofranquicia")]
+    [ApiController]
     public class ProductoFranquiciaController : ControllerBase
     {
         
-        private readonly IProductoFranquiciaService productoFranquiciaService;
+        private IProductoFranquiciaService productoFranquiciaService;
         public ProductoFranquiciaController(IProductoFranquiciaService productoFranquiciaService)
         {
             this.productoFranquiciaService = productoFranquiciaService;
@@ -33,7 +35,7 @@ namespace TFinal.Api.Controllers
         }
 
         [HttpGet("{IdFranquicia}/{IdProducto}")]
-        public async Task<ActionResult> GetProductoFranquicia([FromRoute] int IdFranquicia,[FromRoute] int IdProducto)
+        public ActionResult GetProductoFranquicia([FromRoute] int IdFranquicia,[FromRoute] int IdProducto)
         {
             var productoFranquicia = new ProductoFranquicia();
             productoFranquicia.IdFranquicia = IdFranquicia;
@@ -44,14 +46,14 @@ namespace TFinal.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> PostProductoFranquicia([FromBody] ProductoFranquicia productoFranquicia){
+        public ActionResult PostProductoFranquicia([FromBody] ProductoFranquicia productoFranquicia){
             productoFranquiciaService.Save(productoFranquicia);
 
             return CreatedAtAction("GetCarrito", new { IdFranquicia = productoFranquicia.Franquicia.IdFranquicia, idProducto = productoFranquicia.Producto.IdProducto}, productoFranquicia);
         }
 
         [HttpDelete("{IdFranquicia}/{IdProducto}")]
-        public async Task<ActionResult> DeleteProductoFranquicia([FromBody] int IdFranquicia,[FromBody] int IdProducto){
+        public ActionResult DeleteProductoFranquicia([FromRoute] int IdFranquicia,[FromRoute] int IdProducto){
             var productoFranquicia = new ProductoFranquicia();
             productoFranquicia.IdFranquicia = IdFranquicia;
             productoFranquicia.IdProducto = IdProducto;

@@ -371,7 +371,7 @@ namespace TFinal.Repository.Migrations
             modelBuilder.Entity("TFinal.Domain.ProductoFranquicia", b =>
                 {
                     b.HasOne("TFinal.Domain.Franquicia", "Franquicia")
-                        .WithMany("ProductoFranquicias")
+                        .WithMany()
                         .HasForeignKey("IdFranquicia")
                         .OnDelete(DeleteBehavior.Cascade);
 

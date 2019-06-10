@@ -9,19 +9,20 @@ using TFinal.Service;
 
 namespace TFinal.Api.Controllers
 {
-    //[Produces("application/json")]
-    [Route("api/Direccion")]
+    [Route("api/direccion")]
     [ApiController]
-    public class DireccionController:ControllerBase
+    public class DireccionController : ControllerBase
     {
-         private readonly IDireccionService direccionService;
-        public DireccionController (IDireccionService direccionService){
-            this.direccionService= direccionService;
+        private IDireccionService direccionService;
+        public DireccionController(IDireccionService direccionService)
+        {
+            this.direccionService = direccionService;
         }
 
 
         [HttpGet]
-        public IEnumerable<Direccion> GetDireccion() {
+        public IEnumerable<Direccion> GetDireccion()
+        {
             return direccionService.ListAll();
         }
 
@@ -32,74 +33,81 @@ namespace TFinal.Api.Controllers
         } */
 
 
-       [HttpGet ("{id}")]
-        public async Task<IActionResult> GetDireccion([FromRoute] int id)
+        [HttpGet("{id}")]
+        public IActionResult GetDireccion([FromRoute] int id)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var currenDireccion = direccionService.FindById(new Direccion{ IdDireccion = id});
+            var currenDireccion = direccionService.FindById(new Direccion { IdDireccion = id });
 
-            if(currenDireccion == null)
+            if (currenDireccion == null)
             {
                 return NotFound();
             }
 
             return Ok(currenDireccion);
 
-        }     
-      
+        }
+
 
 
 
         [HttpPost]
-         public async Task<IActionResult> PostDireccion([FromBody] Direccion direccion){
+        public IActionResult PostDireccion([FromBody] Direccion direccion)
+        {
 
-             if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
             direccionService.Save(direccion);
 
-            return CreatedAtAction ("GetDireccion", new {id = direccion.IdDireccion},direccion);
-         }
+            return CreatedAtAction("GetDireccion", new { id = direccion.IdDireccion }, direccion);
+        }
 
-         
-         [HttpPut("{id}")]
-         public async Task<IActionResult> PutDireccion ([FromRoute] int id, [FromBody] Direccion direccion){
-             if(!ModelState.IsValid){
-                 return BadRequest(ModelState);
-             }
 
-             var currentDireccion = direccionService.FindById(new Direccion{ IdDireccion = id});
+        [HttpPut("{id}")]
+        public IActionResult PutDireccion([FromRoute] int id, [FromBody] Direccion direccion)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-             if(currentDireccion == null){
-                 return NotFound();
-             }
+            var currentDireccion = direccionService.FindById(new Direccion { IdDireccion = id });
 
-             direccionService.Update(currentDireccion);
+            if (currentDireccion == null)
+            {
+                return NotFound();
+            }
 
-             return Ok(currentDireccion);
-         }
-            [HttpDelete("{id}")]
+            direccionService.Update(currentDireccion);
 
-          public async Task<IActionResult> DeleteDireccion ([FromRoute] int id){
-             if(!ModelState.IsValid){
-                 return BadRequest(ModelState);
-             }
+            return Ok(currentDireccion);
+        }
+        [HttpDelete("{id}")]
 
-             var currentDireccion = direccionService.FindById(new Direccion{ IdDireccion = id});
+        public IActionResult DeleteDireccion([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-             if(currentDireccion == null){
-                 return NotFound();
-             }
+            var currentDireccion = direccionService.FindById(new Direccion { IdDireccion = id });
 
-             direccionService.Delete(currentDireccion);
+            if (currentDireccion == null)
+            {
+                return NotFound();
+            }
 
-             return Ok(currentDireccion);
-         }
+            direccionService.Delete(currentDireccion);
+
+            return Ok(currentDireccion);
+        }
 
     }
 }

@@ -9,12 +9,11 @@ using TFinal.Service;
 
 namespace TFinal.Api.Controllers
 {
-    //[Produces("application/json")]
-    [Route("api/Cupon")]
+    [Route("api/cupon")]
     [ApiController]
     public class CuponController:ControllerBase
     {
-        private readonly ICuponService cuponService;
+        private ICuponService cuponService;
         public CuponController (ICuponService cuponService){
             this.cuponService=cuponService;
         }
@@ -34,7 +33,7 @@ namespace TFinal.Api.Controllers
 
 
        [HttpGet ("{id}")]
-        public async Task<IActionResult> GetCupon([FromRoute] int id)
+        public IActionResult GetCupon([FromRoute] int id)
         {
             if(!ModelState.IsValid)
             {
@@ -52,7 +51,7 @@ namespace TFinal.Api.Controllers
         }     
       
         [HttpPost]
-         public async Task<IActionResult> PostCupon([FromBody] Cupon cupon){
+         public IActionResult PostCupon([FromBody] Cupon cupon){
 
              if(!ModelState.IsValid)
             {
@@ -66,7 +65,7 @@ namespace TFinal.Api.Controllers
 
          
          [HttpPut("{id}")]
-         public async Task<IActionResult> PutCupon ([FromRoute] int id){
+         public IActionResult PutCupon ([FromRoute] int id, [FromBody] Cupon cupon){
              if(!ModelState.IsValid){
                  return BadRequest(ModelState);
              }
@@ -82,7 +81,7 @@ namespace TFinal.Api.Controllers
              return Ok(currentCupon);
          }
         [HttpDelete("{id}")]
-          public async Task<IActionResult> DeleteCupon ([FromRoute] int id){
+          public IActionResult DeleteCupon ([FromRoute] int id){
              if(!ModelState.IsValid){
                  return BadRequest(ModelState);
              }

@@ -9,11 +9,12 @@ using TFinal.Service;
 
 namespace TFinal.Api.Controllers
 {
-    //[Produces("application/json")]
     [Route("api/carrito")]
     [ApiController]
     public class CarritoItemController : ControllerBase
     {
+        //methods: GetByUsuario, 
+
         private  ICarritoItemService carritoItemService;
         public CarritoItemController(ICarritoItemService carritoItemService)
         {
@@ -27,16 +28,15 @@ namespace TFinal.Api.Controllers
             return carritoItemService.ListAll();
         }
 
+        //Necesario ??
         [HttpGet("{idUsuario}/{idProducto}")]
-        public async Task<ActionResult> GetCarrito([FromRoute] int idUsuario,[FromRoute] int idProducto)
+        public IActionResult GetCarritoItem([FromRoute] int idUsuario,[FromRoute] int idProducto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
             var currentCarrito = carritoItemService.FindById(new CarritoItem{ IdUsuario = idUsuario, IdProducto = idProducto});
-
-
             if (currentCarrito == null)
             {
                 return NotFound();
@@ -45,7 +45,7 @@ namespace TFinal.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> PostCarrito([FromBody] CarritoItem carrito){
+        public IActionResult PostCarrito([FromBody] CarritoItem carrito){
             if (!ModelState.IsValid){
                 return BadRequest(ModelState);
             }
@@ -54,23 +54,34 @@ namespace TFinal.Api.Controllers
             return CreatedAtAction("GetCarrito", new { idUsuario = carrito.IdUsuario, idProducto = carrito.IdProducto}, carrito);
         }
 
+        [HttpPut("{idUsuario}/{idProducto}")]
+        public IActionResult PutCarrito([FromRoute] int idUsuario, [FromRoute] int idProducto, [FromBody] CarritoItem carrito){
+            if (!ModelState.IsValid){
+                return BadRequest(ModelState);
+            }
+
+            if (idUsuario != carrito.IdUsuario || idProducto != carrito.IdProducto){
+                return BadRequest();
+            }
+
+            carritoItemService.Update(carrito);
+            return NoContent();
+        }
+
         [HttpDelete("{idUsuario}/{idProducto}")]
-        public async Task<ActionResult> DeleteCarrito([FromRoute] int idUsuario,[FromRoute] int idProducto){
+        public IActionResult DeleteCarrito([FromRoute] int idUsuario,[FromRoute] int idProducto){
             if (!ModelState.IsValid){
                 return BadRequest(ModelState);
             }
 
             var currentCarrito = carritoItemService.FindById(new CarritoItem{ IdUsuario = idUsuario, IdProducto = idProducto});
-
             if (currentCarrito == null)
             {
                 return NotFound();
             }
 
             carritoItemService.Delete(currentCarrito);
-
-
-            return Ok(currentCarrito);
+            return NoContent();
         }
     }
 }

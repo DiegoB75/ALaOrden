@@ -10,7 +10,7 @@ using TFinal.Repository.Context;
 namespace TFinal.Repository.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190608060425_init")]
+    [Migration("20190610011734_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -373,7 +373,7 @@ namespace TFinal.Repository.Migrations
             modelBuilder.Entity("TFinal.Domain.ProductoFranquicia", b =>
                 {
                     b.HasOne("TFinal.Domain.Franquicia", "Franquicia")
-                        .WithMany("ProductoFranquicias")
+                        .WithMany()
                         .HasForeignKey("IdFranquicia")
                         .OnDelete(DeleteBehavior.Cascade);
 

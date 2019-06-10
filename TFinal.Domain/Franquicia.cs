@@ -11,8 +11,5 @@ namespace TFinal.Domain
         public string ApiUrl { get; set; }
         public string Logo { get; set; }
         public ICollection<Sede> Sedes { get; set; }
-        public ICollection<ProductoFranquicia> ProductoFranquicias { get; set; }
-        //TODO: Cambiar "ProductoFranquicia" por otra cosa (ProductosDisponibles)
-
     }
 }

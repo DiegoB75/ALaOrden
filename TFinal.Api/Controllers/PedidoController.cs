@@ -9,12 +9,11 @@ using TFinal.Service;
 
 namespace TFinal.Api.Controllers
 {
-    [Produces("application/json")]
     [Route("api/pedido")]
     [ApiController]
     public class PedidoController : ControllerBase
     {
-        private readonly IPedidoService pedidoService;
+        private IPedidoService pedidoService;
         public PedidoController (IPedidoService pedidoService){
             this.pedidoService= pedidoService;
         }
@@ -27,7 +26,7 @@ namespace TFinal.Api.Controllers
 
 
        [HttpGet ("{id}")]
-        public async Task<IActionResult> GetPedido([FromRoute] int id)
+        public IActionResult GetPedido([FromRoute] int id)
         {
             if(!ModelState.IsValid)
             {
@@ -43,12 +42,9 @@ namespace TFinal.Api.Controllers
             return Ok(currentPedido);
 
         }     
-      
-
-
 
         [HttpPost]
-         public async Task<IActionResult> PostPedido([FromBody] Pedido pedido){
+         public IActionResult PostPedido([FromBody] Pedido pedido){
 
              if(!ModelState.IsValid)
             {
@@ -62,7 +58,7 @@ namespace TFinal.Api.Controllers
 
          
          [HttpPut("{id}")]
-         public async Task<IActionResult> PutPedido ([FromRoute] int id, [FromBody] Pedido pedido){
+         public IActionResult PutPedido ([FromRoute] int id, [FromBody] Pedido pedido){
              if(!ModelState.IsValid){
                  return BadRequest(ModelState);
              }
@@ -77,7 +73,7 @@ namespace TFinal.Api.Controllers
              return Ok(currentPedido);
          }
         [HttpDelete("{id}")]
-          public async Task<IActionResult> DeletePedido ([FromRoute] int id){
+          public IActionResult DeletePedido ([FromRoute] int id){
              if(!ModelState.IsValid){
                  return BadRequest(ModelState);
              }

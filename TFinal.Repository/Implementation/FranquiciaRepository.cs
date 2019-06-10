@@ -22,12 +22,12 @@ namespace TFinal.Repository.Implementation
 
         public Franquicia FindById(Franquicia entity)
         {
-            return context.Franquicias.FirstOrDefault(x => x.IdFranquicia == entity.IdFranquicia);
+            return context.Franquicias.Include(x => x.Sedes).FirstOrDefault(x => x.IdFranquicia == entity.IdFranquicia);
         }
 
         public List<Franquicia> ListAll()
         {
-            return context.Franquicias.ToList();
+            return context.Franquicias.Include(x => x.Sedes).ToList();
         }
 
         public void Save(Franquicia entity)

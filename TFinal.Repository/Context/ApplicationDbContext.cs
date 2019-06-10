@@ -132,7 +132,7 @@ namespace TFinal.Repository.Context
                     .WithMany(x => x.ProductoFranquicias)
                     .HasForeignKey(x => x.IdProducto);
                 p.HasOne(x => x.Franquicia)
-                    .WithMany(x => x.ProductoFranquicias)
+                    .WithMany()
                     .HasForeignKey(x => x.IdFranquicia);
             });
 
