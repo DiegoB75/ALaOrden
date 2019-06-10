@@ -30,6 +30,11 @@ namespace TFinal.Service.Implementation
             return direccionRepository.ListAll();
         }
 
+        public List<Direccion> ListByUsuario(int idUsuario)
+        {
+            return direccionRepository.ListByUsuario(idUsuario);
+        }
+
         public void Save(Direccion entity)
         {
             direccionRepository.Save(entity);

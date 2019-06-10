@@ -19,13 +19,13 @@ namespace TFinal.Api.Controllers
         }
 
 
-        [HttpGet]
-        public IEnumerable<Pedido> GetPedido() {
-            return pedidoService.ListAll();
+        [HttpGet("user={idUsuario}")]
+        public IEnumerable<Pedido> GetByUsuario([FromRoute] int idUsuario) {
+            return pedidoService.ListByUsuario(idUsuario);
         }
 
 
-       [HttpGet ("{id}")]
+       [HttpGet("{id}")]
         public IActionResult GetPedido([FromRoute] int id)
         {
             if(!ModelState.IsValid)
@@ -63,14 +63,12 @@ namespace TFinal.Api.Controllers
                  return BadRequest(ModelState);
              }
 
-             var currentPedido = pedidoService.FindById(new Pedido{ IdPedido = id });
-
-             if(currentPedido == null){
-                 return NotFound();
+             if(pedido.IdPedido != id){
+                 return BadRequest();
              }
 
-             pedidoService.Update(currentPedido);
-             return Ok(currentPedido);
+             pedidoService.Update(pedido);
+             return Ok(pedido);
          }
         [HttpDelete("{id}")]
           public IActionResult DeletePedido ([FromRoute] int id){

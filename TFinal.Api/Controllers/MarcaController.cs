@@ -11,82 +11,89 @@ namespace TFinal.Api.Controllers
 {
     [Route("api/marca")]
     [ApiController]
-    public class MarcaController:ControllerBase
+    public class MarcaController : ControllerBase
     {
-         private IMarcaService marcaService;
-        public MarcaController (IMarcaService marcaService){
-            this.marcaService= marcaService;
+        private IMarcaService marcaService;
+        public MarcaController(IMarcaService marcaService)
+        {
+            this.marcaService = marcaService;
         }
-       [HttpGet]
-        public IEnumerable<Marca> GetMarca() {
+        [HttpGet]
+        public IEnumerable<Marca> GetMarca()
+        {
             return marcaService.ListAll();
         }
 
 
-       [HttpGet ("{id}")]
+        [HttpGet("{id}")]
         public IActionResult GetMarca([FromRoute] int id)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var currentMarca = marcaService.FindById(new Marca{ IdMarca = id});
+            var currentMarca = marcaService.FindById(new Marca { IdMarca = id });
 
-            if(currentMarca == null)
+            if (currentMarca == null)
             {
                 return NotFound();
             }
 
             return Ok(currentMarca);
 
-        }     
+        }
 
         [HttpPost]
-         public IActionResult PostMarca([FromBody] Marca marca){
+        public IActionResult PostMarca([FromBody] Marca marca)
+        {
 
-             if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
             marcaService.Save(marca);
 
-            return CreatedAtAction ("GetMarca", new {id = marca.IdMarca},marca);
-         }
+            return CreatedAtAction("GetMarca", new { id = marca.IdMarca }, marca);
+        }
 
-         
-         [HttpPut("{id}")]
-         public IActionResult PutMarca ([FromRoute] int id, [FromBody] Marca marca){
-             if(!ModelState.IsValid){
-                 return BadRequest(ModelState);
-             }
 
-             var currentMarca = marcaService.FindById(new Marca{IdMarca = id});
+        [HttpPut("{id}")]
+        public IActionResult PutMarca([FromRoute] int id, [FromBody] Marca marca)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-             if(currentMarca == null){
-                 return NotFound();
-             }
+            if (marca.IdMarca != id)
+            {
+                return NotFound();
+            }
 
-             marcaService.Update(currentMarca);
+            marcaService.Update(marca);
 
-             return Ok(currentMarca);
-         }
+            return NoContent();
+        }
         [HttpDelete("{id}")]
-          public IActionResult DeleteMarca ([FromRoute] int id){
-             if(!ModelState.IsValid){
-                 return BadRequest(ModelState);
-             }
+        public IActionResult DeleteMarca([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-             var currentMarca = marcaService.FindById(new Marca{IdMarca = id});
+            var currentMarca = marcaService.FindById(new Marca { IdMarca = id });
 
-             if(currentMarca == null){
-                 return NotFound();
-             }
+            if (currentMarca == null)
+            {
+                return NotFound();
+            }
 
-             marcaService.Delete(currentMarca);
+            marcaService.Delete(currentMarca);
 
-             return Ok(currentMarca);
-         }
+            return Ok(currentMarca);
+        }
 
     }
 }

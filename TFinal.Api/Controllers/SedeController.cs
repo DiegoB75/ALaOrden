@@ -30,17 +30,25 @@ namespace TFinal.Api.Controllers
         [HttpGet("{id}")]
         public IActionResult GetSede([FromRoute] int id)
         {
-            Sede sede = new Sede();
-            sede.IdSede = id;
+            if (!ModelState.IsValid){
+                return BadRequest(ModelState);
+            }
+            
+            var currentSede = sedeService.FindById(new Sede{ IdSede = id});
 
-            var sedeGet = sedeService.FindById(sede);
-            return Ok(sedeGet);
-
+            if (currentSede == null){
+                return BadRequest();
+            }
+            return Ok(currentSede);
         }
 
         [HttpPost]
         public IActionResult PostSede([FromBody] Sede sede)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
             sedeService.Save(sede);
 
@@ -48,22 +56,32 @@ namespace TFinal.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult PutSede([FromRoute] int id)
+        public IActionResult PutSede([FromRoute] int id, [FromBody] Sede sede)
         {
-            Sede sede = new Sede();
-            sede.IdSede = id;
+            if (!ModelState.IsValid){
+                return BadRequest(ModelState);
+            }
+            if (sede.IdSede != id){
+                return BadRequest();
+            }
             sedeService.Update(sede);
 
-            return Ok();
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
         public IActionResult DeleteSede([FromRoute] int id)
         {
-            Sede sede = new Sede();
-            sede.IdSede = id;
-            sedeService.Delete(sede);
-            return Ok();
+            if (!ModelState.IsValid){
+                return BadRequest(ModelState);
+            }
+            var currentSede = sedeService.FindById(new Sede{ IdSede = id});
+            if (currentSede == null){
+                return BadRequest();
+            }
+            sedeService.Delete(currentSede);
+
+            return Ok(currentSede);
         }
 
     }

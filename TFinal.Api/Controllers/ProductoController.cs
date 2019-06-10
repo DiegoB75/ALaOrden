@@ -53,7 +53,7 @@ namespace TFinal.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != producto.IdProducto){
+            if (producto.IdProducto != id){
                 return BadRequest();
             }
 

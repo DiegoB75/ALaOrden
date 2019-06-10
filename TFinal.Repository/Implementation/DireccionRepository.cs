@@ -27,7 +27,13 @@ namespace TFinal.Repository.Implementation
 
         public List<Direccion> ListAll()
         {
-            return context.Direcciones.ToList();
+            //return context.Direcciones.ToList();
+            throw new System.NotImplementedException();
+        }
+
+        public List<Direccion> ListByUsuario(int idUsuario)
+        {
+            return context.Direcciones.Where(x => x.IdUsuario == idUsuario).ToList();
         }
 
         public void Save(Direccion entity)
@@ -38,7 +44,7 @@ namespace TFinal.Repository.Implementation
 
         public void Update(Direccion entity)
         {
-            context.Entry(entity).State=EntityState.Modified;
+            context.Entry(entity).State = EntityState.Modified;
             context.SaveChanges();
         }
     }

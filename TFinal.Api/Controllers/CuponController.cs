@@ -11,16 +11,18 @@ namespace TFinal.Api.Controllers
 {
     [Route("api/cupon")]
     [ApiController]
-    public class CuponController:ControllerBase
+    public class CuponController : ControllerBase
     {
         private ICuponService cuponService;
-        public CuponController (ICuponService cuponService){
-            this.cuponService=cuponService;
+        public CuponController(ICuponService cuponService)
+        {
+            this.cuponService = cuponService;
         }
 
 
         [HttpGet]
-        public IEnumerable<Cupon> GetCupon() {
+        public IEnumerable<Cupon> GetCupon()
+        {
             return cuponService.ListAll();
         }
 
@@ -32,70 +34,74 @@ namespace TFinal.Api.Controllers
         */
 
 
-       [HttpGet ("{id}")]
+        [HttpGet("{id}")]
         public IActionResult GetCupon([FromRoute] int id)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var currentCupon = cuponService.FindById(new Cupon{IdCupon = id});
+            var currentCupon = cuponService.FindById(new Cupon { IdCupon = id });
 
-            if(currentCupon == null)
+            if (currentCupon == null)
             {
                 return NotFound();
             }
 
             return Ok(currentCupon);
 
-        }     
-      
-        [HttpPost]
-         public IActionResult PostCupon([FromBody] Cupon cupon){
+        }
 
-             if(!ModelState.IsValid)
+        [HttpPost]
+        public IActionResult PostCupon([FromBody] Cupon cupon)
+        {
+
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
             cuponService.Save(cupon);
 
-            return CreatedAtAction ("GetCupon", new {id = cupon.IdCupon},cupon);
-         }
+            return CreatedAtAction("GetCupon", new { id = cupon.IdCupon }, cupon);
+        }
 
-         
-         [HttpPut("{id}")]
-         public IActionResult PutCupon ([FromRoute] int id, [FromBody] Cupon cupon){
-             if(!ModelState.IsValid){
-                 return BadRequest(ModelState);
-             }
 
-             var currentCupon = cuponService.FindById(new Cupon{IdCupon = id});
+        [HttpPut("{id}")]
+        public IActionResult PutCupon([FromRoute] int id, [FromBody] Cupon cupon)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (cupon.IdCupon != id)
+            {
+                return BadRequest();
+            }
 
-             if(currentCupon == null){
-                 return NotFound();
-             }
+            cuponService.Update(cupon);
 
-             cuponService.Update(currentCupon);
-
-             return Ok(currentCupon);
-         }
+            return NoContent();
+        }
         [HttpDelete("{id}")]
-          public IActionResult DeleteCupon ([FromRoute] int id){
-             if(!ModelState.IsValid){
-                 return BadRequest(ModelState);
-             }
+        public IActionResult DeleteCupon([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-             var currentCupon = cuponService.FindById(new Cupon{IdCupon = id});
+            var currentCupon = cuponService.FindById(new Cupon { IdCupon = id });
 
-             if(currentCupon == null){
-                 return NotFound();
-             }
+            if (currentCupon == null)
+            {
+                return NotFound();
+            }
 
-             cuponService.Delete(currentCupon);
+            cuponService.Delete(currentCupon);
 
-             return Ok(currentCupon);
-         }
+            return Ok(currentCupon);
+        }
 
     }
 }

@@ -1,64 +1,101 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using TFinal.Domain;
-using Microsoft.EntityFrameworkCore;
 using TFinal.Repository.Context;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TFinal.Service;
+
 
 namespace TFinal.Api.Controllers
 {
-    [Route("api/productofranquicia")]
+    [Route("api/detallefranquicia")]
     [ApiController]
     public class ProductoFranquiciaController : ControllerBase
     {
-        
         private IProductoFranquiciaService productoFranquiciaService;
         public ProductoFranquiciaController(IProductoFranquiciaService productoFranquiciaService)
         {
             this.productoFranquiciaService = productoFranquiciaService;
         }
 
-        [HttpGet("{IdFranquicia}")]
-        public IEnumerable<ProductoFranquicia> GetProductoFranquicia([FromRoute] int IdFranquicia)
-        {
-            var productoFranquicia = new ProductoFranquicia();
-            productoFranquicia.IdFranquicia = IdFranquicia;
-            productoFranquiciaService.FindById(productoFranquicia);
 
-            List<ProductoFranquicia> productoFranquicias = new List<ProductoFranquicia>();
-            productoFranquicias.Add(productoFranquicia);
-            
-            return productoFranquicias;
+        [HttpGet("{IdProducto}")]
+        public IEnumerable<ProductoFranquicia> GetByProducto([FromRoute] int IdProducto)
+        {
+            return productoFranquiciaService.ListByProducto(IdProducto);
         }
 
         [HttpGet("{IdFranquicia}/{IdProducto}")]
-        public ActionResult GetProductoFranquicia([FromRoute] int IdFranquicia,[FromRoute] int IdProducto)
+        public IActionResult GetProductoFranquicia([FromRoute] int IdFranquicia, [FromRoute] int IdProducto)
         {
-            var productoFranquicia = new ProductoFranquicia();
-            productoFranquicia.IdFranquicia = IdFranquicia;
-            productoFranquicia.IdProducto = IdProducto;
-            var productoFranquiciaGet = productoFranquiciaService.FindById(productoFranquicia);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var currentProductoFranquicia = productoFranquiciaService.FindById(new ProductoFranquicia { IdFranquicia = IdFranquicia, IdProducto = IdProducto });
+            if (currentProductoFranquicia == null)
+            {
+                return NotFound();
+            }
+            return Ok(currentProductoFranquicia);
 
-            return Ok(productoFranquiciaGet);
         }
 
+
         [HttpPost]
-        public ActionResult PostProductoFranquicia([FromBody] ProductoFranquicia productoFranquicia){
+        public IActionResult PostProductoFranquicia([FromBody] ProductoFranquicia productoFranquicia)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             productoFranquiciaService.Save(productoFranquicia);
 
-            return CreatedAtAction("GetCarrito", new { IdFranquicia = productoFranquicia.Franquicia.IdFranquicia, idProducto = productoFranquicia.Producto.IdProducto}, productoFranquicia);
+            return CreatedAtAction("GetProductoFranquicia", new { IdFranquicia = productoFranquicia.Franquicia.IdFranquicia, IdProducto = productoFranquicia.Producto.IdProducto }, productoFranquicia);
+        }
+
+
+        [HttpPut("{IdFranquicia}/{IdProducto}")]
+        public IActionResult PutProductoFranquicia([FromRoute] int IdFranquicia, [FromRoute] int IdProducto, [FromBody] ProductoFranquicia productoFranquicia)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (productoFranquicia.IdFranquicia != IdFranquicia || productoFranquicia.IdProducto != IdProducto)
+            {
+                return NotFound();
+            }
+
+            productoFranquiciaService.Update(productoFranquicia);
+
+            return NoContent();
         }
 
         [HttpDelete("{IdFranquicia}/{IdProducto}")]
-        public ActionResult DeleteProductoFranquicia([FromRoute] int IdFranquicia,[FromRoute] int IdProducto){
-            var productoFranquicia = new ProductoFranquicia();
-            productoFranquicia.IdFranquicia = IdFranquicia;
-            productoFranquicia.IdProducto = IdProducto;
-            productoFranquiciaService.Delete(productoFranquicia);
-            return Ok();
+        public IActionResult DeleteProductoFranquicia([FromRoute] int IdFranquicia, [FromRoute] int IdProducto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var currentProductoFranquicia = productoFranquiciaService.FindById(new ProductoFranquicia { IdFranquicia = IdFranquicia, IdProducto = IdProducto });
+
+            if (currentProductoFranquicia == null)
+            {
+                return NotFound();
+            }
+
+            productoFranquiciaService.Delete(currentProductoFranquicia);
+
+            return Ok(currentProductoFranquicia);
         }
+
     }
 }

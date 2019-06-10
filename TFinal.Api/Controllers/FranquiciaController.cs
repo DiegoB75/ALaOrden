@@ -69,16 +69,14 @@ namespace TFinal.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var currentFranquicia = franquiciaService.FindById(new Franquicia { IdFranquicia = id });
-
-            if (currentFranquicia == null)
+            if (franquicia.IdFranquicia != id)
             {
-                return NotFound();
+                return BadRequest();
             }
 
-            franquiciaService.Update(currentFranquicia);
+            franquiciaService.Update(franquicia);
 
-            return Ok(currentFranquicia);
+            return NoContent();
         }
 
         [HttpDelete("{id}")]

@@ -67,16 +67,14 @@ namespace TFinal.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var currentDetallePedido = detallePedidoService.FindById(new DetallePedido { IdPedido = IdPedido, IdProducto = IdProducto });
-
-            if (currentDetallePedido == null)
+            if (detallePedido.IdPedido != IdPedido || detallePedido.IdProducto != IdProducto)
             {
                 return NotFound();
             }
 
-            detallePedidoService.Update(currentDetallePedido);
+            detallePedidoService.Update(detallePedido);
 
-            return Ok(currentDetallePedido);
+            return NoContent();
         }
 
         [HttpDelete("{IdPedido}/{IdProducto}")]

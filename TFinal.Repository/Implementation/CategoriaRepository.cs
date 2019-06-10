@@ -27,7 +27,7 @@ namespace TFinal.Repository.Implementation
 
         public List<Categoria> ListAll()
         {
-            return context.Categorias.Include(x => x.SubCategorias).ToList();
+            return context.Categorias.Include(x => x.SubCategorias).Where(x => x.IdCategoriaPadre == null).ToList();
         }
 
         public void Save(Categoria entity)
