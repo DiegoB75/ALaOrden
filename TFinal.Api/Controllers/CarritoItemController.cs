@@ -25,7 +25,7 @@ namespace TFinal.Api.Controllers
         public IEnumerable<CarritoItem> GetCarrito([FromRoute] int idUsuario)
         {
             //TODO: implmentar filtro en service
-            return carritoItemService.ListAll();
+            return carritoItemService.ListByUsuario(idUsuario);
         }
 
         //Necesario ??
