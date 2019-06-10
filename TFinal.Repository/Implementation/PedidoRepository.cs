@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TFinal.Domain;
@@ -22,12 +23,17 @@ namespace TFinal.Repository.Implementation
 
         public Pedido FindById(Pedido entity)
         {
-            return context.Pedidos.FirstOrDefault(x => x.IdPedido == entity.IdPedido);
+            return context.Pedidos.Include(x => x.Sede.Franquicia).Include(x => x.Transaccion).Include(x => x.DetallesPedidos).Include(x => x.Cupones).FirstOrDefault(x => x.IdPedido == entity.IdPedido);
         }
 
         public List<Pedido> ListAll()
         {
-            return context.Pedidos.ToList();
+            throw new NotImplementedException();
+        }
+
+        public List<Pedido> ListByUsuario(int idUsuario)
+        {
+            return context.Pedidos.Where(x => x.IdUsuario == idUsuario).ToList();
         }
 
         public void Save(Pedido entity)
@@ -38,7 +44,7 @@ namespace TFinal.Repository.Implementation
 
         public void Update(Pedido entity)
         {
-            context.Entry(entity).State=EntityState.Modified;
+            context.Entry(entity).State = EntityState.Modified;
             context.SaveChanges();
         }
     }

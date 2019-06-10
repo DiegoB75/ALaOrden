@@ -22,7 +22,12 @@ namespace TFinal.Repository.Implementation
 
         public Usuario FindById(Usuario entity)
         {
-            return context.Usuarios.FirstOrDefault(x => x.IdUsuario == entity.IdUsuario);
+            return context.Usuarios.Include(x => x.Direcciones).Include(x => x.Pedidos).FirstOrDefault(x => x.IdUsuario == entity.IdUsuario);
+        }
+
+        public Usuario FindByApodoOrEmail(Usuario entity)
+        {
+            return context.Usuarios.FirstOrDefault(x => x.Apodo == entity.Apodo || x.Email == x.Email);
         }
 
         public List<Usuario> ListAll()

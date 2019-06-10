@@ -22,14 +22,19 @@ namespace TFinal.Repository.Implementation
 
         public CarritoItem FindById(CarritoItem entity)
         {
-            return context.CarritoItems.FirstOrDefault(x =>
-                x.Producto.IdProducto == entity.Producto.IdProducto &&
-                x.Usuario.IdUsuario == entity.Usuario.IdUsuario);
+            return context.CarritoItems.Include(x => x.Producto).FirstOrDefault(x =>
+                  x.Producto.IdProducto == entity.Producto.IdProducto &&
+                  x.Usuario.IdUsuario == entity.Usuario.IdUsuario);
         }
 
         public List<CarritoItem> ListAll()
         {
-            return context.CarritoItems.ToList();
+            throw new System.NotImplementedException();
+        }
+
+        public List<CarritoItem> ListByUsuario(int idUsuario)
+        {
+            return context.CarritoItems.Include(x => x.Producto).Where(x => x.IdUsuario == idUsuario).ToList();
         }
 
         public void Save(CarritoItem entity)
@@ -40,7 +45,7 @@ namespace TFinal.Repository.Implementation
 
         public void Update(CarritoItem entity)
         {
-            context.Entry(entity).State=EntityState.Modified;
+            context.Entry(entity).State = EntityState.Modified;
             context.SaveChanges();
         }
     }

@@ -23,14 +23,19 @@ namespace TFinal.Repository.Implementation
 
         public DetallePedido FindById(DetallePedido entity)
         {
-            return context.DetallesPedido.FirstOrDefault(x =>
+            return context.DetallesPedido.Include(x => x.Pedido).FirstOrDefault(x =>
                 x.Pedido.IdPedido == entity.Pedido.IdPedido &&
                 x.Producto.IdProducto == entity.Producto.IdProducto);
         }
 
         public List<DetallePedido> ListAll()
         {
-            return context.DetallesPedido.ToList();
+            throw new System.NotImplementedException();
+        }
+
+        public List<DetallePedido> ListByPedido(int idPedido)
+        {
+            return context.DetallesPedido.Include(x => x.Pedido).Where(x => x.IdPedido == idPedido).ToList();
         }
 
         public void Save(DetallePedido entity)

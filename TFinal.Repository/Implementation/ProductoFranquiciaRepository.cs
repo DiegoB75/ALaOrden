@@ -29,9 +29,13 @@ namespace TFinal.Repository.Implementation
 
         public List<ProductoFranquicia> ListAll()
         {
-            return context.ProductosFranquicias.ToList();
+            throw new System.NotImplementedException();
         }
 
+        public List<ProductoFranquicia> ListByProducto(int idProducto)
+        {
+            return context.ProductosFranquicias.Where(x => x.IdProducto == idProducto).ToList();
+        }
         public void Save(ProductoFranquicia entity)
         {
             context.ProductosFranquicias.Add(entity);

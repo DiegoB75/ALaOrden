@@ -22,12 +22,12 @@ namespace TFinal.Repository.Implementation
 
         public Categoria FindById(Categoria entity)
         {
-            return context.Categorias.FirstOrDefault(x=> x.IdCategoria == entity.IdCategoria);
+            return context.Categorias.Include(x => x.SubCategorias).Include(x => x.CategoriaPadre).FirstOrDefault(x=> x.IdCategoria == entity.IdCategoria);
         }
 
         public List<Categoria> ListAll()
         {
-            return context.Categorias.ToList();
+            return context.Categorias.Include(x => x.SubCategorias).ToList();
         }
 
         public void Save(Categoria entity)

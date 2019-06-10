@@ -22,12 +22,12 @@ namespace TFinal.Repository.Implementation
 
         public Producto FindById(Producto entity)
         {
-            return context.Productos.FirstOrDefault(x => x.IdProducto == entity.IdProducto);
+            return context.Productos.Include(x => x.Categoria).Include(x => x.Marca).Include(x=> x.ProductoFranquicias).FirstOrDefault(x => x.IdProducto == entity.IdProducto);
         }
 
         public List<Producto> ListAll()
         {
-            return context.Productos.ToList();
+            return context.Productos.Include(x => x.Categoria).Include(x => x.Marca).ToList();
         }
 
         public void Save(Producto entity)
