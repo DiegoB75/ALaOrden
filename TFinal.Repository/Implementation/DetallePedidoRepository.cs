@@ -24,8 +24,8 @@ namespace TFinal.Repository.Implementation
         public DetallePedido FindById(DetallePedido entity)
         {
             return context.DetallesPedido.Include(x => x.Pedido).FirstOrDefault(x =>
-                x.Pedido.IdPedido == entity.Pedido.IdPedido &&
-                x.Producto.IdProducto == entity.Producto.IdProducto);
+                x.IdPedido == entity.IdPedido &&
+                x.IdProducto == entity.IdProducto);
         }
 
         public List<DetallePedido> ListAll()

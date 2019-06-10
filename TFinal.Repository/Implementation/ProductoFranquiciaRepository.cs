@@ -23,8 +23,8 @@ namespace TFinal.Repository.Implementation
         public ProductoFranquicia FindById(ProductoFranquicia entity)
         {
             return context.ProductosFranquicias.FirstOrDefault(x => 
-                x.Producto.IdProducto == entity.Producto.IdProducto &&
-                x.Franquicia.IdFranquicia == entity.Franquicia.IdFranquicia);
+                x.IdProducto == entity.IdProducto &&
+                x.IdFranquicia == entity.IdFranquicia);
         }
 
         public List<ProductoFranquicia> ListAll()

@@ -23,8 +23,8 @@ namespace TFinal.Repository.Implementation
         public CarritoItem FindById(CarritoItem entity)
         {
             return context.CarritoItems.Include(x => x.Producto).FirstOrDefault(x =>
-                  x.Producto.IdProducto == entity.Producto.IdProducto &&
-                  x.Usuario.IdUsuario == entity.Usuario.IdUsuario);
+                  x.IdProducto == entity.IdProducto &&
+                  x.IdUsuario == entity.IdUsuario);
         }
 
         public List<CarritoItem> ListAll()
