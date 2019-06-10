@@ -262,6 +262,8 @@ namespace TFinal.Repository.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("CardNumber");
+
                     b.HasKey("IdTransaccion");
 
                     b.ToTable("Transaccion");

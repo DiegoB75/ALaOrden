@@ -6,5 +6,7 @@ namespace TFinal.Domain
     {
         public int IdTransaccion { get; set; }
         //TODO: averiguar más campos
+        public String CardNumber{get;set;}
+        
     }
 }

@@ -62,7 +62,8 @@ namespace TFinal.Repository.Migrations
                 columns: table => new
                 {
                     IdTransaccion = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CardNumber = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
