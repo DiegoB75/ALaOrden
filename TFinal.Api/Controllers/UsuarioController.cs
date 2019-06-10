@@ -37,44 +37,6 @@ namespace TFinal.Api.Controllers
 
         }
 
-        /*[HttpGet ("{apodo}")]
-        public IActionResult GetUsuario([FromRoute] string apodo)
-        {
-            if(!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            var currentUsuario = await usuarioservice.Usuarios.SingleOrDefaultAsync(p =>p.Apodo == apodo);
-
-            if(currentUsuario == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(currentUsuario);
-
-        }
-
-          [HttpGet ("{email}")]
-        public IActionResult GetUsuario([FromRoute] string email)
-        {
-            if(!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            var currentUsuario = await usuarioservice.Usuarios.SingleOrDefaultAsync(p =>p.email == email);
-
-            if(currentUsuario == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(currentUsuario);
-
-        }*/
-
-
-
         [HttpPost]
         public IActionResult PostUsuario([FromBody] Usuario Usuario)
         {
@@ -84,24 +46,34 @@ namespace TFinal.Api.Controllers
             return CreatedAtAction("GetUsuario", new { id = Usuario.IdUsuario }, Usuario);
         }
 
-        /* 
-        [HttpPut("{id}")]
-        public IActionResult PutUsuario ([FromBody] int id){
-            if(!ModelState.IsValid){
+[HttpPut("{id}")]
+        public IActionResult PutUsuario([FromRoute] int id, [FromBody] Usuario usuario)
+        {
+            if (!ModelState.IsValid){
                 return BadRequest(ModelState);
             }
-
-            var currentUsuario = await usuarioservice.Usuarios.SingleOrDefaultAsync(p => p.IdUsuario == id);
-
-            if(currentUsuario == null){
-                return NotFound();
+            if (usuario.IdUsuario != id){
+                return BadRequest();
             }
+            usuarioService.Update(usuario);
 
-            usuarioservice.Usuarios.Update(currentUsuario);
-            await usuarioservice.SaveChangesAsync();
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteUsuario([FromRoute] int id)
+        {
+            if (!ModelState.IsValid){
+                return BadRequest(ModelState);
+            }
+            var currentUsuario = usuarioService.FindById(new Usuario{ IdUsuario = id});
+            if (currentUsuario == null){
+                return BadRequest();
+            }
+            usuarioService.Delete(currentUsuario);
 
             return Ok(currentUsuario);
-        }*/
+        }
 
     }
 }
