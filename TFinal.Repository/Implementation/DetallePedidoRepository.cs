@@ -35,7 +35,7 @@ namespace TFinal.Repository.Implementation
 
         public List<DetallePedido> ListByPedido(int idPedido)
         {
-            return context.DetallesPedido.Include(x => x.Pedido).Where(x => x.IdPedido == idPedido).ToList();
+            return context.DetallesPedido.Where(x => x.IdPedido == idPedido).ToList();
         }
 
         public void Save(DetallePedido entity)

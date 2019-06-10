@@ -21,10 +21,10 @@ namespace TFinal.Api.Controllers
         }
 
 
-        [HttpGet]
-        public IEnumerable<DetallePedido> GetDetallesPedido()
+        [HttpGet("{IdPedido}")]
+        public IEnumerable<DetallePedido> GetByPedido([FromRoute] int IdPedido)
         {
-            return detallePedidoService.ListAll();
+            return detallePedidoService.ListByPedido(IdPedido);
         }
 
         [HttpGet("{IdPedido}/{IdProducto}")]
