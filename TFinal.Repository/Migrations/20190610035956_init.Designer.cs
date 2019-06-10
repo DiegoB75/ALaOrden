@@ -10,7 +10,7 @@ using TFinal.Repository.Context;
 namespace TFinal.Repository.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190610011734_init")]
+    [Migration("20190610035956_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -263,6 +263,8 @@ namespace TFinal.Repository.Migrations
                     b.Property<int>("IdTransaccion")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CardNumber");
 
                     b.HasKey("IdTransaccion");
 
