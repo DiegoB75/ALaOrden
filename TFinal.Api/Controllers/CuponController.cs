@@ -19,20 +19,11 @@ namespace TFinal.Api.Controllers
             this.cuponService = cuponService;
         }
 
-
         [HttpGet]
         public IEnumerable<Cupon> GetCupon()
         {
             return cuponService.ListAll();
         }
-
-        /* 
-        [HttpGet]
-        public IEnumerable<Pedido> GetPedido() {
-            return cuponService.Pedidos;
-        }
-        */
-
 
         [HttpGet("{id}")]
         public IActionResult GetCupon([FromRoute] int id)
