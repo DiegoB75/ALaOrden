@@ -11,22 +11,30 @@ select * from Sede;
 insert into Sede values('Av. Universitaria',1,12.3234,15.3242),
 					   ('Av. Asuncion',2,14.1234,15.323),
 					   ('Av. Pascana',3,15.342,12.2344),
-					   ('Av. Wong',4,2.343,12.535);
+					   ('Av. Santa Elvira',4,2.343,12.535);
 
 
 select * from Marca;
 
 insert into Marca values('Gloria'),
-						('LG'),
-						('Samsung'),
-						('San Luis'),
-						('San Mateo');
+						('Coca Cola'),
+						('Cielo'),
+						('Oreo'),
+						('Costeño'),
+						('Molitalia');
 
 select * from Categoria;
 
-insert into Categoria values('Lacteos',null);
-insert into Categoria values('Leche',1);
-insert into Categoria values('Yogurt',1);
+insert into Categoria values('Lacteos',null),
+							('Leche',1),
+							('Yogurt',1),
+							('Bebidas',null),
+							('Aguas',4),
+							('Gaseosas',4),
+							('Abarrotes',null),
+							('Arroz',6),
+							('Galletas',6),
+							('Fideos',6)
 
 
 select * from Usuario;
@@ -40,18 +48,17 @@ insert into Usuario values('fernando1','$2dfkm$%2','%$#"#$!','fernando@gmail.com
 select * from Direccion;
 
 insert into Direccion values(1,12.4335,13.2355,'Av. Asuncion'),
-							(2,16.235,32.3555,'A la espalda del burger king'),
-							(3,2.33434,24.3455,'AEA'),
-							(4,5.23425,35.335,'Los Olivos'),
+							(2,16.235,32.3555,'Av. Escardo'),
+							(3,2.33434,24.3455,'Av. Santa Elvira'),
+							(4,5.23425,35.335,'Av. Javier Prado'),
 							(5,4.352,3.435,'Av. Marina');
 
-select * from Marca;
-select * from Categoria;
 select * from Producto;
 
-
 insert into Producto values(2,1,'Leche Evaporada','paquete',4,500,'g','Leche evaporada','/img/lecheevaporada.jpg'),
-						   (3,1,'Yogurt Fresa','botella',1,1000,'ml','Yogurt de sabor fresa','/img/yogurtfresa.jppg');
+						   (3,1,'Yogurt Fresa','botella',1,1000,'ml','Yogurt de sabor fresa','/img/yogurtfresa.jppg'),
+						   (6,2,'Coca-Cola Light','botella',1,625,'ml','Coca-Cola baja en azucar','/img/cocacolalight.jpg'),
+						   (5,3,'Cielo','botella',1,625,'ml','Agua mineral','/img/aguacielo.jpg');
 
 select * from Transaccion;
 
