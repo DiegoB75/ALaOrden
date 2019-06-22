@@ -46,7 +46,7 @@ namespace TFinal.Api.Controllers
             return CreatedAtAction("GetUsuario", new { id = Usuario.IdUsuario }, Usuario);
         }
 
-[HttpPut("{id}")]
+        [HttpPut("{id}")]
         public IActionResult PutUsuario([FromRoute] int id, [FromBody] Usuario usuario)
         {
             if (!ModelState.IsValid){

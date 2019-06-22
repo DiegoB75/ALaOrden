@@ -27,8 +27,7 @@ namespace TFinal.Repository.Implementation
 
         public List<Direccion> ListAll()
         {
-            //return context.Direcciones.ToList();
-            throw new System.NotImplementedException();
+            return context.Direcciones.ToList();
         }
 
         public List<Direccion> ListByUsuario(int idUsuario)

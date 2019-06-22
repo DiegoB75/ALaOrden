@@ -15,7 +15,7 @@
         ></v-text-field>
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
-          <v-btn slot="activator" color="primary" dark class="mb-2">Nuevo</v-btn>
+          <v-btn slot="activator" color="primary" dark class="mb-2" @click.native="limpiar">Nuevo</v-btn>
           <v-card>
             <v-card-title>
               <span class="headline">{{ formTitle }}</span>
@@ -43,7 +43,7 @@
         <template slot="items" slot-scope="props">
           <td class="justify-center layout px-0">
             <v-icon small class="mr-2" @click="editItem(props.item)">edit</v-icon>
-          
+            <v-icon small class="mr-2" @click="deleteItem(props.item)">delete</v-icon>
           </td>
           <td>{{ props.item.nombre }}</td>
         </template>
@@ -69,7 +69,8 @@ export default {
       editedIndex: -1,
 
       //TODO:Model
-      
+      idMarca:"",
+      nombre:""
 
     };
   },
@@ -87,24 +88,86 @@ export default {
 
   created() {
     //TODO
-
+    this.listar();
   },
   methods: {
     listar() {
       //TODO
+      let me = this;
+      axios
+        .get("api/marca")
+        .then(function(response) {
+          //console.log(response);
+          me.marcas = response.data;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     },
     editItem(item) {
       //TODO
+      this.idMarca = item.idMarca;
+      this.nombre = item.nombre;
+
+      this.editedIndex = 1;
+      this.dialog = true;
     },
     close() {
       this.dialog = false;
     },
     limpiar() {
-      this.id = "";
+      this.idMarca = "";
       this.nombre = "";
+      this.editedIndex = -1;
     },
+    deleteItem(item){
+         let me = this;
+        axios 
+          .delete("api/marca/"+item.idMarca)
+          .then(function(response) {
+            me.close();
+            me.listar();
+            me.limpiar();
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+    }
+    ,
     guardar() {
-     //TODO
+          if (this.editedIndex > -1) {
+        //Código para editar
+
+        let me = this;
+        axios 
+          .put("api/marca/"+me.idMarca, {
+            idMarca: me.idMarca,
+            nombre: me.nombre
+          })
+          .then(function(response) {
+            me.close();
+            me.listar();
+            me.limpiar();
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+      } else {
+        //Código para guardar
+        let me = this;
+        axios
+          .post("api/marca", {
+            nombre: me.nombre,
+          })
+          .then(function(response) {
+            me.close();
+            me.listar();
+            me.limpiar();
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+      }
     }
   }
 };

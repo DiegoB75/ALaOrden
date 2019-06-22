@@ -19,7 +19,11 @@ namespace TFinal.Api.Controllers
             this.direccionService = direccionService;
         }
 
-
+        [HttpGet]
+        public IEnumerable<Direccion> GetDireccion()
+        {
+            return direccionService.ListAll();
+        }
         [HttpGet("user={idUsuario}")]
         public IEnumerable<Direccion> GetByUsuario([FromRoute] int idUsuario)
         {

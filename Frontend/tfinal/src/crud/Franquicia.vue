@@ -15,7 +15,7 @@
         ></v-text-field>
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
-          <v-btn slot="activator" color="primary" dark class="mb-2">Nuevo</v-btn>
+          <v-btn slot="activator" color="primary" dark class="mb-2" @click.native="limpiar">Nuevo</v-btn>
           <v-card>
             <v-card-title>
               <span class="headline">{{ formTitle }}</span>
@@ -28,10 +28,10 @@
                     <v-text-field v-model="nombre" label="Nombre"></v-text-field>
                   </v-flex>
                   <v-flex xs12 sm12 md12>
-                    <v-text-field v-model="weburl" label="Url de la página web"></v-text-field>
+                    <v-text-field v-model="webUrl" label="Url de la página web"></v-text-field>
                   </v-flex>
                   <v-flex xs12 sm12 md12>
-                    <v-text-field v-model="apiurl" label="Url del Api"></v-text-field>
+                    <v-text-field v-model="apiUrl" label="Url del Api"></v-text-field>
                   </v-flex>
                   <v-flex xs12 sm12 md12>
                     <v-text-field v-model="logo" label="Logo"></v-text-field>
@@ -52,11 +52,12 @@
         <template slot="items" slot-scope="props">
           <td class="justify-center layout px-0">
             <v-icon small class="mr-2" @click="editItem(props.item)">edit</v-icon>
+            <v-icon small class="mr-2" @click="deleteItem(props.item)">delete</v-icon>
           
           </td>
           <td>{{ props.item.nombre }}</td>
-          <td>{{ props.item.weburl }}</td>
-          <td>{{ props.item.apiurl }}</td>
+          <td>{{ props.item.webUrl }}</td>
+          <td>{{ props.item.apiUrl }}</td>
           <td>{{ props.item.logo }}</td>
         </template>
         <template slot="no-data">
@@ -71,20 +72,24 @@ import axios from "axios";
 export default {
   data() {
     return {
-      marcas: [],
+      franquicias: [],
       dialog: false,
       headers: [
         { text: "Opciones", value: "opciones", sortable: false },
-        { text: "Nombre", value: "usuario", sortable: true },
-        { text: "Url de la página Web", value: "weburl", sortable: false },
-        { text: "Url del api", value: "apiurl", sortable: false },
+        { text: "Nombre", value: "nombre", sortable: true },
+        { text: "Url de la página Web", value: "webUrl", sortable: false },
+        { text: "Url del api", value: "apiUrl", sortable: false },
         { text: "Logo", value: "logo", sortable: false }
       ],
       search: "",
       editedIndex: -1,
 
       //TODO:Model
-      
+      idFranquicia:"",
+      nombre:"",
+      webUrl:"",
+      apiUrl:"",
+      logo:"",
 
     };
   },
@@ -102,27 +107,97 @@ export default {
 
   created() {
     //TODO
-
+    this.listar();
   },
   methods: {
     listar() {
       //TODO
+      let me = this;
+      axios
+        .get("api/franquicia")
+        .then(function(response) {
+          //console.log(response);
+          me.franquicias = response.data;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
+    deleteItem(item)
+    {
+       let me = this;
+      axios
+        .delete("api/franquicia/"+item.idFranquicia)
+        .then(function(response) {
+            me.close();
+            me.listar();
+            me.limpiar();
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     },
     editItem(item) {
       //TODO
+      this.editedIndex = 1;
+      this.dialog = true;
+      this.idFranquicia = item.idFranquicia;
+      this.nombre = item.nombre;
+      this.webUrl = item.webUrl;
+      this.apiUrl = item.apiUrl;
+      this.logo = item.logo;
     },
     close() {
       this.dialog = false;
     },
     limpiar() {
-      this.id = "";
+      this.idFranquicia = "";
       this.nombre = "";
-      this.weburl = "";
-      this.apiurl = "";
+      this.webUrl = "";
+      this.apiUrl = "";
       this.logo = "";
+      this.editedIndex = -1;
     },
     guardar() {
-     //TODO
+         if (this.editedIndex > -1) {
+        //Código para editar
+
+        let me = this;
+        axios 
+          .put("api/franquicia/"+me.idFranquicia, {
+            idFranquicia: me.idFranquicia,
+            nombre: me.nombre,
+            webUrl:me.webUrl,
+            apiUrl:me.apiUrl,
+            logo:me.logo
+          })
+          .then(function(response) {
+            me.close();
+            me.listar();
+            me.limpiar();
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+      } else {
+        //Código para guardar
+        let me = this;
+        axios
+          .post("api/franquicia", {
+            nombre: me.nombre,
+            webUrl:me.webUrl,
+            apiUrl:me.apiUrl,
+            logo:me.logo
+          })
+          .then(function(response) {
+            me.close();
+            me.listar();
+            me.limpiar();
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+      }
     }
   }
 };
