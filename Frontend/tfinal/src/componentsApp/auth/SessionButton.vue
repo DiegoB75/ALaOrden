@@ -1,11 +1,14 @@
 <template>
 <div>
-    <v-overflow-btn v-if="authentication==true"
+    <div v-if="authentication === true">
+    <v-overflow-btn
           :items="dropdown_text"
           label="Perfil      "
-          target="#dropdown-example"
         ></v-overflow-btn>
-    <v-btn v-else @onClick="authentication=!authentication" large color="primary">Primary</v-btn>
+    </div>
+    <div v-else-if="authentication === false">
+    <v-btn @click.native="autenticar" large color="primary">Primary</v-btn>
+    </div>
 </div>
 </template>
 <script>
@@ -13,7 +16,7 @@ import axios from "axios";
 export default {
   data() {
     return {
-      authentication: true
+      authentication: false
       //TODO:Model
       ,
       user:{apodo:'',hashContrasena:'',email:''},
@@ -63,7 +66,7 @@ export default {
 
     },autenticar(){
         this.authentication = true;
-        
+        console.log('gaaaa');
     }
   }
 };
