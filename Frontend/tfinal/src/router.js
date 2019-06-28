@@ -22,6 +22,11 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
+      path:'/prueba',
+      name:'prueba',
+      component: () => import('./componentsApp/auth/SessionButton.vue')
+    },
+    {
       path: '/',
       name: 'home',
       component: Home
