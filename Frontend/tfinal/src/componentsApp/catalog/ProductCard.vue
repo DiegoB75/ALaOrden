@@ -1,9 +1,6 @@
-<template  style="display: block;">
+<template>
         <v-flex
-          xs12
-          sm6
-          md4
-          lg3
+        md6
         >
 <v-card>
 

@@ -24,7 +24,7 @@ export default new Router({
     {
       path:'/prueba',
       name:'prueba',
-      component: () => import('./componentsApp/delivery/Delivery.vue')
+      component: () => import('./componentsApp/catalog/Catalog.vue')
     },
     {
       path:'/prueba2',

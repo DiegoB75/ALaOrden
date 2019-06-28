@@ -5,6 +5,7 @@
           <div>
                     <v-img
           src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"
+          
           aspect-ratio="2.75"
           height="70px"
           width="70px"
