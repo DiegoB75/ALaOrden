@@ -194,7 +194,7 @@ local_grocery_store</v-icon>
     <v-footer dark height="auto">
       <v-layout justify-center>
         <v-flex text-xs-center>
-          <v-card flat tile color="red lighten-1" class="white--text">
+          <v-card flat tile color="orange lighten-2" class="white--text">
             <v-card-text class="white--text pt-0">
              copyright &copy; AlaOrden, 2019. todos los derechos reservados
             </v-card-text>
