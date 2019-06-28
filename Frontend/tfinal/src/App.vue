@@ -9,11 +9,11 @@
       <v-list dense>
         <template>
           <v-list-tile :to="{name:'home'}">
-            <v-list-tile-action>
-              <v-icon>home</v-icon>
-            </v-list-tile-action>
+             <v-icon color="black -2">home</v-icon>
+            
+      
             <v-list-tile-title>
-              Inicio
+                  Inicio
             </v-list-tile-title>
           </v-list-tile>
         </template>
@@ -166,7 +166,7 @@
       </v-list>
     </v-navigation-drawer>
     <v-toolbar
-      color="blue darken-3"
+      color="red darken-1"
       dark
       app
       :clipped-left="$vuetify.breakpoint.mdAndUp"
@@ -191,9 +191,9 @@
     <v-footer dark height="auto">
       <v-layout justify-center>
         <v-flex text-xs-center>
-          <v-card flat tile color="primary" class="white--text">
+          <v-card flat tile color="orange lighten-2" class="white--text">
             <v-card-text class="white--text pt-0">
-             HAMP &copy;2019
+             copyright &copy; AlaOrden, 2019. todos los derechos reservados
             </v-card-text>
           </v-card>
         </v-flex>
