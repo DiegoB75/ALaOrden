@@ -6,5 +6,6 @@ namespace TFinal.Repository
     public interface ICarritoItemRepository : ICrudRepository<CarritoItem>
     {
         List<CarritoItem> ListByUsuario(int idUsuario);
+         void deleteAllByUserIdUser(int id);
     }
 }

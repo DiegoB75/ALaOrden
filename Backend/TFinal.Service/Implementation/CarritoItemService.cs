@@ -44,5 +44,18 @@ namespace TFinal.Service.Implementation
         {
             carritoRepository.Update(entity);
         }
+
+        public      void saveToCart(CarritoItem entity)
+              {
+            carritoRepository.Save(entity);
+        }
+    public void deleteFromCart(CarritoItem entity)
+         {
+            carritoRepository.Delete(entity);
+        }
+    public void emptyCart(int id)
+    {
+            carritoRepository.deleteAllByUserIdUser(id);
+        }
     }
 }
