@@ -41,5 +41,15 @@ namespace TFinal.Repository.Implementation
             context.Entry(entity).State=EntityState.Modified;
             context.SaveChanges();
         }
-    }
+
+         public  List<Producto> findAllByCategoryIdCategory(int id){
+              return context.Productos.Include(x => x.IdCategoria == id).ToList();
+         }
+
+        public   List<Producto> findByNameContaining(string name){
+              return context.Productos.Include(x => x.Nombre == name).ToList();
+        }
+   }
+ 
+    
 }
