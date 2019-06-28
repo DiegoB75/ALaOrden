@@ -48,5 +48,15 @@ namespace TFinal.Repository.Implementation
             context.Entry(entity).State = EntityState.Modified;
             context.SaveChanges();
         }
+
+        public void deleteAllByUserIdUser(int id){
+          
+            var Carrito = ListByUsuario(id);
+           foreach (var entity in Carrito)
+           {
+                context.CarritoItems.Remove(entity);
+           }
+           context.SaveChanges();
+        }
     }
 }
