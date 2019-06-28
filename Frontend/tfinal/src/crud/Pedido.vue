@@ -15,7 +15,7 @@
         ></v-text-field>
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
-          <v-btn slot="activator" color="primary" dark class="mb-2">Nuevo</v-btn>
+          <v-btn slot="activator" color="primary" dark class="mb-2" @click.native="nuevoItem">Nuevo</v-btn>
           <v-card>
             <v-card-title>
               <span class="headline">{{ formTitle }}</span>
@@ -25,22 +25,40 @@
               <v-container grid-list-md>
                 <v-layout wrap>
                   <v-flex xs12 sm12 md12>
-                    <v-text-field v-model="usuario" label="Usuario"></v-text-field>
+                    <v-autocomplete
+                      v-model="idUsuario"
+                      :items="usuarios"
+                      item-text="apodo"
+                      item-value="idUsuario"
+                    >
+                    </v-autocomplete>
                   </v-flex>
                   <v-flex xs12 sm12 md12>
-                    <v-text-field v-model="sede" label="Sede"></v-text-field>
+                    <v-autocomplete
+                      v-model="idSede"
+                      :items="sedes"
+                      item-text="idSede"
+                      item-value="idSede"
+                    >
+                    </v-autocomplete>
                   </v-flex>
                   <v-flex xs12 sm12 md12>
                     <v-text-field v-model="estado" label="Estado"></v-text-field>
                   </v-flex>
                   <v-flex xs12 sm12 md12>
-                    <v-text-field v-model="fecha" label="Fecha"></v-text-field>
+                   <v-date-picker v-model="fecha" ></v-date-picker>
                   </v-flex>
                   <v-flex xs12 sm12 md12>
                     <v-text-field v-model="direccion" label="Direccion"></v-text-field>
                   </v-flex>
                   <v-flex xs12 sm12 md12>
-                    <v-text-field v-model="transaccion" label="Transaccion"></v-text-field>
+                    <v-autocomplete
+                      v-model="idTransaccion"
+                      :items="transacciones"
+                      item-text="idTransaccion"
+                      item-value="idTransaccion"
+                    >
+                    </v-autocomplete>
                   </v-flex>
                   <v-flex xs12 sm12 md12>
                     <v-text-field v-model="subtotal" label="SubTotal"></v-text-field>
@@ -67,14 +85,14 @@
         <template slot="items" slot-scope="props">
           <td class="justify-center layout px-0">
             <v-icon small class="mr-2" @click="editItem(props.item)">edit</v-icon>
-          
+            <v-icon small class="mr-2" @click="deleteItem(props.item)">delete</v-icon>
           </td>
-          <td>{{ props.item.usuario }}</td>
-          <td>{{ props.item.sede }}</td>
+          <td>{{ props.item.usuario.apodo }}</td>
+          <td>{{ props.item.sede.idSede }}</td>
           <td>{{ props.item.estado }}</td>
           <td>{{ props.item.fecha }}</td>
           <td>{{ props.item.direccion }}</td>
-          <td>{{ props.item.transaccion }}</td>
+          <td>{{ props.item.transaccion.idTransaccion }}</td>
           <td>{{ props.item.subtotal }}</td>
           <td>{{ props.item.precioenvio }}</td>
           <td>{{ props.item.descuento }}</td>
@@ -91,7 +109,9 @@ import axios from "axios";
 export default {
   data() {
     return {
-      marcas: [],
+      usuarios: [],
+      sedes:[],
+      transacciones:[],
       dialog: false,
       headers: [
         { text: "Opciones", value: "opciones", sortable: false },
@@ -109,7 +129,16 @@ export default {
       editedIndex: -1,
 
       //TODO:Model
-      
+      idPedido:"",
+      usuario:"",
+      sede:"",
+      estado:"",
+      fecha:new Date().toISOString().substr(0,10),
+      direccion:"",
+      transaccion:"",
+      subtotal:"",
+      precioenvio:"",
+      descuento:"",
 
     };
   },
@@ -127,20 +156,74 @@ export default {
 
   created() {
     //TODO
-
+    this.listar();
   },
   methods: {
     listar() {
       //TODO
+      let me = this;
+
+      axios
+        .get("api/pedido")
+        .then(function(response) {
+          //console.log(response);
+          me.productos = response.data;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     },
     editItem(item) {
       //TODO
+      this.idPedido = item.idPedido;
+      this.usuario = item.usuario;
+      this.sede = item.sede;
+      this.estado = item.estado;
+      this.fecha = item.fecha;
+      this.direccion = item.direccion;
+      this.transaccion = item.transaccion;
+      this.subtotal = item.subtotal;
+      this.precioenvio = item.precioenvio;
+      this.descuento = item.descuento;
+      this.dialog = true;
+      this.editedIndex = 1;
+    },
+    nuevoItem(){
+      let me = this;
+      this.editedIndex = -1;
+      axios
+        .get("api/usuario")
+        .then(function(response) {
+          //console.log(response);
+          me.usuarios = response.data;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+      axios
+        .get("api/sede")
+        .then(function(response) {
+          //console.log(response);
+          me.sedes = response.data;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+        axios
+        .get("api/transaccion")
+        .then(function(response) {
+          //console.log(response);
+          me.transacciones = response.data;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     },
     close() {
       this.dialog = false;
     },
     limpiar() {
-      this.id = "";
+      this.idPedido = "";
       this.usuario = "";
       this.sede = "";
       this.estado = "";
@@ -151,8 +234,72 @@ export default {
       this.precioenvio = "";
       this.descuento = "";
     },
+    deleteItem(item){
+        let me = this;
+
+        axios
+        .delete("api/pedido/"+item.idPedido)
+        .then(function(response) {
+          //console.log(response);
+          me.close();
+          me.listar();
+          me.limpiar();
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
     guardar() {
      //TODO
+     if (this.editedIndex > -1) {
+        //Código para editar
+
+        let me = this;
+        axios 
+          .put("api/pedido/"+me.idPedido, {
+            idPedido: me.idPedido,
+            idUsuario:me.idUsuario,
+            idSede:me.idSede,
+            estado:me.estado,
+            fecha:me.fecha,
+            direccion: me.direccion,
+            idTransaccion:me.idTransaccion,
+            subtotal:me.subtotal,
+            precioenvio:me.precioenvio,
+            descuento:me.descuento
+          })
+          .then(function(response) {
+            me.close();
+            me.listar();
+            me.limpiar();
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+      } else {
+        //Código para guardar
+        let me = this;
+        axios
+          .post("api/pedido", {
+            idUsuario:me.idUsuario,
+            idSede:me.idSede,
+            estado:me.estado,
+            fecha:me.fecha,
+            direccion: me.direccion,
+            idTransaccion:me.idTransaccion,
+            subtotal:me.subtotal,
+            precioenvio:me.precioenvio,
+            descuento:me.descuento
+          })
+          .then(function(response) {
+            me.close();
+            me.listar();
+            me.limpiar();
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+      }
     }
   }
 };
