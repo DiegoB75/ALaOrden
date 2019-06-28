@@ -34,7 +34,7 @@ namespace TFinal.Repository.Implementation
 
         public List<CarritoItem> ListByUsuario(int idUsuario)
         {
-            return context.CarritoItems.Include(x => x.Producto).Where(x => x.IdUsuario == idUsuario).ToList();
+            return context.CarritoItems.Include(x => x.Producto).ThenInclude(p => p.Marca).Where(x => x.IdUsuario == idUsuario).ToList();
         }
 
         public void Save(CarritoItem entity)
