@@ -24,7 +24,12 @@ export default new Router({
     {
       path:'/prueba',
       name:'prueba',
-      component: () => import('./componentsApp/auth/SessionButton.vue')
+      component: () => import('./componentsApp/catalog/Catalog.vue')
+    },
+    {
+      path:'/prueba2',
+      name:'prueba2',
+      component: () => import('./componentsApp/category/Categories.vue')
     },
     {
       path: '/',

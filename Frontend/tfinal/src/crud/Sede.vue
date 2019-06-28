@@ -58,7 +58,7 @@
           
           </td>
           <td>{{ props.item.direccion }}</td>
-          <td>{{ props.item.idFranquicia }}</td>
+          <td>{{ props.item.franquicia.nombre }}</td>
           <td>{{ props.item.longitud }}</td>
           <td>{{ props.item.latitud }}</td>
         </template>

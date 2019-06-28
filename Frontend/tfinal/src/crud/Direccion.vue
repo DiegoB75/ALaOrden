@@ -58,7 +58,7 @@
             <v-icon small class="mr-2" @click="deleteItem(props.item)">delete</v-icon>
           
           </td>
-          <td>{{ props.item.idUsuario }}</td>
+          <td>{{ props.item.idUsuario}}</td>
           <td>{{ props.item.longitud }}</td>
           <td>{{ props.item.latitud }}</td>
           <td>{{ props.item.descripcion }}</td>

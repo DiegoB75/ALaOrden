@@ -97,6 +97,8 @@ namespace TFinal.Api.Controllers
             categoriaService.Delete(currentCategoria);
 
             return Ok(currentCategoria);
+
+            
         }
     }
 }

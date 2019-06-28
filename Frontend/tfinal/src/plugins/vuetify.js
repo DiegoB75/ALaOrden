@@ -1,7 +1,6 @@
 import Vue from 'vue'
-import Vuetify from 'vuetify/lib'
+import Vuetify,{VLayout} from 'vuetify/lib'
 import 'vuetify/src/stylus/app.styl'
-
 Vue.use(Vuetify, {
   theme: {
     primary: '#ee44aa',
@@ -16,4 +15,7 @@ Vue.use(Vuetify, {
     customProperties: true
   },
   iconfont: 'md',
+  components: {
+    VLayout
+  }
 })
