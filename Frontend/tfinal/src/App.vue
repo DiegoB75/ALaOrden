@@ -29,7 +29,7 @@
             </v-list-tile>
             <v-list-tile :to="{ name: 'usuarios'}">
               <v-list-tile-action>
-                <v-icon>table_chart</v-icon>
+                <v-icon>face</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -39,7 +39,7 @@
             </v-list-tile>
             <v-list-tile :to="{ name: 'marcas'}">
               <v-list-tile-action>
-                <v-icon>table_chart</v-icon>
+                <v-icon>horizontal_split</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -49,7 +49,7 @@
             </v-list-tile>
             <v-list-tile :to="{ name: 'transacciones'}">
               <v-list-tile-action>
-                <v-icon>table_chart</v-icon>
+                <v-icon>featured_play_list</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -59,7 +59,7 @@
             </v-list-tile>
             <v-list-tile :to="{ name: 'sedes'}">
               <v-list-tile-action>
-                <v-icon>table_chart</v-icon>
+                <v-icon>map</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -79,7 +79,7 @@
             </v-list-tile>
             <v-list-tile :to="{ name: 'productos'}">
               <v-list-tile-action>
-                <v-icon>table_chart</v-icon>
+                <v-icon>dashboard</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -109,7 +109,7 @@
             </v-list-tile>
             <v-list-tile :to="{ name: 'direcciones'}">
               <v-list-tile-action>
-                <v-icon>table_chart</v-icon>
+                <v-icon>place</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -119,7 +119,7 @@
             </v-list-tile>
             <v-list-tile :to="{ name: 'detallepedidos'}">
               <v-list-tile-action>
-                <v-icon>table_chart</v-icon>
+                <v-icon>list_alt</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -129,7 +129,7 @@
             </v-list-tile>
             <v-list-tile :to="{ name: 'cupones'}">
               <v-list-tile-action>
-                <v-icon>table_chart</v-icon>
+                <v-icon>local_offer</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -139,7 +139,7 @@
             </v-list-tile>
             <v-list-tile :to="{ name: 'categorias'}">
               <v-list-tile-action>
-                <v-icon>table_chart</v-icon>
+                <v-icon>local_activity</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -149,7 +149,8 @@
             </v-list-tile>
             <v-list-tile :to="{ name: 'carritoitems'}">
               <v-list-tile-action>
-                <v-icon>table_chart</v-icon>
+                <v-icon>
+local_grocery_store</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title>
