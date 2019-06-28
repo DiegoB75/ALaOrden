@@ -1,33 +1,49 @@
 <template>
-    <div v-if="results.length>0">
-        <h1>YES</h1>
-    </div>
-    <div v-else>
-        <v-container fluid grid-list-md>
-    <v-data-iterator
-      :items="items"
-      :rows-per-page-items="rowsPerPageItems"
-      :pagination.sync="pagination"
-      content-tag="v-layout"
-      row
-      wrap
-    >
-      </v-data-iterator>
+<v-layout align-start>
+  <v-container>
+ <v-toolbar flat color="white" md12 xs12 xl12>
+     
+        <v-toolbar-title>Catalogo de Productos</v-toolbar-title>
+        <v-divider class="mx-2" inset vertical></v-divider>
+        <v-spacer></v-spacer>
+        <v-text-field
+          class="text-xs-center"
+          v-model="search"
+          append-icon="search"
+          label="Búsqueda"
+          hide-details
+        ></v-text-field>
+      </v-toolbar>
   </v-container>
+        <v-container >
+    <div class="ml-3 mr-3 mt-3 mb-3" md3 v-for="(product, index) in items" :key="`${index}`" :search="search">
+        <card-product></card-product>
     </div>
+
+  </v-container>
+</v-layout>
+  
 </template>
 <script>
-  export default {
-    data() {
+import ProductCard from "./ProductCard.vue";
+export default {
+  data() {
     return {
-     results:[{id:1},{id:2},{id:3}]
-    }},
-    methods:{
-
-    }
+      items: [{ id: 1 }, { id: 2 }, { id: 3 }],
+      rowsPerPageItems: [4, 8, 12],
+      pagination: {
+        rowsPerPage: 4
+      },
+      search:''
+    };
+  },
+  methods: {},
+  components: {
+    "card-product": ProductCard
   }
+};
 
-  /*let title = results.length === 0 ?
+/*let title = results.length === 0 ?
       (<h5>No se han encontrado coincidencias a su busqueda</h5>) :
       (<h5>Mostrando: {results.length} de {"x"} </h5>);
 
@@ -39,5 +55,4 @@
         </div>
       </div>
     );*/
-
 </script>
