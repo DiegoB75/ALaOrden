@@ -24,7 +24,7 @@ export default new Router({
     {
       path:'/prueba',
       name:'prueba',
-      component: () => import('./componentsApp/catalog/Catalog.vue')
+      component: () => import('./componentsApp/quotation/Quotation.vue')
     },
     {
       path:'/prueba2',

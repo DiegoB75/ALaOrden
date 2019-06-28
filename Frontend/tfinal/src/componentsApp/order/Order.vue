@@ -5,9 +5,7 @@
       Seleccione dirección de envio
     </v-stepper-step>
     <v-stepper-content step="1">
-      <router-view>
-        
-      </router-view>
+      <Quotation />
     </v-stepper-content>
 
     <v-stepper-step :complete="st > 2" step="2">
@@ -27,6 +25,7 @@
   </v-stepper>
 </template>
 <script>
+  import { Quotation } from "../quotation/Quotation";
   export default {
     data () {
       return {

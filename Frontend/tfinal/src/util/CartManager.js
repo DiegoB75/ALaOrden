@@ -1,27 +1,27 @@
 export default class CartManager {
 
-    static addToCart(cart, product, quantity) {
+    static addToCart(cart, producto, cantidad) {
       if (!cart.isEmpty) {
-        let item = cart.find(x => x.idProduct === product.idProduct);
+        let item = cart.find(x => x.idProducto === producto.idProducto);
         if (typeof item === 'undefined') {
-          cart.push({idProduct: product.idProduct, product, quantity});
+          cart.push({idProducto: producto.idProducto, producto, cantidad});
         } else {
-          item.quantity += quantity;
+          item.cantidad += cantidad;
         }
       }
       else{
-        cart.push({idProduct: product.idProduct, product, quantity});
+        cart.push({idProducto: producto.idProducto, producto, cantidad});
       }
       return [...cart];
     }
   
-    static removeFromCart(cart, idProduct) {
-      return cart.filter(x => x.idProduct !== idProduct);
+    static removeFromCart(cart, idProducto) {
+      return cart.filter(x => x.idProducto !== idProducto);
     }
   
-    static updateCart(cart, idProduct, quantity) {
-      let item = cart.find(x => x.idProduct === idProduct);
-      item.quantity = quantity;
+    static updateCart(cart, idProducto, cantidad) {
+      let item = cart.find(x => x.idProducto === idProducto);
+      item.cantidad = cantidad;
       return cart;
     }
   }
