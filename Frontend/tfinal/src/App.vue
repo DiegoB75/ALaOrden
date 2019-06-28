@@ -9,11 +9,11 @@
       <v-list dense>
         <template>
           <v-list-tile :to="{name:'home'}">
-            <v-list-tile-action>
-              <v-icon>home</v-icon>
-            </v-list-tile-action>
+             <v-icon color="black -2">home</v-icon>
+            
+      
             <v-list-tile-title>
-              Inicio
+                  Inicio
             </v-list-tile-title>
           </v-list-tile>
         </template>
@@ -29,7 +29,7 @@
             </v-list-tile>
             <v-list-tile :to="{ name: 'usuarios'}">
               <v-list-tile-action>
-                <v-icon>table_chart</v-icon>
+                <v-icon>face</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -39,7 +39,7 @@
             </v-list-tile>
             <v-list-tile :to="{ name: 'marcas'}">
               <v-list-tile-action>
-                <v-icon>table_chart</v-icon>
+                <v-icon>horizontal_split</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -49,7 +49,7 @@
             </v-list-tile>
             <v-list-tile :to="{ name: 'transacciones'}">
               <v-list-tile-action>
-                <v-icon>table_chart</v-icon>
+                <v-icon>featured_play_list</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -59,7 +59,7 @@
             </v-list-tile>
             <v-list-tile :to="{ name: 'sedes'}">
               <v-list-tile-action>
-                <v-icon>table_chart</v-icon>
+                <v-icon>map</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -79,7 +79,7 @@
             </v-list-tile>
             <v-list-tile :to="{ name: 'productos'}">
               <v-list-tile-action>
-                <v-icon>table_chart</v-icon>
+                <v-icon>dashboard</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -109,7 +109,7 @@
             </v-list-tile>
             <v-list-tile :to="{ name: 'direcciones'}">
               <v-list-tile-action>
-                <v-icon>table_chart</v-icon>
+                <v-icon>place</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -119,7 +119,7 @@
             </v-list-tile>
             <v-list-tile :to="{ name: 'detallepedidos'}">
               <v-list-tile-action>
-                <v-icon>table_chart</v-icon>
+                <v-icon>list_alt</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -129,7 +129,7 @@
             </v-list-tile>
             <v-list-tile :to="{ name: 'cupones'}">
               <v-list-tile-action>
-                <v-icon>table_chart</v-icon>
+                <v-icon>local_offer</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -139,7 +139,7 @@
             </v-list-tile>
             <v-list-tile :to="{ name: 'categorias'}">
               <v-list-tile-action>
-                <v-icon>table_chart</v-icon>
+                <v-icon>local_activity</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -149,7 +149,8 @@
             </v-list-tile>
             <v-list-tile :to="{ name: 'carritoitems'}">
               <v-list-tile-action>
-                <v-icon>table_chart</v-icon>
+                <v-icon>
+local_grocery_store</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -166,7 +167,7 @@
       </v-list>
     </v-navigation-drawer>
     <v-toolbar
-      color="blue darken-3"
+      color="red darken-1"
       dark
       app
       :clipped-left="$vuetify.breakpoint.mdAndUp"
@@ -189,9 +190,9 @@
     <v-footer dark height="auto">
       <v-layout justify-center>
         <v-flex text-xs-center>
-          <v-card flat tile color="primary" class="white--text">
+          <v-card flat tile color="orange lighten-2" class="white--text">
             <v-card-text class="white--text pt-0">
-             HAMP &copy;2019
+             copyright &copy; AlaOrden, 2019. todos los derechos reservados
             </v-card-text>
           </v-card>
         </v-flex>
