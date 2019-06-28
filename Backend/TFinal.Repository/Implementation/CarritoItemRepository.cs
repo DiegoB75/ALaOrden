@@ -34,7 +34,7 @@ namespace TFinal.Repository.Implementation
 
         public List<CarritoItem> ListByUsuario(int idUsuario)
         {
-            return context.CarritoItems.Include(x => x.Producto).Where(x => x.IdUsuario == idUsuario).ToList();
+            return context.CarritoItems.Include(x => x.Producto).ThenInclude(p => p.Marca).Where(x => x.IdUsuario == idUsuario).ToList();
         }
 
         public void Save(CarritoItem entity)
@@ -47,6 +47,16 @@ namespace TFinal.Repository.Implementation
         {
             context.Entry(entity).State = EntityState.Modified;
             context.SaveChanges();
+        }
+
+        public void deleteAllByUserIdUser(int id){
+          
+            var Carrito = ListByUsuario(id);
+           foreach (var entity in Carrito)
+           {
+                context.CarritoItems.Remove(entity);
+           }
+           context.SaveChanges();
         }
     }
 }

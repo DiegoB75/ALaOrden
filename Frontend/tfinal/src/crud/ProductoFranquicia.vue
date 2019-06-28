@@ -15,7 +15,7 @@
         ></v-text-field>
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
-          <v-btn slot="activator" color="primary" dark class="mb-2">Nuevo</v-btn>
+          <v-btn slot="activator" color="primary" dark class="mb-2" @click.native="nuevoItem" >Nuevo</v-btn>
           <v-card>
             <v-card-title>
               <span class="headline">{{ formTitle }}</span>
@@ -25,10 +25,22 @@
               <v-container grid-list-md>
                 <v-layout wrap>
                   <v-flex xs12 sm12 md12>
-                    <v-text-field v-model="producto" label="Producto"></v-text-field>
+                    <v-autocomplete
+                      v-model="idProducto"
+                      :items="productos"
+                      item-text="nombre"
+                      item-value="idProducto"
+                    >
+                    </v-autocomplete>
                   </v-flex>
                   <v-flex xs12 sm12 md12>
-                    <v-text-field v-model="franquicia" label="Franquicia"></v-text-field>
+                    <v-autocomplete
+                      v-model="idFranquicia"
+                      :items="franquicias"
+                      item-text="nombre"
+                      item-value="idFranquicia"
+                    >
+                    </v-autocomplete>
                   </v-flex>
                   <v-flex xs12 sm12 md12>
                     <v-text-field v-model="codreferencia" label="Codigo de referencia"></v-text-field>
@@ -49,10 +61,10 @@
         <template slot="items" slot-scope="props">
           <td class="justify-center layout px-0">
             <v-icon small class="mr-2" @click="editItem(props.item)">edit</v-icon>
-          
+            <v-icon small class="mr-2" @click="deleteItem(props.item)">delete</v-icon>
           </td>
-          <td>{{ props.item.producto }}</td>
-          <td>{{ props.item.franquicia }}</td>
+          <td>{{ props.item.producto.nombre }}</td>
+          <td>{{ props.item.franquicia.nombre }}</td>
           <td>{{ props.item.codreferencia }}</td>
         </template>
         <template slot="no-data">
@@ -67,7 +79,9 @@ import axios from "axios";
 export default {
   data() {
     return {
-      usuarios: [],
+      productos:[],
+      productofranquicias: [],
+      franquicias:[],
       dialog: false,
       headers: [
         { text: "Opciones", value: "opciones", sortable: false },
@@ -79,8 +93,9 @@ export default {
       editedIndex: -1,
 
       //TODO:Model
-      
-
+      producto:"",
+      franquicia:"",
+      codreferencia:"",
     };
   },
   computed: {
@@ -97,26 +112,113 @@ export default {
 
   created() {
     //TODO
-
+    this.listar();
   },
   methods: {
     listar() {
       //TODO
+      let me = this;
+
+      axios
+        .get("api/detallefranquicia")
+        .then(function(response) {
+          //console.log(response);
+          me.productofranquicias = response.data;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     },
     editItem(item) {
       //TODO
+      this.producto = item.producto;
+      this.franquicia = item.franquicia;
+      this.codreferencia = item.codreferencia;
+      this.dialog = true;
+      this.editedIndex = 1;
+    },
+    nuevoItem(){
+      let me = this;
+      this.editedIndex = -1;
+      axios
+        .get("api/producto")
+        .then(function(response) {
+          //console.log(response);
+          me.productos = response.data;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+      axios
+        .get("api/franquicia")
+        .then(function(response) {
+          //console.log(response);
+          me.franquicias = response.data;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     },
     close() {
       this.dialog = false;
     },
     limpiar() {
-      this.id = "";
       this.producto = "";
       this.franquicia = "";
       this.codreferencia = "";
     },
+    deleteItem(item){
+        let me = this;
+
+        axios
+        .delete("api/detallefranquicia/"+item.franquicia+"/"+item.producto)
+        .then(function(response) {
+          //console.log(response);
+          me.close();
+          me.listar();
+          me.limpiar();
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
     guardar() {
-     //TODO
+     if (this.editedIndex > -1) {
+        //Código para editar
+
+        let me = this;
+        axios 
+          .put("api/detallefranquicia/"+me.franquicia+"/"+me.producto, {
+            producto: me.producto,
+            franquicia: me.franquicia,
+            codreferencia: me.codreferencia
+          })
+          .then(function(response) {
+            me.close();
+            me.listar();
+            me.limpiar();
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+      } else {
+        //Código para guardar
+        let me = this;
+        axios
+          .post("api/detallefranquicia", {
+            producto: me.producto,
+            franquicia: me.franquicia,
+            codreferencia: me.codreferencia
+          })
+          .then(function(response) {
+            me.close();
+            me.listar();
+            me.limpiar();
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+      }
     }
   }
 };

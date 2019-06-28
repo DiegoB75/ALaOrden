@@ -11,7 +11,7 @@ namespace TFinal.Domain
         public int IdSede { get; set; }
         public Sede Sede { get; set; }
         public string Estado { get; set; }
-        public string Fecha { get; set; }
+        public DateTime Fecha { get; set; }
         public string Direccion { get; set; }
         public int IdTransaccion { get; set; }
         public Transaccion Transaccion { get; set; }
