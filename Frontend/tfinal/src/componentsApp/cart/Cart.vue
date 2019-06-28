@@ -28,7 +28,9 @@
         <v-divider></v-divider>
 
         <v-list>
-            <cart-item v-for="(cartitem, index) in cart" :key="`fruit-${index}`"></cart-item>
+          <div  v-for="(cartitem, index) in cart" :key="`fruit-${index}`">
+            <cart-item :carrito = "cartitem"></cart-item>
+          </div>
         </v-list>
 
         <v-card-actions>
@@ -50,7 +52,9 @@ import CartItem from './CartItem';
       menu: false,
       message: false,
       hints: true
-      ,cart:[{id:1},{id:2},{id:3},{id:4}]
+      ,cart:[
+        {producto:{idProducto:1,nombre:'Agua Mineral'},marca:{idMarca:1,nombre:'San Luis'},cantidad:18}
+      ]
     }},
     methods:{
         gaa(){

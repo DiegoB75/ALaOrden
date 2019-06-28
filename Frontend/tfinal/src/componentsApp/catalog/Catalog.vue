@@ -1,6 +1,7 @@
 <template>
 <v-layout align-start>
-  <v-container>
+  <v-flex>
+  <v-container row>
  <v-toolbar flat color="white" md12 xs12 xl12>
      
         <v-toolbar-title>Catalogo de Productos</v-toolbar-title>
@@ -14,13 +15,31 @@
           hide-details
         ></v-text-field>
       </v-toolbar>
+  </v-container >
+     <template>
+  <v-container fluid grid-list-md>
+    <v-data-iterator
+      :items="items"
+      :rows-per-page-items="rowsPerPageItems"
+      :pagination.sync="pagination"
+      content-tag="v-layout"
+      row
+      wrap
+    >
+      <template v-slot:item="props">
+        <v-flex
+          xs12
+          sm6
+          md4
+          lg3
+        >
+         <card-product producto="{nombre:'aaaa'}}"></card-product>
+        </v-flex>
+      </template>
+    </v-data-iterator>
   </v-container>
-        <v-container >
-    <div class="ml-3 mr-3 mt-3 mb-3" md3 v-for="(product, index) in items" :key="`${index}`" :search="search">
-        <card-product></card-product>
-    </div>
-
-  </v-container>
+</template>
+  </v-flex>
 </v-layout>
   
 </template>
@@ -29,15 +48,38 @@ import ProductCard from "./ProductCard.vue";
 export default {
   data() {
     return {
-      items: [{ id: 1 }, { id: 2 }, { id: 3 }],
+      items: [{ idProducto:1,nombre:'aea' }, { idProducto:2,nombre:'aeax2' }, { idProducto:3 , nombre:'aeax3' }],
       rowsPerPageItems: [4, 8, 12],
       pagination: {
         rowsPerPage: 4
       },
-      search:''
+      search:'',
+      quantityRules: [
+        v => !!v || 'Number is required',
+        v => v >= 0 || 'Number must be greater than 0',
+        v => v <= 99 || 'Number must be less than 100'
+      ]
     };
   },
-  methods: {},
+  methods: {
+    controlQuantity(item){
+       let q = parseInt(this.item.cantidad);
+        if(q < 0){
+         this.item.cantidad = 0;
+        }else if(q > 99){
+          this.item.cantidad = 99;
+        }
+      },
+ validar(){
+        let q = parseInt(this.quantity);
+        if(q < 0){
+          this.quantity = 0;
+        }else if(q > 99){
+          this.quantity = 99;
+        }
+      }
+
+  },
   components: {
     "card-product": ProductCard
   }
