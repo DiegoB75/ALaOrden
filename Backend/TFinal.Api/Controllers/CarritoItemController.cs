@@ -69,7 +69,7 @@ namespace TFinal.Api.Controllers
         }
 
         [HttpDelete("{idUsuario}/{idProducto}")]
-        public IActionResult DeleteCarrito([FromRoute] int idUsuario,[FromRoute] int idProducto){
+        public IActionResult DeleteCarritoItem([FromRoute] int idUsuario,[FromRoute] int idProducto){
             if (!ModelState.IsValid){
                 return BadRequest(ModelState);
             }
@@ -81,6 +81,16 @@ namespace TFinal.Api.Controllers
             }
 
             carritoItemService.Delete(currentCarrito);
+            return NoContent();
+        }
+
+        [HttpDelete("clear={idUsuario}")]
+        public IActionResult DeleteCarrito([FromRoute] int idUsuario){
+            if (!ModelState.IsValid){
+                return BadRequest(ModelState);
+            }
+
+            carritoItemService.emptyCart(idUsuario);
             return NoContent();
         }
     }
