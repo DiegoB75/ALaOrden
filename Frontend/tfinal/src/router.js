@@ -24,12 +24,12 @@ export default new Router({
     {
       path:'/prueba',
       name:'prueba',
-      component: () => import('./componentsApp/catalog/Catalog.vue')
+      component: () => import('./componentsApp/cart/Cart.vue')
     },
     {
       path:'/prueba2',
       name:'prueba2',
-      component: () => import('./componentsApp/category/Categories.vue')
+      component: () => import('./componentsApp/catalog/Catalog.vue')
     },
     {
       path: '/',

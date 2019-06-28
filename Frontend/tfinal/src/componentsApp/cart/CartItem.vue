@@ -11,12 +11,10 @@
           width="70px"
           style="display: block;"
         ></v-img>
-            <h3 style="display: inline;" class="headline mb-0">Carrito Nombre</h3>
-            <span style="display: inline;">    <v-btn fab dark small color="primary">
-      <v-icon dark>remove</v-icon>
-    </v-btn></span><div  style="display: inline;"> {{ cartItem.id }} </div><span style="display: inline;"><v-btn fab dark small color="primary">
-      <v-icon dark>add</v-icon>
-    </v-btn></span>
+            <h3 style="display: inline;" class="headline mb-0">{{cartItem.producto.nombre}}</h3>
+        <v-input   type="number" v-model="cartItem.cantidad"
+        click:append="incrementar" click:prepend="decrementar"
+         append-icon="add" prepend-icon="remove">{{cartItem.cantidad}} </v-input>
           <a>eliminar</a>
           </div>
         </v-card-title>
@@ -26,16 +24,24 @@
 </template>
 <script>
   export default {
+    props:['carrito'],
     data() {
     return {
       fav: true,
       menu: false,
       message: false,
       hints: true
-      ,cartItem:{id:1}
+      ,cartItem:''
     }},
     methods:{
-
-    }
+      incrementar(){
+        this.carrito.cantidad = this.carrito.cantidad + 1;
+      },decrementar(){
+this.carrito.cantidad = this.carrito.cantidad - 1;
+      }
+    },created(){
+      this.cartItem = this.carrito;
+      console.log(this.carrito);
+    },
   }
 </script>

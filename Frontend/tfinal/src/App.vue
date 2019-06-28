@@ -177,9 +177,7 @@
         <span class="hidden-sm-and-down">A la Orden</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn icon>
-        <v-icon>apps</v-icon>
-      </v-btn>
+    <cart-button></cart-button>
     </v-toolbar>
     <v-content>
       <v-container fluid fill-height>
@@ -205,13 +203,16 @@
 
 
 <script>
-
+import Cart from './componentsApp/cart/Cart.vue'
 export default {
   name: 'App',
   data () {
     return {
       drawer: true,
      }
+  },components:
+  {
+    'cart-button':Cart
   }
 }
 </script>

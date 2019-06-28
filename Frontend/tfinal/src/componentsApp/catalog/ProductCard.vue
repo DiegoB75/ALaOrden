@@ -1,40 +1,31 @@
 <template>
-        <v-flex
-        md6
-        >
-<v-card>
-
-        <v-card-title primary-title >
+ <v-card>
+            <v-list dense>
+              <v-card-title primary-title >
           <div>
-            <v-container>
-         <v-img
-          src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"
-          aspect-ratio="2.75"
-        ></v-img>
-              
-        </v-container>
-          <v-container>
-            <h3 class="headline mb-0">Nombre del Producto</h3>
-
-              </v-container>
-          <v-container>
+            <v-img
+             src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"
+             aspect-ratio="2.75"
+             width="200px"
+             height="150px"
+            ></v-img>
+          
+            <h3 class="headline mb-0">{{producto.nombre}}</h3>
+         
           <v-text-field v-model="quantity" type="number" label="Quantity" :rules="quantityRules"></v-text-field>
           <a>eliminar</a>
-        </v-container>
-          
+           
           </div>
         </v-card-title>
-
-      
-      </v-card>
-        </v-flex>
+            </v-list>
+          </v-card>
 </template>
 <script>
+import Catalog from './Catalog.vue';
   export default {
-      name:'product-card',
+    props:['producto'],
     data() {
     return {
-     result:{id:1},
      quantity:0,
       quantityRules: [
         v => !!v || 'Number is required',
@@ -56,7 +47,9 @@
         quantity(){
           this.validar();
         }
-    }
+    },  components: {
+    Catalog,
+  },
   }
 
 </script>

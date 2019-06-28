@@ -3,13 +3,13 @@ import Vuetify,{VLayout} from 'vuetify/lib'
 import 'vuetify/src/stylus/app.styl'
 Vue.use(Vuetify, {
   theme: {
-    primary: '#ee44aa',
-    secondary: '#424242',
-    accent: '#82B1FF',
-    error: '#FF5252',
-    info: '#2196F3',
-    success: '#4CAF50',
-    warning: '#FFC107'
+    primary: '#2445c9',
+    secondary: '#63e08d',
+    accent: '#e38046',
+    error: '#f22707',
+    info: '#f2ff42',
+    success: '#39e363',
+    warning: '#fa021b'
   },
   options: {
     customProperties: true
