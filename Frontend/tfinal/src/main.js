@@ -6,7 +6,7 @@ import store from './store'
 
 import axios from 'axios'
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 axios.defaults.baseURL='http://localhost:5000'
 

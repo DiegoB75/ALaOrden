@@ -1,9 +1,9 @@
 <template>
-    <product-card/>
+    <TEST/>
 </template>
 <script>
-  import ProductCard from "./components/catalog/ProductCard";
+  import TEST from "./components/catalog/Catalog";
   export default {
-    components: {ProductCard}
+    components: {TEST}
   }
 </script>
