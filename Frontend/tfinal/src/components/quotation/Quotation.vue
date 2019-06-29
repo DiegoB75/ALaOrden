@@ -45,7 +45,7 @@
   </v-container>
 </template>
 <script>
-import logoDir from "../../assets/img/franchises/"
+import logoDir from "../../assets/img/franchises"
 export default {
   data() {
     return {

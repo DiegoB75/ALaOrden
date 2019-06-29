@@ -18,8 +18,6 @@
                 </v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
-
-         
         </template>
 
         <template>
@@ -165,11 +163,10 @@ local_grocery_store</v-icon>
 
           </v-list-group>
         </template>
-        
-       
-        
+
       </v-list>
     </v-navigation-drawer>
+
     <v-toolbar
       color="red darken-1"
       dark
@@ -182,7 +179,7 @@ local_grocery_store</v-icon>
         <span class="hidden-sm-and-down">A la Orden</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-    <cart-button></cart-button>
+    <cart-button />
     </v-toolbar>
     <v-content>
       <v-container fluid fill-height>
@@ -208,7 +205,7 @@ local_grocery_store</v-icon>
 
 
 <script>
-import Cart from './componentsApp/cart/Cart.vue'
+import Cart from './components/cart/Cart.vue'
 export default {
   name: 'App',
   data () {

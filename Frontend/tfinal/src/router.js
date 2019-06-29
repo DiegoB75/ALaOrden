@@ -15,27 +15,18 @@ import Cupon from './crud/Cupon.vue'
 import Categoria from './crud/Categoria.vue'
 import CarritoItem from './crud/CarritoItem.vue'
 
-Vue.use(Router)
+import Test from './Test'
+
+Vue.use(Router);
 
 export default new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
     {
-      path:'/prueba',
-      name:'prueba',
-
-      component: () => import('./componentsApp/cart/Cart.vue')
-    },
-    {
-      path:'/prueba2',
-      name:'prueba2',
-      component: () => import('./componentsApp/catalog/Catalog.vue')
-    },
-    {
       path: '/',
-      name: 'home',
-      component: Home
+      name: 'test',
+      component: Test
     },
     {
       path: '/usuarios',
