@@ -23,6 +23,7 @@
       </v-card>
 </template>
 <script>
+import { mapActions } from 'vuex'
   export default {
     props:['carrito'],
     data() {
@@ -34,11 +35,10 @@
       ,cartItem:''
     }},
     methods:{
-      incrementar(){
-        this.carrito.cantidad = this.carrito.cantidad + 1;
-      },decrementar(){
-this.carrito.cantidad = this.carrito.cantidad - 1;
-      }
+      ...mapActions({
+        incrementar: '',
+        decrementar: ''
+      })
     },created(){
       this.cartItem = this.carrito;
       console.log(this.carrito);

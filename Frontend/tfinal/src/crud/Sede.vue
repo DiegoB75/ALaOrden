@@ -128,6 +128,16 @@ export default {
         });
     },
     editItem(item) {
+    let me = this;
+      axios
+        .get("api/franquicia")
+        .then(function(response) {
+          //console.log(response);
+          me.franquicias = response.data;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
       //TODO
       this.idSede = item.idSede;
       this.direccion = item.direccion;

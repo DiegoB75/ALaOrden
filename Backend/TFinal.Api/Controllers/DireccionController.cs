@@ -74,16 +74,9 @@ namespace TFinal.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var currentDireccion = direccionService.FindById(new Direccion { IdDireccion = id });
+            direccionService.Update(direccion);
 
-            if (currentDireccion == null)
-            {
-                return NotFound();
-            }
-
-            direccionService.Update(currentDireccion);
-
-            return Ok(currentDireccion);
+            return Ok(direccion);
         }
         [HttpDelete("{id}")]
 
