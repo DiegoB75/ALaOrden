@@ -10,10 +10,12 @@
              height="150px"
             ></v-img>
           
-            <h3 class="headline mb-0">{{producto.nombre}}</h3>
+            <h2 class="headline mb-0">Producto Nombre</h2>
+
+            <h4 class="headline mb-0">Descripcion</h4>
          
           <v-text-field v-model="quantity" type="number" label="Quantity" :rules="quantityRules"></v-text-field>
-          <a>eliminar</a>
+          <a click="agregarCarrito">agregar a carrito</a>
            
           </div>
         </v-card-title>
@@ -22,6 +24,7 @@
 </template>
 <script>
 import Catalog from './Catalog.vue';
+import { mapActions } from 'vuex'
   export default {
     props:['producto'],
     data() {
@@ -41,7 +44,16 @@ import Catalog from './Catalog.vue';
         }else if(q > 99){
           this.quantity = 99;
         }
+      },
+      agregarCarrito(){
+        let carrito = { cantidad:this.quantity,idProducto:this.producto.idProducto,idUsuario:1};
+        addItem(carrito);
+
       }
+      ,
+       ...mapActions({
+        addItem: 'addCartItem',
+      }),
     },
     watch:{
         quantity(){

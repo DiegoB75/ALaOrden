@@ -69,16 +69,6 @@
                 </v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
-            <v-list-tile :to="{ name: 'productofranquicias'}">
-              <v-list-tile-action>
-                <v-icon>table_chart</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>
-                  Productos por Franquicia
-                </v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
             <v-list-tile :to="{ name: 'productos'}">
               <v-list-tile-action>
                 <v-icon>dashboard</v-icon>
@@ -86,16 +76,6 @@
               <v-list-tile-content>
                 <v-list-tile-title>
                   Productos
-                </v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-            <v-list-tile :to="{ name: 'pedidos'}">
-              <v-list-tile-action>
-                <v-icon>shop</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>
-                  Pedidos
                 </v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
@@ -119,16 +99,6 @@
                 </v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
-            <v-list-tile :to="{ name: 'detallepedidos'}">
-              <v-list-tile-action>
-                <v-icon>list_alt</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>
-                  Detalle Pedido
-                </v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
             <v-list-tile :to="{ name: 'cupones'}">
               <v-list-tile-action>
                 <v-icon>local_offer</v-icon>
@@ -146,17 +116,6 @@
               <v-list-tile-content>
                 <v-list-tile-title>
                   Categorias
-                </v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-            <v-list-tile :to="{ name: 'carritoitems'}">
-              <v-list-tile-action>
-                <v-icon>
-local_grocery_store</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>
-                  Carrito Item
                 </v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>

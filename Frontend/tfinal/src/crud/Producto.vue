@@ -133,6 +133,8 @@ export default {
       unidad:"",
       descripcion:"",
       imagen:"",
+      idCategoria:"",
+      idMarca:""
     };
   },
   computed: {
@@ -167,10 +169,29 @@ export default {
         });
     },
     editItem(item) {
+      let me =this;
+       axios
+        .get("api/categoria")
+        .then(function(response) {
+          //console.log(response);
+          me.categorias = response.data;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+      axios
+        .get("api/marca")
+        .then(function(response) {
+          //console.log(response);
+          me.marcas = response.data;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
       //TODO
       this.idProducto = item.idProducto;
-      this.categoria = item.categoria;
-      this.marca = item.marca;
+      this.idCategoria = item.idCategoria;
+      this.idMarca = item.idMarca;
       this.nombre = item.nombre;
       this.presentacion = item.presentacion;
       this.cantidad = item.cantidad;
@@ -185,6 +206,7 @@ export default {
       this.dialog = false;
     },
     nuevoItem(){
+      this.limpiar();
       let me = this;
       this.editedIndex = -1;
       axios

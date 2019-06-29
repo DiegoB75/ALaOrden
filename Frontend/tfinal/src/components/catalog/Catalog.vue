@@ -33,7 +33,7 @@
           md4
           lg3
         >
-         <card-product producto="{nombre:'aaaa'}}"></card-product>
+         <card-product product="item"></card-product>
         </v-flex>
       </template>
     </v-data-iterator>
@@ -45,10 +45,24 @@
 </template>
 <script>
 import ProductCard from "./ProductCard.vue";
+import axios from 'axios';
 export default {
+  created(){
+      let me = this;
+      axios
+        .get("api/producto")
+        .then(function(response) {
+          //console.log(response);
+          me.items = response.data;
+          console.log(me.items);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+  },
   data() {
     return {
-      items: [{ idProducto:1,nombre:'aea' }, { idProducto:2,nombre:'aeax2' }, { idProducto:3 , nombre:'aeax3' }],
+      items: [],
       rowsPerPageItems: [4, 8, 12],
       pagination: {
         rowsPerPage: 4
