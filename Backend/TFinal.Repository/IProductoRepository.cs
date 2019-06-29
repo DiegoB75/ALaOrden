@@ -10,8 +10,9 @@ namespace TFinal.Repository
 {
     public interface IProductoRepository : ICrudRepository<Producto>
     {
-        List<Producto> findAllByCategoryIdCategory(int id);
+        List<Producto> FindAllByCategoryIdCategory(int id);
 
-    List<Producto> findByNameContaining(string name);
+    List<Producto> FindByNameContaining(string name);
+    List<Producto> FindByNameandCategoryContaining(string name,int id);
     }
 }

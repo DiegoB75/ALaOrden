@@ -23,7 +23,7 @@ namespace TFinal.Api.Controllers
         {
             return productoService.ListAll();
         }
-
+/*
         [HttpGet("{id}")]
         public IActionResult GetProducto([FromRoute] int id)
         {
@@ -33,6 +33,34 @@ namespace TFinal.Api.Controllers
             var productoGet = productoService.FindById(producto);
 
             return Ok(productoGet);
+
+        }*/
+        [Route("[action]/{id}")]
+        [HttpGet]
+        public IActionResult ByCategory([FromRoute] int id)
+        {
+            List<Producto> productos  = productoService.ListProductsByCategoria(id);
+            
+            return Ok(productos);
+
+        }
+        [Route("[action]/{nombre}")]
+        [HttpGet]
+        public IActionResult Search([FromRoute] string nombre)
+        {
+            List<Producto> productos  = productoService.ListProductSearch(nombre);
+            
+            return Ok(productos);
+
+        }
+
+        [Route("[action]/{nombre}/{id}")]
+        [HttpGet]
+        public IActionResult SearchAndCategory([FromRoute] string nombre,[FromRoute] int id)
+        {
+            List<Producto> productos  = productoService.FindByNameandCategoryContaining(nombre,id);
+            
+            return Ok(productos);
 
         }
 

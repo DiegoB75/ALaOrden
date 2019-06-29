@@ -26,7 +26,7 @@ namespace TFinal.Api.Controllers
             return usuarioService.ListAll();
         }
 
-        [HttpGet("{id}")]
+      [HttpGet("user={id}")]
         public IActionResult GetUsuario([FromRoute] int id)
         {
             Usuario usuario = new Usuario();

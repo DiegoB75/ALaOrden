@@ -8,7 +8,7 @@ namespace TFinal.Service.Implementation
 {
     public class ProductoService : IProductoService
     {
-        private IProductoRepository productoRepository;
+         private IProductoRepository productoRepository;
          private ICategoriaRepository categoriaRepository;
          private IMarcaRepository marcaRepository;
 
@@ -49,29 +49,32 @@ namespace TFinal.Service.Implementation
             List<Producto> products = productoRepository.ListAll();
             return products;
         }
- public List<Categoria> listCategories()
+ public List<Categoria> ListCategories()
         {
             List<Categoria> categorias = categoriaRepository.ListAll();
             return categorias;
         }
 
-    public List<Marca> listBrand()
+    public List<Marca> ListBrand()
     {
           List<Marca> marcas = marcaRepository.ListAll();
             return marcas;
     }
-    public List<Producto> listProductsByCategoria(int id)
+    public List<Producto> ListProductsByCategoria(int id)
     {
        
-        List<Producto> products = productoRepository.findAllByCategoryIdCategory(id);
+        List<Producto> products = productoRepository.FindAllByCategoryIdCategory(id);
 
         return products;
            
     }
-     public List<Producto> listProductSearch(string name)
+     public List<Producto> ListProductSearch(string name)
      {
-          List<Producto> products = productoRepository.findByNameContaining(name);
+          List<Producto> products = productoRepository.FindByNameContaining(name);
             return products;
+     }
+     public List<Producto> FindByNameandCategoryContaining(string name,int id){
+        return productoRepository.FindByNameandCategoryContaining(name,id);
      }
     }
 }
