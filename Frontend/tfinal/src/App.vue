@@ -8,14 +8,18 @@
     >
       <v-list dense>
         <template>
-          <v-list-tile :to="{name:'home'}">
-             <v-icon color="black -2">home</v-icon>
-            
-      
-            <v-list-tile-title>
+          <v-list-tile :to="{ name: 'home'}">
+              <v-list-tile-action>
+                 <v-icon color="black -2">home</v-icon> 
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title>
                   Inicio
-            </v-list-tile-title>
-          </v-list-tile>
+                </v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+
+         
         </template>
 
         <template>
@@ -79,7 +83,7 @@
             </v-list-tile>
             <v-list-tile :to="{ name: 'franquicias'}">
               <v-list-tile-action>
-                <v-icon>table_chart</v-icon>
+                <v-icon>layers</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title>
