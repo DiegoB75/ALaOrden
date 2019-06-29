@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { connect } from 'http2';
-import CartManager from './util/CartManager';
+
 
 Vue.use(Vuex)
 

@@ -15,7 +15,7 @@
         <v-input   type="number" v-model="cartItem.cantidad"
         click:append="incrementar" click:prepend="decrementar"
          append-icon="add" prepend-icon="remove">{{cartItem.cantidad}} </v-input>
-          <a>eliminar</a>
+          <a click="eliminar">eliminar</a>
           </div>
         </v-card-title>
 
@@ -36,9 +36,19 @@ import { mapActions } from 'vuex'
     }},
     methods:{
       ...mapActions({
-        incrementar: '',
-        decrementar: ''
-      })
+        modifyItem: 'modifytItem',
+        removeItem: 'removeCartItem'
+      }),
+
+      incrementar(){
+        this.cartItem.cantidad = this.cartItem.cantidad+1;
+          modifyItem(this.cartItem);
+      },decrementar(){
+          this.cartItem.cantidad = this.cartItem.cantidad-1;
+          modifyItem(this.cartItem);
+      },eliminar(){
+        removeCartItem(this.cartItem.idProducto);
+      }
     },created(){
       this.cartItem = this.carrito;
       console.log(this.carrito);

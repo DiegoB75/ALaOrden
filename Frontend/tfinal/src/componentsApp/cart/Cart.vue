@@ -8,7 +8,7 @@
     >
       <template v-slot:activator="{ on }">
         <v-btn
-          color="orange darken-1"
+          color="orange darken"
           dark
           v-on="on"
         >
@@ -33,11 +33,10 @@
           </div>
         </v-list>
 
-        <v-card-actions>
+        <v-card-actions class="text-center">
           <v-spacer></v-spacer>
 
-          <v-btn flat @click="menu = false">Cancel</v-btn>
-          <v-btn color="primary" flat @click="gaa">Save</v-btn>
+          <v-btn color="primary" flat @click="procesarPago">Procesar Pago</v-btn>
         </v-card-actions>
       </v-card>
     </v-menu>
@@ -57,8 +56,8 @@ import CartItem from './CartItem';
       ]
     }},
     methods:{
-        gaa(){
-            this.cart.push({id:2});
+        procesarPago(){
+            this.cart.push({producto:{idProducto:1,nombre:'Galleta Oreo'},marca:{idMarca:1,nombre:'San Luis'},cantidad:10});
         }
     },
     components: {
