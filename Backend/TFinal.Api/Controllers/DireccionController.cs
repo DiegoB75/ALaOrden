@@ -48,6 +48,23 @@ namespace TFinal.Api.Controllers
 
         }
 
+        [HttpGet("[action]/{id}")]
+        public IActionResult ByUser([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var currenDireccion = direccionService.ListByUsuario(id);
+
+            if (currenDireccion == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(currenDireccion);
+
+        }
 
 
 

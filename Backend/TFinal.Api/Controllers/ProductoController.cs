@@ -23,7 +23,7 @@ namespace TFinal.Api.Controllers
         {
             return productoService.ListAll();
         }
-/*
+
         [HttpGet("{id}")]
         public IActionResult GetProducto([FromRoute] int id)
         {
@@ -34,7 +34,7 @@ namespace TFinal.Api.Controllers
 
             return Ok(productoGet);
 
-        }*/
+        }
         [Route("[action]/{id}")]
         [HttpGet]
         public IActionResult ByCategory([FromRoute] int id)
