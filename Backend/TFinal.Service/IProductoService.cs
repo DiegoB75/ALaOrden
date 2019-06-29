@@ -9,11 +9,11 @@ namespace TFinal.Service
     public interface IProductoService : ICrudService<Producto>
     {
            
-     List<Categoria> listCategories();
-     List<Marca> listBrand();
-     List<Producto> listProductsByCategoria(int id);
-     List<Producto> listProductSearch(string name);
-   
+     List<Categoria> ListCategories();
+     List<Marca> ListBrand();
+     List<Producto> ListProductsByCategoria(int id);
+     List<Producto> ListProductSearch(string name);
+        List<Producto> FindByNameandCategoryContaining(string name,int id);
   
     }
 }

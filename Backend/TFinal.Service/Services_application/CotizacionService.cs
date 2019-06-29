@@ -1,50 +1,17 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+using System;
+using System.Net;
+using Newtonsoft.Json;
 using TFinal.Domain;
 using TFinal.Repository;
-using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
-namespace TFinal.Service.Implementation
+namespace TFinal.Service.Services_application
 {
-    public class PedidoService : IPedidoService
+
+    public class CotizacionService
     {
-        private IPedidoRepository pedidoRepository;
-
-        public PedidoService(IPedidoRepository pedidoRepository)
-        {
-            this.pedidoRepository = pedidoRepository;
-        }
-
-        public void Delete(Pedido entity)
-        {
-            pedidoRepository.Delete(entity);
-        }
-
-        public Pedido FindById(Pedido entity)
-        {
-            return pedidoRepository.FindById(entity);
-        }
-
-        public List<Pedido> ListAll()
-        {
-            return pedidoRepository.ListAll();
-        }
-
-        public List<Pedido> ListByUsuario(int idUsuario)
-        {
-            return pedidoRepository.ListByUsuario(idUsuario);
-        }
-
-        public void Save(Pedido entity)
-        {
-            pedidoRepository.Save(entity);
-        }
-
-        public void Update(Pedido entity)
-        {
-            pedidoRepository.Update(entity);
-        }
-         public List<DetallePedido> GenerarListXFranquicia(List< CarritoItem > cart, Franquicia prov) {
+        public static string conexion = "http://localhost:4999";
+        public List<DetallePedido> GenerarListXFranquicia(List< CarritoItem > cart, Franquicia prov) {
         List<DetallePedido> lista = new List<DetallePedido>();
         /*Dictionary<string,KeyValuePair<int,decimal> > listProv = new Dictionary<string,KeyValuePair<int,decimal> >();
         string url = conexion + prov.ApiUrl;
@@ -55,6 +22,7 @@ namespace TFinal.Service.Implementation
             {
                 listProv[item.id] = new KeyValuePair <int, double>(item.stock, item.precio);
             }*/
+        Random r = new Random();
         foreach (CarritoItem item in cart) {
 
             //empaquetar (incluir price)
@@ -75,7 +43,6 @@ namespace TFinal.Service.Implementation
                 foreach(Sede prov in proveedores){
                     List<DetallePedido> detalle = GenerarListXFranquicia(cart,prov.Franquicia);
                     Pedido p = new Pedido();
-                    p.Sede = prov;
                     decimal subTotal = 0;
                     foreach(DetallePedido det in detalle){
                         subTotal = subTotal + det.Precio;
@@ -86,5 +53,6 @@ namespace TFinal.Service.Implementation
             }
             return cotizacion;
         }
+        
     }
 }

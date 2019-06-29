@@ -84,7 +84,7 @@ namespace TFinal.Api.Controllers
             return NoContent();
         }
 
-        [HttpDelete("clear={idUsuario}")]
+        [HttpDelete("{idUsuario}")]
         public IActionResult DeleteCarrito([FromRoute] int idUsuario){
             if (!ModelState.IsValid){
                 return BadRequest(ModelState);

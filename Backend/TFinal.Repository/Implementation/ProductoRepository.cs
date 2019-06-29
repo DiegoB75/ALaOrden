@@ -42,12 +42,24 @@ namespace TFinal.Repository.Implementation
             context.SaveChanges();
         }
 
-         public  List<Producto> findAllByCategoryIdCategory(int id){
-              return context.Productos.Include(x => x.IdCategoria == id).ToList();
+         public  List<Producto> FindAllByCategoryIdCategory(int id){
+            List<Producto> products = context.Productos.Include(x => x.Categoria).Include(x=>x.Marca).ToList();
+           /* List<Producto> productos = new List<Producto>();
+            foreach(var p in products){
+                if(p.IdCategoria == id){
+                    p.Categoria = null;
+                    productos.Add(p);
+                }
+            }*/
+
+            return products.Where(x=>x.IdCategoria == id).ToList();
          }
 
-        public   List<Producto> findByNameContaining(string name){
-              return context.Productos.Include(x => x.Nombre == name).ToList();
+        public   List<Producto> FindByNameContaining(string name){
+              return context.Productos.Include(x=>x.Categoria).Include(x=>x.Marca).Where(x=>x.Nombre.Contains(name)||x.Marca.Nombre.Contains(name)).ToList();
+        }
+        public List<Producto> FindByNameandCategoryContaining(string name,int id){
+            return context.Productos.Include(x=>x.Categoria).Include(x=>x.Marca).Where(x=>(x.Nombre.Contains(name)||x.Marca.Nombre.Contains(name)&&x.IdCategoria==id)).ToList();
         }
    }
  

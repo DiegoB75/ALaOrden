@@ -27,7 +27,11 @@ namespace TFinal.Repository.Implementation
 
         public Usuario FindByApodoOrEmail(Usuario entity)
         {
-            return context.Usuarios.FirstOrDefault(x => x.Apodo == entity.Apodo || x.Email == x.Email);
+            List<Usuario> usuario = context.Usuarios.Where(x => (x.Apodo == entity.Apodo || x.Email == entity.Email)).ToList();
+            if(usuario.Count==1){
+                return usuario[0];
+            }
+            else return null;
         }
 
         public List<Usuario> ListAll()

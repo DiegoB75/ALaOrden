@@ -26,7 +26,7 @@ namespace TFinal.Api.Controllers
             return usuarioService.ListAll();
         }
 
-        [HttpGet("{id}")]
+      [HttpGet("{id}")]
         public IActionResult GetUsuario([FromRoute] int id)
         {
             Usuario usuario = new Usuario();
@@ -34,6 +34,25 @@ namespace TFinal.Api.Controllers
             var usuarioGet = usuarioService.FindById(usuario);
 
             return Ok(usuarioGet);
+
+        }
+
+         [HttpGet("[action]/{apodo}/{password}")]
+        public IActionResult LogIn([FromRoute] string apodo,[FromRoute] string password)
+        {
+            string mensaje = "";
+            var usuarioGet = usuarioService.FindByApodoOrEmail(apodo);
+            if(usuarioGet != null){
+                if(usuarioGet.HashContrasena == password)
+                {
+                    mensaje = "Logeado";
+                }else{
+                    mensaje = "Contraseña incorrecta";
+                }
+            }else{
+                mensaje = "El usuario no existe";
+            }
+            return Ok(mensaje);
 
         }
 
@@ -74,6 +93,8 @@ namespace TFinal.Api.Controllers
 
             return Ok(currentUsuario);
         }
+
+
 
     }
 }
